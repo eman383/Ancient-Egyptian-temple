@@ -1,2 +1,2 @@
-C:\Users\20far\OneDrive\Desktop\COMPUT~1\X86_64~1.0-R\mingw64\bin\ar.exe qc libglm.a CMakeFiles/glm.dir/detail/glm.cpp.obj
-C:\Users\20far\OneDrive\Desktop\COMPUT~1\X86_64~1.0-R\mingw64\bin\ranlib.exe libglm.a
+C:\mingw64\bin\ar.exe qc libglm.a CMakeFiles/glm.dir/detail/glm.cpp.obj
+C:\mingw64\bin\ranlib.exe libglm.a
