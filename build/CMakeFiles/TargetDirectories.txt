@@ -1,7 +1,4 @@
 C:/Users/emana/Ancient-Egyptian-temple/build/CMakeFiles/OpenGLStarter.dir
-C:/Users/emana/Ancient-Egyptian-temple/build/CMakeFiles/CharacterTest.dir
-C:/Users/emana/Ancient-Egyptian-temple/build/CMakeFiles/LongRangeTest.dir
-C:/Users/emana/Ancient-Egyptian-temple/build/CMakeFiles/MeleeTest.dir
 C:/Users/emana/Ancient-Egyptian-temple/build/CMakeFiles/edit_cache.dir
 C:/Users/emana/Ancient-Egyptian-temple/build/CMakeFiles/rebuild_cache.dir
 C:/Users/emana/Ancient-Egyptian-temple/build/CMakeFiles/list_install_components.dir

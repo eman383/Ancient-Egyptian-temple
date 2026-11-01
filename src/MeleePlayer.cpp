@@ -9,21 +9,21 @@ using glm::vec4;
 using glm::mat4;
 
 namespace {
-// ---- Palette: "Galabeya Fighter" (dusty cream robe, checkered keffiyeh, leather, olive gloves, steel) ----
+// ---- Palette: Ancient Egyptian linen, lapis, gold, leather, and bronze ----
 const vec4 SKIN       (0.78f, 0.52f, 0.36f, 1.0f);
 const vec4 SKIN_LIGHT (0.87f, 0.62f, 0.45f, 1.0f);
 const vec4 SKIN_DARK  (0.56f, 0.35f, 0.24f, 1.0f);
 const vec4 BEARD      (0.17f, 0.12f, 0.10f, 1.0f);
 
-const vec4 ROBE       (0.89f, 0.84f, 0.72f, 1.0f);   // galabeya
+const vec4 ROBE       (0.89f, 0.84f, 0.72f, 1.0f);   // pleated linen wraps
 const vec4 ROBE_LITE  (0.96f, 0.93f, 0.84f, 1.0f);
 const vec4 ROBE_SHADE (0.74f, 0.67f, 0.53f, 1.0f);
 const vec4 ROBE_DARK  (0.55f, 0.47f, 0.35f, 1.0f);
 const vec4 DIRT       (0.55f, 0.42f, 0.28f, 1.0f);   // desert stains
 
-const vec4 KEFF       (0.82f, 0.75f, 0.62f, 1.0f);   // keffiyeh
-const vec4 KEFF_LITE  (0.91f, 0.86f, 0.74f, 1.0f);
-const vec4 KEFF_DARK  (0.33f, 0.27f, 0.21f, 1.0f);
+const vec4 KEFF       (0.12f, 0.27f, 0.58f, 1.0f);   // striped nemes cloth
+const vec4 KEFF_LITE  (0.18f, 0.43f, 0.76f, 1.0f);
+const vec4 KEFF_DARK  (0.08f, 0.16f, 0.34f, 1.0f);
 
 const vec4 LEATHER    (0.38f, 0.26f, 0.17f, 1.0f);
 const vec4 LEATHER_DK (0.22f, 0.15f, 0.10f, 1.0f);
@@ -31,23 +31,24 @@ const vec4 LEATHER_LT (0.53f, 0.39f, 0.27f, 1.0f);
 const vec4 POUCH      (0.43f, 0.36f, 0.24f, 1.0f);
 const vec4 POUCH_DK   (0.30f, 0.25f, 0.16f, 1.0f);
 
-const vec4 GLOVE      (0.21f, 0.23f, 0.15f, 1.0f);   // fingerless olive gloves
-const vec4 GLOVE_LT   (0.33f, 0.35f, 0.24f, 1.0f);
+const vec4 GLOVE      (0.38f, 0.24f, 0.12f, 1.0f);   // leather wrist wraps
+const vec4 GLOVE_LT   (0.62f, 0.42f, 0.20f, 1.0f);
 
-const vec4 BOOT       (0.31f, 0.23f, 0.17f, 1.0f);   // combat boots
+const vec4 BOOT       (0.31f, 0.23f, 0.17f, 1.0f);   // leather sandals
 const vec4 BOOT_LITE  (0.47f, 0.36f, 0.26f, 1.0f);
 const vec4 SOLE       (0.11f, 0.09f, 0.08f, 1.0f);
 
-const vec4 STEEL      (0.55f, 0.57f, 0.61f, 1.0f);   // 1911s
-const vec4 STEEL_DARK (0.30f, 0.32f, 0.36f, 1.0f);
-const vec4 STEEL_LITE (0.76f, 0.78f, 0.80f, 1.0f);
-const vec4 GRIP       (0.52f, 0.29f, 0.19f, 1.0f);
-const vec4 GRIP_DK    (0.35f, 0.19f, 0.12f, 1.0f);
+const vec4 STEEL      (0.70f, 0.43f, 0.16f, 1.0f);   // bronze khopesh blades
+const vec4 STEEL_DARK (0.38f, 0.22f, 0.08f, 1.0f);
+const vec4 STEEL_LITE (0.94f, 0.72f, 0.30f, 1.0f);
+const vec4 GRIP       (0.39f, 0.20f, 0.10f, 1.0f);
+const vec4 GRIP_DK    (0.25f, 0.12f, 0.06f, 1.0f);
 
 const vec4 INK        (0.13f, 0.09f, 0.07f, 1.0f);   // outline colour
 const vec4 BLACK      (0.05f, 0.04f, 0.04f, 1.0f);
 const vec4 WHITE      (0.96f, 0.95f, 0.92f, 1.0f);
 const vec4 GOLD       (0.95f, 0.76f, 0.22f, 1.0f);
+const vec4 GOLD_DARK  (0.62f, 0.42f, 0.12f, 1.0f);
 const vec4 FIRE       (0.98f, 0.55f, 0.10f, 1.0f);
 
 const float HIT_TIME    = 0.35f;
@@ -56,14 +57,10 @@ const float DUCK_TIME   = 0.70f;
 const float JUMP_HEIGHT = 0.38f;   // model units
 const float DUCK_DROP   = 0.15f;
 const float CYCLE       = 0.90f;   // seconds between two volleys
-const float FIRE_AT     = 0.35f;   // the bang (front pistol; this is the one that deals damage)
-const float SECOND_GUN  = 0.12f;   // the second pistol goes off this much later (visual only)
-const float FLASH_TIME  = 0.09f;
-const float SMOKE_TIME  = 0.55f;
+const float FIRE_AT     = 0.35f;   // front khopesh strike timing
+const float SECOND_BLADE = 0.12f;   // second blade follows as a visual flourish
+const float SMOKE_TIME  = 0.42f;  // length of the blade trail
 const float WAIST       = 0.50f;   // pivot height for leaning
-const float BULLET_SPEED = 2.2f;   // character heights per second
-const float BULLET_DROP  = 4.0f;   // gravity once out of range (heights per second^2)
-const float BULLET_REST  = 0.50f;  // seconds a spent bullet lies on the ground before vanishing
 const float OUT         = 0.006f;  // outline thickness (model units)
 
 mat4 at(const mat4& m, float x, float y, float deg = 0.0f)
@@ -189,27 +186,25 @@ void smudge(Renderer2D& r, const mat4& m, vec2 c, float sx, float sy, float a, f
     r.drawConvex(p, alpha(DIRT, a), m, red);
 }
 
-// A weathered 1911. Origin = where the hand holds the grip, barrel along +x. Muzzle at (0.168, 0.045).
-const vec2 MUZZLE(0.168f, 0.045f);
-const vec2 EJECT (0.030f, 0.066f);
+// Khopesh model: grip at the hand, hooked blade extending toward +x.
+const vec2 BLADE_TIP(0.285f, 0.135f);
+const vec2 STRIKE_SPARK(0.030f, 0.066f);
 
-void drawPistol(Renderer2D& r, const mat4& g, float red)
+void drawKhopesh(Renderer2D& r, const mat4& g, float red)
 {
-    const float d = 0.005f;
-    shape(r, g, {{-0.045f, 0.016f}, {0.012f, 0.020f}, {0.002f, -0.095f}, {-0.060f, -0.088f}}, GRIP, red, d);   // wooden grip
-    r.drawConvex({{-0.034f, 0.006f}, {0.002f, 0.009f}, {-0.006f, -0.078f}, {-0.050f, -0.072f}}, GRIP_DK, g, red);
-    shape(r, g, rectPts({0.030f, 0.019f}, {0.170f, 0.014f}), STEEL_DARK, red, d);                               // frame
-    shape(r, g, {{0.022f, 0.014f}, {0.042f, -0.014f}, {0.068f, 0.014f}}, STEEL_DARK, red, 0.003f);              // trigger guard
-    shape(r, g, rectPts({0.052f, 0.045f}, {0.222f, 0.040f}), STEEL, red, d);                                    // slide
-    r.drawRect({0.052f, 0.061f}, {0.214f, 0.007f}, STEEL_LITE, g, red);
-    r.drawRect({0.034f, 0.048f}, {0.056f, 0.014f}, alpha(BLACK, 0.60f), g, red);                                // ejection port
-    shape(r, g, rectPts({0.161f, 0.045f}, {0.012f, 0.034f}), STEEL_DARK, red, 0.003f);                          // muzzle ring
-    shape(r, g, {{0.146f, 0.064f}, {0.156f, 0.064f}, {0.152f, 0.078f}}, STEEL_DARK, red, 0.003f);               // front sight
-    shape(r, g, rectPts({-0.047f, 0.072f}, {0.016f, 0.010f}), STEEL_DARK, red, 0.003f);                         // rear sight
-    shape(r, g, {{-0.062f, 0.052f}, {-0.050f, 0.070f}, {-0.082f, 0.060f}}, STEEL_DARK, red, 0.003f);            // hammer
+    // Bronze khopesh: leather-wrapped grip, broad guard, and a hooked blade.
+    shape(r, g, {{-0.055f, 0.015f}, {-0.005f, 0.018f}, {-0.022f, -0.092f}, {-0.075f, -0.084f}}, GRIP, red);
+    r.drawRect({-0.040f, -0.028f}, {0.045f, 0.009f}, GRIP_DK, g, red);
+    shape(r, g, {{-0.075f, 0.017f}, {0.033f, 0.017f}, {0.033f, 0.035f}, {-0.075f, 0.035f}}, STEEL_DARK, red, 0.004f);
+    shape(r, g, {{0.015f, 0.021f}, {0.092f, 0.035f}, {0.224f, 0.132f}, {0.176f, 0.115f}}, STEEL, red, 0.006f);
+    shape(r, g, {{0.176f, 0.115f}, {0.224f, 0.132f}, {0.299f, 0.136f}, {0.271f, 0.087f}}, STEEL, red, 0.006f);
+    shape(r, g, {{0.176f, 0.115f}, {0.271f, 0.087f}, {0.219f, 0.051f}, {0.185f, -0.004f}}, STEEL, red, 0.006f);
+    shape(r, g, {{0.219f, 0.051f}, {0.185f, -0.004f}, {0.145f, -0.023f}, {0.126f, 0.016f}}, STEEL, red, 0.006f);
+    r.drawConvex({{0.055f, 0.027f}, {0.106f, 0.040f}, {0.192f, 0.096f}, {0.261f, 0.129f}}, STEEL_LITE, g, red);
+    r.drawEllipse({-0.024f, 0.026f}, {0.012f, 0.012f}, GOLD, g, red, 10);
 }
 
-// Gloved hand gripping the pistol (drawn in the gun's frame so it recoils with it).
+// Braced hand gripping the khopesh (drawn in the weapon frame so it follows the swing).
 void drawHand(Renderer2D& r, const mat4& g, float red)
 {
     const float d = 0.005f;
@@ -221,27 +216,20 @@ void drawHand(Renderer2D& r, const mat4& g, float red)
     shape(r, g, {{-0.034f, 0.034f}, {0.018f, 0.036f}, {0.022f, 0.016f}, {-0.030f, 0.012f}}, GLOVE, red, 0.004f);      // thumb
 }
 
-// Muzzle flash + smoke ("the bang"). ts = seconds since this gun fired.
-void drawBang(Renderer2D& r, const mat4& upper, vec2 H, float angDeg, float ts)
+// Golden strike arc. ts = seconds since the close-range swing.
+void drawStrikeArc(Renderer2D& r, const mat4& upper, vec2 H, float angDeg, float ts)
 {
     if (ts < 0.0f || ts >= SMOKE_TIME) return;
-    vec2 M = H + rot(MUZZLE, angDeg);
-    if (ts < FLASH_TIME) {
-        float u = ts / FLASH_TIME;
-        mat4 f = at(upper, M.x, M.y, angDeg);
-        float L = 0.20f * (1.0f - 0.4f * u);
-        r.drawTriangle({0.0f, 0.050f}, {0.0f, -0.050f}, {L + 0.08f, 0.0f}, alpha(GOLD, 0.95f), f);
-        r.drawTriangle({0.0f, 0.030f}, {0.05f, 0.11f}, {0.09f, 0.02f}, alpha(GOLD, 0.9f), f);
-        r.drawTriangle({0.0f, -0.030f}, {0.05f, -0.11f}, {0.09f, -0.02f}, alpha(GOLD, 0.9f), f);
-        r.drawTriangle({0.0f, 0.0f}, {0.07f, 0.05f}, {0.15f, 0.07f}, alpha(FIRE, 0.85f), f);
-        r.drawTriangle({0.0f, 0.0f}, {0.07f, -0.05f}, {0.15f, -0.07f}, alpha(FIRE, 0.85f), f);
-        r.drawEllipse({0.02f, 0.0f}, {0.05f, 0.032f}, alpha(WHITE, 1.0f), f, 0.0f, 14);
-    }
-    float u = ts / SMOKE_TIME;
+    const vec2 tip = H + rot(BLADE_TIP, angDeg);
+    const float u = ts / SMOKE_TIME;
+    mat4 fx = at(upper, tip.x, tip.y, angDeg);
+    const float fade = 1.0f - u;
+    r.drawTriangle({-0.04f, -0.10f}, {0.00f, 0.04f}, {0.18f, 0.16f}, alpha(GOLD, 0.82f * fade), fx);
+    r.drawTriangle({-0.02f, -0.06f}, {0.03f, 0.03f}, {0.15f, 0.11f}, alpha(FIRE, 0.62f * fade), fx);
     for (int k = 0; k < 3; ++k) {
-        float v = std::min(1.0f, u * (1.0f + 0.25f * k));
-        vec2 p = M + vec2(0.03f + 0.07f * v + k * 0.02f, 0.02f + 0.11f * v + k * 0.012f);
-        r.drawEllipse(p, vec2(0.022f + 0.04f * v), alpha(vec4(0.82f, 0.80f, 0.76f, 1.0f), 0.55f * (1.0f - v)), upper, 0.0f, 16);
+        const float offset = 0.04f * static_cast<float>(k);
+        r.drawTriangle({0.12f + offset, 0.08f}, {0.14f + offset, 0.12f},
+                       {0.18f + offset, 0.08f}, alpha(WHITE, 0.70f * fade), fx);
     }
 }
 } // namespace
@@ -270,7 +258,7 @@ float MeleePlayer::aimAmount() const
     return 1.0f - 0.6f * smooth((t - 0.10f) / 0.45f);
 }
 
-float MeleePlayer::sinceShot() const { return cycle_ - FIRE_AT; }
+float MeleePlayer::sinceStrike() const { return cycle_ - FIRE_AT; }
 
 bool MeleePlayer::consumeAttack()
 {
@@ -289,87 +277,50 @@ void MeleePlayer::duck()
     if (hp_ > 0 && jumpT_ <= 0.0f && duckT_ <= 0.0f) duckT_ = DUCK_TIME;
 }
 
-void MeleePlayer::takeHit()
+void MeleePlayer::takeHit(int damage)
 {
-    if (hp_ <= 0) return;
-    --hp_;
+    if (hp_ <= 0 || damage <= 0) return;
+    hp_ = damage >= hp_ ? 0 : hp_ - damage;
     hitTimer_ = HIT_TIME;
 }
 
 void MeleePlayer::reset()
 {
-    bullets_.clear();
     hp_ = MAX_HEALTH;
     hitTimer_ = 0.0f;
     cycle_ = 0.10f;
     fired_ = false;
+    strikeConsumed_ = false;
     pendingAttack_ = false;
     jumpT_ = duckT_ = 0.0f;
 }
 
-// ---------------------------------------------------------------- bullets
-void MeleePlayer::spawnBullet()
+bool MeleePlayer::attackHits(float xMin, float xMax)
 {
-    // muzzle of the front pistol at the moment of the bang (aim 1, full recoil), upper-body space ...
-    float lean = -4.0f - 3.0f + 2.5f - 3.0f * walkBlend_;
-    vec2 H(0.430f - 0.025f, 0.775f + 0.014f);
-    vec2 M = H + rot(MUZZLE, 14.0f);
-    // ... converted to root space (lean pivots at the waist), then to world space
-    vec2 mr = vec2(0.0f, WAIST - DUCK_DROP * duckAmount()) + rot(M - vec2(0.0f, WAIST), lean);
-    Bullet b;
-    b.p = b.prev = pos_ + vec2(mr.x, mr.y + jumpOffset()) * height_;
-    b.vx = BULLET_SPEED * height_;
-    b.vy = 0.0f;
-    bullets_.push_back(b);
-}
-
-void MeleePlayer::updateBullets(float dt)
-{
-    for (Bullet& b : bullets_) {
-        b.prev = b.p;
-        if (b.landed) { b.rest += dt; continue; }
-        if (!b.dropping) {                                   // flying straight
-            b.p.x += b.vx * dt;
-            b.travelled += b.vx * dt;
-            if (b.travelled >= bulletRange()) { b.dropping = true; b.vx *= 0.35f; }   // out of range
-        } else {                                             // lost its punch: falls to the ground
-            b.vy -= BULLET_DROP * height_ * dt;
-            b.vx *= std::max(0.0f, 1.0f - 2.0f * dt);
-            b.p += vec2(b.vx, b.vy) * dt;
-            float ground = pos_.y + 0.012f * height_;
-            if (b.p.y <= ground) { b.p.y = ground; b.vx = b.vy = 0.0f; b.landed = true; }
-        }
-    }
-    bullets_.erase(std::remove_if(bullets_.begin(), bullets_.end(),
-                                  [](const Bullet& b) { return b.landed && b.rest >= BULLET_REST; }),
-                   bullets_.end());
-}
-
-bool MeleePlayer::bulletHits(float xMin, float xMax)
-{
-    for (size_t i = 0; i < bullets_.size(); ++i) {
-        const Bullet& b = bullets_[i];
-        if (b.dropping || b.landed) continue;                // only bullets still in flight can hurt
-        float lo = std::min(b.prev.x, b.p.x), hi = std::max(b.prev.x, b.p.x);
-        if (hi >= xMin && lo <= xMax) {                      // swept test: no tunnelling at low frame rates
-            bullets_.erase(bullets_.begin() + i);
-            return true;
-        }
-    }
-    return false;
+    const float strikeTime = sinceStrike();
+    if (!fired_ || strikeConsumed_ || strikeTime < 0.0f || strikeTime > SMOKE_TIME || xMin > xMax)
+        return false;
+    const float strikeMin = pos_.x + 0.20f * height_;
+    const float strikeMax = pos_.x + 0.82f * height_;
+    if (xMax < strikeMin || xMin > strikeMax) return false;
+    strikeConsumed_ = true;
+    return true;
 }
 
 void MeleePlayer::update(float dt)
 {
     time_ += dt;
-    updateBullets(dt);                                       // bullets keep flying even if he just died
     if (hitTimer_ > 0.0f) hitTimer_ = std::max(0.0f, hitTimer_ - dt);
     if (hp_ <= 0) return;
 
-    // shoot cycle: raise -> bang -> recoil -> lower, forever (also while walking)
+    // Khopesh cycle: raise -> swing -> recoil -> lower, forever (also while walking)
     cycle_ += dt;
-    if (!fired_ && cycle_ >= FIRE_AT) { fired_ = true; pendingAttack_ = true; spawnBullet(); }
-    if (cycle_ >= CYCLE) { cycle_ -= CYCLE; fired_ = false; }
+    if (!fired_ && cycle_ >= FIRE_AT) {
+        fired_ = true;
+        strikeConsumed_ = false;
+        pendingAttack_ = true;
+    }
+    if (cycle_ >= CYCLE) { cycle_ -= CYCLE; fired_ = false; strikeConsumed_ = false; }
 
     if (jumpT_ > 0.0f) jumpT_ = std::max(0.0f, jumpT_ - dt);
     if (duckT_ > 0.0f) duckT_ = std::max(0.0f, duckT_ - dt);
@@ -382,12 +333,13 @@ void MeleePlayer::update(float dt)
 // ------------------------------------------------------------------
 // Hierarchy:  base (world position + scale)
 //               root  (+ hit shake, jump)     boots, robe skirt
-//                 upper (+ breathing, duck, lean)   holster, torso, rig, arms + pistols, head
+//                 upper (+ breathing, duck, lean)   belt, torso, arms + khopesh blades, head
 // Every solid part is drawn with a dark ink outline (shape / limb helpers) so the pieces read as one drawing.
 // ------------------------------------------------------------------
-void MeleePlayer::draw(Renderer2D& r) const
+void MeleePlayer::draw(Renderer& renderer) const
 {
-    if (hp_ <= 0) { drawBullets(r); return; }   // defeated -> removed from the scene (bullets finish their flight)
+    Renderer2D r(renderer);
+    if (hp_ <= 0) return;   // defeated -> removed from the scene
 
     float flash = hitTimer_ / HIT_TIME;
     float shake = std::sin(hitTimer_ * 70.0f) * 0.02f * flash;
@@ -399,8 +351,8 @@ void MeleePlayer::draw(Renderer2D& r) const
     float da   = duckAmount();
     float drop = DUCK_DROP * da;
     float aim  = aimAmount();
-    float t    = sinceShot();                       // front pistol
-    float t2   = t - SECOND_GUN;                    // second pistol, a beat later
+    float t    = sinceStrike();                     // front khopesh
+    float t2   = t - SECOND_BLADE;                  // second khopesh, a beat later
     float kick  = t  >= 0.0f ? std::exp(-t  * 9.0f) : 0.0f;
     float kick2 = t2 >= 0.0f ? std::exp(-t2 * 9.0f) : 0.0f;
 
@@ -413,7 +365,7 @@ void MeleePlayer::draw(Renderer2D& r) const
     mat4 upper = at(root, 0.0f, WAIST + bob - drop, lean);
     upper = glm::translate(upper, glm::vec3(0.0f, -WAIST, 0.0f));
 
-    // ----------------------------------------------------------- combat boots (the robe hides the legs)
+    // ----------------------------------------------------------- leather sandals beneath the linen hem
     float jam = std::min(1.0f, ja / JUMP_HEIGHT);
     vec2 ank[2];
     for (int i = 0; i < 2; ++i) {
@@ -426,18 +378,19 @@ void MeleePlayer::draw(Renderer2D& r) const
     }
     for (int i = 0; i < 2; ++i) {
         vec2 a = ank[i];
-        std::vector<vec2> shaft = {a + vec2(-0.052f, 0.15f), a + vec2(0.052f, 0.15f), a + vec2(0.056f, 0.03f), a + vec2(-0.056f, 0.03f)};
-        std::vector<vec2> foot  = {a + vec2(-0.056f, -0.050f), a + vec2(0.135f, -0.050f), a + vec2(0.168f, -0.018f),
-                                   a + vec2(0.140f, 0.028f), a + vec2(0.070f, 0.052f), a + vec2(-0.050f, 0.070f)};
-        r.drawConvex(grow(shaft, OUT), INK, root, red);        // one ink pass for the whole boot,
+        std::vector<vec2> foot = {a + vec2(-0.060f, -0.022f), a + vec2(0.125f, -0.022f),
+                                  a + vec2(0.150f, -0.004f), a + vec2(0.108f, 0.027f),
+                                  a + vec2(-0.044f, 0.029f)};
         r.drawConvex(grow(foot, OUT), INK, root, red);
-        r.drawConvex(shaft, BOOT, root, red);                  // then the fills (no seam between shaft and foot)
         r.drawConvex(foot, BOOT, root, red);
-        r.drawRect(a + vec2(0.0f, 0.138f), {0.104f, 0.020f}, BOOT_LITE, root, red);          // top cuff
-        r.drawRect(a + vec2(0.056f, -0.043f), {0.230f, 0.022f}, SOLE, root, red);            // sole
+        r.drawRect(a + vec2(0.045f, -0.018f), {0.205f, 0.012f}, SOLE, root, red);
+        r.drawLimb(a + vec2(-0.006f, 0.022f), a + vec2(0.065f, -0.003f),
+                   0.014f, 0.014f, BOOT_LITE, root, red);
+        r.drawLimb(a + vec2(0.050f, 0.022f), a + vec2(0.055f, -0.003f),
+                   0.012f, 0.012f, GOLD_DARK, root, red);
     }
 
-    // ----------------------------------------------------------- the galabeya (long robe)
+    // ----------------------------------------------------------- the pleated linen tunic
     {
         float waist = 0.505f - drop;
         vec2 aB = ank[0].x < ank[1].x ? ank[0] : ank[1];     // back foot
@@ -473,7 +426,7 @@ void MeleePlayer::draw(Renderer2D& r) const
         r.drawConvex({hemM, hemR, hemR + up, hemM + up}, alpha(DIRT, 0.40f), root, red);
     }
 
-    // ------------------------------------------------ holster on the back hip (empty - both guns are drawn)
+    // ------------------------------------------------ blade sheath on the back hip
     {
         mat4 h = at(upper, -0.165f, 0.50f, -14.0f);
         shape(r, h, {{-0.030f, 0.0f}, {0.032f, 0.0f}, {0.036f, -0.150f}, {-0.034f, -0.165f}}, LEATHER, red);
@@ -488,16 +441,17 @@ void MeleePlayer::draw(Renderer2D& r) const
     smudge(r, upper, {-0.020f, 0.610f}, 0.040f, 0.024f, 0.28f, red);
     smudge(r, upper, {0.060f, 0.690f}, 0.030f, 0.020f, 0.24f, red);
 
-    // crossed leather bandolier straps + chest pouch
-    limb(r, upper, {-0.125f, 0.772f}, {0.088f, 0.512f}, 0.034f, 0.034f, LEATHER, red);
-    limb(r, upper, { 0.080f, 0.772f}, {-0.118f, 0.522f}, 0.030f, 0.030f, LEATHER_DK, red);
+    // Crossed lapis sashes with gold edging and a small temple-supply pouch.
+    limb(r, upper, {-0.125f, 0.772f}, {0.088f, 0.512f}, 0.034f, 0.034f, KEFF, red);
+    stroke(r, upper, {-0.125f, 0.772f}, {0.088f, 0.512f}, 0.005f, 0.005f, GOLD, red);
+    limb(r, upper, { 0.080f, 0.772f}, {-0.118f, 0.522f}, 0.030f, 0.030f, KEFF_DARK, red);
     {
         mat4 p = at(upper, 0.040f, 0.610f, -18.0f);
         shape(r, p, rectPts({0.0f, 0.0f}, {0.058f, 0.074f}), POUCH_DK, red, 0.005f);
         shape(r, p, rectPts({0.0f, 0.020f}, {0.058f, 0.034f}), POUCH, red, 0.003f);
     }
 
-    // utility belt: buckle in the middle, two ammo pouches either side
+    // Linen belt: bronze buckle and two small supply pouches
     shape(r, upper, rectPts({0.0f, 0.505f}, {0.275f, 0.050f}), LEATHER_DK, red);
     shape(r, upper, rectPts({0.0f, 0.505f}, {0.052f, 0.042f}), STEEL, red, 0.004f);                          // buckle
     r.drawRect({0.0f, 0.505f}, {0.026f, 0.020f}, STEEL_DARK, upper, red);
@@ -506,7 +460,7 @@ void MeleePlayer::draw(Renderer2D& r) const
     shape(r, upper, {{0.058f, 0.540f}, {0.115f, 0.540f}, {0.113f, 0.455f}, {0.060f, 0.455f}}, POUCH_DK, red, 0.005f);
     shape(r, upper, rectPts({0.087f, 0.522f}, {0.056f, 0.036f}), POUCH, red, 0.003f);
 
-    // ------------------------------------------- rear arm: forearm level at belly height, second pistol
+    // ------------------------------------------- rear arm: second blade follows the lead swing
     {
         vec2 S(-0.040f, 0.740f);
         vec2 H = glm::mix(vec2(0.120f, 0.470f), vec2(0.175f, 0.615f), aim);
@@ -519,13 +473,12 @@ void MeleePlayer::draw(Renderer2D& r) const
         limb(r, upper, E - safeDir(W - E) * 0.04f, W, 0.074f, 0.064f, SKIN, red);          // bare forearm
         limb(r, upper, S, E, 0.095f, 0.088f, ROBE_SHADE, red);                             // sleeve
         band(r, upper, S, E, 0.93f, 0.100f, 0.042f, ROBE, red);                            // rolled cuff
-        drawPistol(r, g, red);
+        drawKhopesh(r, g, red);
         drawHand(r, g, red);
         band(r, upper, E, W, 0.90f, 0.074f, 0.030f, GLOVE, red);                           // glove wrist
-        drawBang(r, upper, H, ang, t2);
     }
 
-    // ------------------------------------------------------------ head (keffiyeh, beard, scowl)
+    // ------------------------------------------------------------ head (nemes cloth, beard, scowl)
     mat4 head = upper;
     float flutter = std::sin(time_ * 5.0f) * 0.014f + walkBlend_ * std::sin(phase_ * 2.0f) * 0.018f;
     float back    = walkBlend_ * 0.035f;
@@ -569,7 +522,7 @@ void MeleePlayer::draw(Renderer2D& r) const
     shape(r, head, {{0.100f, 0.878f}, {0.142f, 0.846f}, {0.096f, 0.836f}}, SKIN_LIGHT, red, 0.004f);                    // nose
     stroke(r, head, {0.074f, 0.820f}, {0.108f, 0.816f}, 0.006f, 0.006f, BLACK, red);                                    // set mouth
 
-    // keffiyeh wrapped round the head, with a fine weave and two wrap bands
+    // Nemes cloth wrapped round the head, with gold-and-lapis bands
     {
         shape(r, head, {{-0.105f, 0.925f}, {-0.092f, 0.990f}, {-0.025f, 1.028f}, {0.060f, 1.025f},
                         {0.115f, 0.985f}, {0.124f, 0.940f}, {0.070f, 0.918f}, {-0.040f, 0.910f}}, KEFF, red);
@@ -607,42 +560,53 @@ void MeleePlayer::draw(Renderer2D& r) const
         limb(r, upper, E - safeDir(W - E) * 0.04f, W, 0.078f, 0.066f, SKIN, red);          // bare forearm
         limb(r, upper, S, E, 0.100f, 0.090f, ROBE, red);                                   // sleeve
         band(r, upper, S, E, 0.92f, 0.104f, 0.044f, ROBE_LITE, red);                       // rolled cuff
-        drawPistol(r, g, red);
+        drawKhopesh(r, g, red);
         drawHand(r, g, red);
         band(r, upper, E, W, 0.90f, 0.078f, 0.032f, GLOVE, red);                           // glove wrist
-        drawBang(r, upper, H, ang, t);
 
-        // spent brass flicks out of the ejection port
+        // A gold spark trails the front blade after the strike.
         if (t > 0.02f && t < 0.40f) {
-            vec2 e0 = H + rot(EJECT, ang);
-            vec2 p = e0 + vec2(-0.10f * t, 0.24f * t - 1.1f * t * t);
-            r.drawRect({0.0f, 0.0f}, {0.016f, 0.008f}, GOLD, at(upper, p.x, p.y, t * 900.0f), 0.0f);
+            vec2 spark = H + rot(STRIKE_SPARK, ang);
+            vec2 p = spark + vec2(-0.10f * t, 0.24f * t - 1.1f * t * t);
+            r.drawTriangle({-0.012f, -0.010f}, {0.015f, 0.0f}, {-0.012f, 0.010f},
+                           alpha(GOLD, 1.0f - t / 0.40f), at(upper, p.x, p.y, t * 900.0f));
         }
     }
 
-    drawBullets(r);
-    drawHealthBar(r, base);   // not tinted, not shaken
 }
 
-// ----------------------------------------------------------------- bullets (world space)
-void MeleePlayer::drawBullets(Renderer2D& r) const
+void MeleePlayer::drawEffects(Renderer& renderer) const
 {
-    for (const Bullet& b : bullets_) {
-        float ang = (b.vx == 0.0f && b.vy == 0.0f) ? 0.0f : std::atan2(b.vy, b.vx);
-        mat4 m = glm::scale(at(glm::translate(mat4(1.0f), glm::vec3(b.p, 0.0f)), 0.0f, 0.0f, glm::degrees(ang)),
-                            glm::vec3(height_, height_, 1.0f));
-        if (b.landed) {                                      // spent round lying in the dust, fading out
-            float a = 1.0f - b.rest / BULLET_REST;
-            r.drawConvex({{-0.030f, 0.006f}, {0.012f, 0.006f}, {0.024f, 0.0f}, {0.012f, -0.006f}, {-0.030f, -0.006f}},
-                         alpha(GOLD, a), m, 0.0f);
-            continue;
-        }
-        if (!b.dropping)                                     // tracer streak behind a flying bullet
-            r.drawConvex({{-0.150f, 0.0f}, {-0.030f, 0.007f}, {-0.030f, -0.007f}}, alpha(FIRE, 0.45f), m, 0.0f);
-        shape(r, m, {{-0.030f, 0.008f}, {0.010f, 0.008f}, {0.026f, 0.0f}, {0.010f, -0.008f}, {-0.030f, -0.008f}},
-              GOLD, 0.0f, 0.003f);
-        r.drawConvex({{0.008f, 0.007f}, {0.025f, 0.0f}, {0.008f, -0.007f}}, FIRE, m, 0.0f);   // copper tip
-    }
+    Renderer2D r(renderer);
+    if (hp_ <= 0) return;
+    const float ja = jumpOffset();
+    const float da = duckAmount();
+    const float aim = aimAmount();
+    const float t = sinceStrike();
+    const float t2 = t - SECOND_BLADE;
+    const float kick = t >= 0.0f ? std::exp(-t * 9.0f) : 0.0f;
+    const float kick2 = t2 >= 0.0f ? std::exp(-t2 * 9.0f) : 0.0f;
+    const float bob = std::sin(time_ * 2.4f) * 0.005f +
+                      walkBlend_ * std::fabs(std::sin(phase_)) * 0.012f;
+    const float shake = std::sin(hitTimer_ * 70.0f) * 0.02f * (hitTimer_ / HIT_TIME);
+    const mat4 base = glm::scale(glm::translate(mat4(1.0f), glm::vec3(pos_, 0.0f)),
+                                 glm::vec3(height_, height_, 1.0f));
+    const mat4 root = at(base, shake, ja);
+    const float lean = -4.0f - 3.0f * aim + 2.5f * kick - 3.0f * walkBlend_;
+    mat4 upper = at(root, 0.0f, WAIST + bob - DUCK_DROP * da, lean);
+    upper = glm::translate(upper, glm::vec3(0.0f, -WAIST, 0.0f));
+
+    vec2 frontHand = glm::mix(vec2(0.270f, 0.600f), vec2(0.430f, 0.775f), aim);
+    frontHand += vec2(-0.025f * kick, 0.014f * kick);
+    const float frontAngle = -26.0f * (1.0f - aim) + 14.0f * kick;
+    drawStrikeArc(r, upper, frontHand, frontAngle, t);
+
+    vec2 rearHand = glm::mix(vec2(0.120f, 0.470f), vec2(0.175f, 0.615f), aim);
+    rearHand += vec2(-0.040f * kick2, 0.016f * kick2);
+    const float rearAngle = -22.0f * (1.0f - aim) + 12.0f * kick2;
+    drawStrikeArc(r, upper, rearHand, rearAngle, t2);
+
+    drawHealthBar(r, base);
 }
 
 // ----------------------------------------------------------------- health bar

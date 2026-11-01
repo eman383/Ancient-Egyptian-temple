@@ -12,6 +12,8 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeFiles/4.3.1/CMakeCXXCompiler.cmake"
   "CMakeFiles/4.3.1/CMakeRCCompiler.cmake"
   "CMakeFiles/4.3.1/CMakeSystem.cmake"
+  "CMakeFiles/VerifyGlobs.cmake"
+  "CMakeFiles/cmake.verify_globs"
   "C:/Users/emana/Ancient-Egyptian-temple/external/glfw-3.5.1/CMake/cmake_uninstall.cmake.in"
   "C:/Users/emana/Ancient-Egyptian-temple/external/glfw-3.5.1/CMake/glfw3.pc.in"
   "C:/Users/emana/Ancient-Egyptian-temple/external/glfw-3.5.1/CMake/glfw3Config.cmake.in"
@@ -92,9 +94,6 @@ set(CMAKE_MAKEFILE_PRODUCTS
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/OpenGLStarter.dir/DependInfo.cmake"
-  "CMakeFiles/CharacterTest.dir/DependInfo.cmake"
-  "CMakeFiles/LongRangeTest.dir/DependInfo.cmake"
-  "CMakeFiles/MeleeTest.dir/DependInfo.cmake"
   "external/glfw-3.5.1/CMakeFiles/uninstall.dir/DependInfo.cmake"
   "external/glfw-3.5.1/src/CMakeFiles/glfw.dir/DependInfo.cmake"
   "external/glfw-3.5.1/src/CMakeFiles/update_mappings.dir/DependInfo.cmake"

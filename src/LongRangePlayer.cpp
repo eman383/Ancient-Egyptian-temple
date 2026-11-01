@@ -132,12 +132,25 @@ void LongRangePlayer::fire()
     float nockY = HAND_Y - DUCK_DROP * duckAmount() + jumpOffset();
     Arrow a;
     a.pos = vec2(pos_.x + (TIP_X - PULL + ARROW_HALF) * height_, pos_.y + nockY * height_);
+    a.previous = a.pos;
     arrows_.push_back(a);
 }
 
 void LongRangePlayer::arrowHit(size_t i)
 {
     if (i < arrows_.size() && !arrows_[i].hit) { arrows_[i].hit = true; arrows_[i].hitTime = 0.0f; }
+}
+
+bool LongRangePlayer::arrowHitsEnemy(size_t i, float enemyXMin, float enemyXMax)
+{
+    if (i >= arrows_.size() || arrows_[i].hit || enemyXMin > enemyXMax) return false;
+    const Arrow& arrow = arrows_[i];
+    const float halfLength = ARROW_HALF * height_;
+    const float sweptMin = std::min(arrow.previous.x, arrow.pos.x) - halfLength;
+    const float sweptMax = std::max(arrow.previous.x, arrow.pos.x) + halfLength;
+    if (sweptMax < enemyXMin || sweptMin > enemyXMax) return false;
+    arrowHit(i);
+    return true;
 }
 
 void LongRangePlayer::jump()
@@ -150,10 +163,10 @@ void LongRangePlayer::duck()
     if (hp_ > 0 && jumpT_ <= 0.0f && duckT_ <= 0.0f) duckT_ = DUCK_TIME;
 }
 
-void LongRangePlayer::takeHit()
+void LongRangePlayer::takeHit(int damage)
 {
-    if (hp_ <= 0) return;
-    --hp_;
+    if (hp_ <= 0 || damage <= 0) return;
+    hp_ = damage >= hp_ ? 0 : hp_ - damage;
     hitTimer_ = HIT_TIME;
 }
 
@@ -188,6 +201,7 @@ void LongRangePlayer::update(float dt)
 
     // arrows keep flying even if she has been defeated
     for (Arrow& a : arrows_) {
+        a.previous = a.pos;
         if (a.hit) a.hitTime += dt;
         else       a.pos.x += arrowSpeed_ * dt;
     }
@@ -201,9 +215,9 @@ void LongRangePlayer::update(float dt)
 //               root  (+ hit shake, jump)     legs
 //                 upper (+ breathing, duck)   quiver, torso, head, arms, bow
 // ------------------------------------------------------------------
-void LongRangePlayer::draw(Renderer2D& r) const
+void LongRangePlayer::draw(Renderer& renderer) const
 {
-    for (const Arrow& a : arrows_) drawArrow(r, a);
+    Renderer2D r(renderer);
     if (hp_ <= 0) return;   // defeated -> removed from the scene
 
     float flash = hitTimer_ / HIT_TIME;
@@ -404,7 +418,16 @@ void LongRangePlayer::draw(Renderer2D& r) const
     r.drawEllipse(H, {0.030f, 0.024f}, SKIN_DARK, upper, red, 16);
     r.drawEllipse(H + vec2(0.012f, 0.012f), vec2(0.010f), SKIN, upper, red, 8);
 
-    drawHealthBar(r, base);   // not tinted, not shaken
+}
+
+void LongRangePlayer::drawEffects(Renderer& renderer) const
+{
+    Renderer2D r(renderer);
+    for (const Arrow& arrow : arrows_) drawArrow(r, arrow);
+    if (hp_ <= 0) return;
+    const mat4 base = glm::scale(glm::translate(mat4(1.0f), glm::vec3(pos_, 0.0f)),
+                                 glm::vec3(height_, height_, 1.0f));
+    drawHealthBar(r, base);
 }
 
 // ------------------------------------------------------------ arrow in flight

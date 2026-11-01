@@ -157,6 +157,7 @@ preinstall/fast:
 
 # clear depends
 depend:
+	$(CMAKE_COMMAND) -P C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles\VerifyGlobs.cmake
 	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles\Makefile.cmake 1
 .PHONY : depend
 
@@ -172,45 +173,6 @@ OpenGLStarter: cmake_check_build_system
 OpenGLStarter/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/build
 .PHONY : OpenGLStarter/fast
-
-#=============================================================================
-# Target rules for targets named CharacterTest
-
-# Build rule for target.
-CharacterTest: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CharacterTest
-.PHONY : CharacterTest
-
-# fast build rule for target.
-CharacterTest/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\CharacterTest.dir\build.make CMakeFiles/CharacterTest.dir/build
-.PHONY : CharacterTest/fast
-
-#=============================================================================
-# Target rules for targets named LongRangeTest
-
-# Build rule for target.
-LongRangeTest: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 LongRangeTest
-.PHONY : LongRangeTest
-
-# fast build rule for target.
-LongRangeTest/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\LongRangeTest.dir\build.make CMakeFiles/LongRangeTest.dir/build
-.PHONY : LongRangeTest/fast
-
-#=============================================================================
-# Target rules for targets named MeleeTest
-
-# Build rule for target.
-MeleeTest: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 MeleeTest
-.PHONY : MeleeTest
-
-# fast build rule for target.
-MeleeTest/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\MeleeTest.dir\build.make CMakeFiles/MeleeTest.dir/build
-.PHONY : MeleeTest/fast
 
 #=============================================================================
 # Target rules for targets named uninstall
@@ -277,38 +239,12 @@ glm/fast:
 	$(MAKE) $(MAKESILENT) -f external\glm\glm\CMakeFiles\glm.dir\build.make external/glm/glm/CMakeFiles/glm.dir/build
 .PHONY : glm/fast
 
-main.obj: main.cpp.obj
-.PHONY : main.obj
-
-# target to build an object file
-main.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/main.cpp.obj
-.PHONY : main.cpp.obj
-
-main.i: main.cpp.i
-.PHONY : main.i
-
-# target to preprocess a source file
-main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/main.cpp.i
-.PHONY : main.cpp.i
-
-main.s: main.cpp.s
-.PHONY : main.s
-
-# target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/main.cpp.s
-.PHONY : main.cpp.s
-
 src/DefensePlayer.obj: src/DefensePlayer.cpp.obj
 .PHONY : src/DefensePlayer.obj
 
 # target to build an object file
 src/DefensePlayer.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\CharacterTest.dir\build.make CMakeFiles/CharacterTest.dir/src/DefensePlayer.cpp.obj
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\LongRangeTest.dir\build.make CMakeFiles/LongRangeTest.dir/src/DefensePlayer.cpp.obj
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\MeleeTest.dir\build.make CMakeFiles/MeleeTest.dir/src/DefensePlayer.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/DefensePlayer.cpp.obj
 .PHONY : src/DefensePlayer.cpp.obj
 
 src/DefensePlayer.i: src/DefensePlayer.cpp.i
@@ -316,9 +252,7 @@ src/DefensePlayer.i: src/DefensePlayer.cpp.i
 
 # target to preprocess a source file
 src/DefensePlayer.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\CharacterTest.dir\build.make CMakeFiles/CharacterTest.dir/src/DefensePlayer.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\LongRangeTest.dir\build.make CMakeFiles/LongRangeTest.dir/src/DefensePlayer.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\MeleeTest.dir\build.make CMakeFiles/MeleeTest.dir/src/DefensePlayer.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/DefensePlayer.cpp.i
 .PHONY : src/DefensePlayer.cpp.i
 
 src/DefensePlayer.s: src/DefensePlayer.cpp.s
@@ -326,9 +260,7 @@ src/DefensePlayer.s: src/DefensePlayer.cpp.s
 
 # target to generate assembly for a file
 src/DefensePlayer.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\CharacterTest.dir\build.make CMakeFiles/CharacterTest.dir/src/DefensePlayer.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\LongRangeTest.dir\build.make CMakeFiles/LongRangeTest.dir/src/DefensePlayer.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\MeleeTest.dir\build.make CMakeFiles/MeleeTest.dir/src/DefensePlayer.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/DefensePlayer.cpp.s
 .PHONY : src/DefensePlayer.cpp.s
 
 src/LongRangePlayer.obj: src/LongRangePlayer.cpp.obj
@@ -336,9 +268,7 @@ src/LongRangePlayer.obj: src/LongRangePlayer.cpp.obj
 
 # target to build an object file
 src/LongRangePlayer.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\CharacterTest.dir\build.make CMakeFiles/CharacterTest.dir/src/LongRangePlayer.cpp.obj
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\LongRangeTest.dir\build.make CMakeFiles/LongRangeTest.dir/src/LongRangePlayer.cpp.obj
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\MeleeTest.dir\build.make CMakeFiles/MeleeTest.dir/src/LongRangePlayer.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/LongRangePlayer.cpp.obj
 .PHONY : src/LongRangePlayer.cpp.obj
 
 src/LongRangePlayer.i: src/LongRangePlayer.cpp.i
@@ -346,9 +276,7 @@ src/LongRangePlayer.i: src/LongRangePlayer.cpp.i
 
 # target to preprocess a source file
 src/LongRangePlayer.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\CharacterTest.dir\build.make CMakeFiles/CharacterTest.dir/src/LongRangePlayer.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\LongRangeTest.dir\build.make CMakeFiles/LongRangeTest.dir/src/LongRangePlayer.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\MeleeTest.dir\build.make CMakeFiles/MeleeTest.dir/src/LongRangePlayer.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/LongRangePlayer.cpp.i
 .PHONY : src/LongRangePlayer.cpp.i
 
 src/LongRangePlayer.s: src/LongRangePlayer.cpp.s
@@ -356,9 +284,7 @@ src/LongRangePlayer.s: src/LongRangePlayer.cpp.s
 
 # target to generate assembly for a file
 src/LongRangePlayer.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\CharacterTest.dir\build.make CMakeFiles/CharacterTest.dir/src/LongRangePlayer.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\LongRangeTest.dir\build.make CMakeFiles/LongRangeTest.dir/src/LongRangePlayer.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\MeleeTest.dir\build.make CMakeFiles/MeleeTest.dir/src/LongRangePlayer.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/LongRangePlayer.cpp.s
 .PHONY : src/LongRangePlayer.cpp.s
 
 src/MeleePlayer.obj: src/MeleePlayer.cpp.obj
@@ -366,9 +292,7 @@ src/MeleePlayer.obj: src/MeleePlayer.cpp.obj
 
 # target to build an object file
 src/MeleePlayer.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\CharacterTest.dir\build.make CMakeFiles/CharacterTest.dir/src/MeleePlayer.cpp.obj
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\LongRangeTest.dir\build.make CMakeFiles/LongRangeTest.dir/src/MeleePlayer.cpp.obj
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\MeleeTest.dir\build.make CMakeFiles/MeleeTest.dir/src/MeleePlayer.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/MeleePlayer.cpp.obj
 .PHONY : src/MeleePlayer.cpp.obj
 
 src/MeleePlayer.i: src/MeleePlayer.cpp.i
@@ -376,9 +300,7 @@ src/MeleePlayer.i: src/MeleePlayer.cpp.i
 
 # target to preprocess a source file
 src/MeleePlayer.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\CharacterTest.dir\build.make CMakeFiles/CharacterTest.dir/src/MeleePlayer.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\LongRangeTest.dir\build.make CMakeFiles/LongRangeTest.dir/src/MeleePlayer.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\MeleeTest.dir\build.make CMakeFiles/MeleeTest.dir/src/MeleePlayer.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/MeleePlayer.cpp.i
 .PHONY : src/MeleePlayer.cpp.i
 
 src/MeleePlayer.s: src/MeleePlayer.cpp.s
@@ -386,19 +308,39 @@ src/MeleePlayer.s: src/MeleePlayer.cpp.s
 
 # target to generate assembly for a file
 src/MeleePlayer.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\CharacterTest.dir\build.make CMakeFiles/CharacterTest.dir/src/MeleePlayer.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\LongRangeTest.dir\build.make CMakeFiles/LongRangeTest.dir/src/MeleePlayer.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\MeleeTest.dir\build.make CMakeFiles/MeleeTest.dir/src/MeleePlayer.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/MeleePlayer.cpp.s
 .PHONY : src/MeleePlayer.cpp.s
+
+src/PlayerManager.obj: src/PlayerManager.cpp.obj
+.PHONY : src/PlayerManager.obj
+
+# target to build an object file
+src/PlayerManager.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/PlayerManager.cpp.obj
+.PHONY : src/PlayerManager.cpp.obj
+
+src/PlayerManager.i: src/PlayerManager.cpp.i
+.PHONY : src/PlayerManager.i
+
+# target to preprocess a source file
+src/PlayerManager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/PlayerManager.cpp.i
+.PHONY : src/PlayerManager.cpp.i
+
+src/PlayerManager.s: src/PlayerManager.cpp.s
+.PHONY : src/PlayerManager.s
+
+# target to generate assembly for a file
+src/PlayerManager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/PlayerManager.cpp.s
+.PHONY : src/PlayerManager.cpp.s
 
 src/Renderer2D.obj: src/Renderer2D.cpp.obj
 .PHONY : src/Renderer2D.obj
 
 # target to build an object file
 src/Renderer2D.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\CharacterTest.dir\build.make CMakeFiles/CharacterTest.dir/src/Renderer2D.cpp.obj
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\LongRangeTest.dir\build.make CMakeFiles/LongRangeTest.dir/src/Renderer2D.cpp.obj
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\MeleeTest.dir\build.make CMakeFiles/MeleeTest.dir/src/Renderer2D.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/Renderer2D.cpp.obj
 .PHONY : src/Renderer2D.cpp.obj
 
 src/Renderer2D.i: src/Renderer2D.cpp.i
@@ -406,9 +348,7 @@ src/Renderer2D.i: src/Renderer2D.cpp.i
 
 # target to preprocess a source file
 src/Renderer2D.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\CharacterTest.dir\build.make CMakeFiles/CharacterTest.dir/src/Renderer2D.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\LongRangeTest.dir\build.make CMakeFiles/LongRangeTest.dir/src/Renderer2D.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\MeleeTest.dir\build.make CMakeFiles/MeleeTest.dir/src/Renderer2D.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/Renderer2D.cpp.i
 .PHONY : src/Renderer2D.cpp.i
 
 src/Renderer2D.s: src/Renderer2D.cpp.s
@@ -416,82 +356,200 @@ src/Renderer2D.s: src/Renderer2D.cpp.s
 
 # target to generate assembly for a file
 src/Renderer2D.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\CharacterTest.dir\build.make CMakeFiles/CharacterTest.dir/src/Renderer2D.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\LongRangeTest.dir\build.make CMakeFiles/LongRangeTest.dir/src/Renderer2D.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\MeleeTest.dir\build.make CMakeFiles/MeleeTest.dir/src/Renderer2D.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/Renderer2D.cpp.s
 .PHONY : src/Renderer2D.cpp.s
 
-tests/character_test.obj: tests/character_test.cpp.obj
-.PHONY : tests/character_test.obj
+src/core/Game.obj: src/core/Game.cpp.obj
+.PHONY : src/core/Game.obj
 
 # target to build an object file
-tests/character_test.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\CharacterTest.dir\build.make CMakeFiles/CharacterTest.dir/tests/character_test.cpp.obj
-.PHONY : tests/character_test.cpp.obj
+src/core/Game.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/core/Game.cpp.obj
+.PHONY : src/core/Game.cpp.obj
 
-tests/character_test.i: tests/character_test.cpp.i
-.PHONY : tests/character_test.i
+src/core/Game.i: src/core/Game.cpp.i
+.PHONY : src/core/Game.i
 
 # target to preprocess a source file
-tests/character_test.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\CharacterTest.dir\build.make CMakeFiles/CharacterTest.dir/tests/character_test.cpp.i
-.PHONY : tests/character_test.cpp.i
+src/core/Game.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/core/Game.cpp.i
+.PHONY : src/core/Game.cpp.i
 
-tests/character_test.s: tests/character_test.cpp.s
-.PHONY : tests/character_test.s
+src/core/Game.s: src/core/Game.cpp.s
+.PHONY : src/core/Game.s
 
 # target to generate assembly for a file
-tests/character_test.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\CharacterTest.dir\build.make CMakeFiles/CharacterTest.dir/tests/character_test.cpp.s
-.PHONY : tests/character_test.cpp.s
+src/core/Game.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/core/Game.cpp.s
+.PHONY : src/core/Game.cpp.s
 
-tests/long_range_test.obj: tests/long_range_test.cpp.obj
-.PHONY : tests/long_range_test.obj
+src/core/LaneGrid.obj: src/core/LaneGrid.cpp.obj
+.PHONY : src/core/LaneGrid.obj
 
 # target to build an object file
-tests/long_range_test.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\LongRangeTest.dir\build.make CMakeFiles/LongRangeTest.dir/tests/long_range_test.cpp.obj
-.PHONY : tests/long_range_test.cpp.obj
+src/core/LaneGrid.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/core/LaneGrid.cpp.obj
+.PHONY : src/core/LaneGrid.cpp.obj
 
-tests/long_range_test.i: tests/long_range_test.cpp.i
-.PHONY : tests/long_range_test.i
+src/core/LaneGrid.i: src/core/LaneGrid.cpp.i
+.PHONY : src/core/LaneGrid.i
 
 # target to preprocess a source file
-tests/long_range_test.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\LongRangeTest.dir\build.make CMakeFiles/LongRangeTest.dir/tests/long_range_test.cpp.i
-.PHONY : tests/long_range_test.cpp.i
+src/core/LaneGrid.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/core/LaneGrid.cpp.i
+.PHONY : src/core/LaneGrid.cpp.i
 
-tests/long_range_test.s: tests/long_range_test.cpp.s
-.PHONY : tests/long_range_test.s
+src/core/LaneGrid.s: src/core/LaneGrid.cpp.s
+.PHONY : src/core/LaneGrid.s
 
 # target to generate assembly for a file
-tests/long_range_test.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\LongRangeTest.dir\build.make CMakeFiles/LongRangeTest.dir/tests/long_range_test.cpp.s
-.PHONY : tests/long_range_test.cpp.s
+src/core/LaneGrid.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/core/LaneGrid.cpp.s
+.PHONY : src/core/LaneGrid.cpp.s
 
-tests/melee_test.obj: tests/melee_test.cpp.obj
-.PHONY : tests/melee_test.obj
+src/game/Environment.obj: src/game/Environment.cpp.obj
+.PHONY : src/game/Environment.obj
 
 # target to build an object file
-tests/melee_test.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\MeleeTest.dir\build.make CMakeFiles/MeleeTest.dir/tests/melee_test.cpp.obj
-.PHONY : tests/melee_test.cpp.obj
+src/game/Environment.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/game/Environment.cpp.obj
+.PHONY : src/game/Environment.cpp.obj
 
-tests/melee_test.i: tests/melee_test.cpp.i
-.PHONY : tests/melee_test.i
+src/game/Environment.i: src/game/Environment.cpp.i
+.PHONY : src/game/Environment.i
 
 # target to preprocess a source file
-tests/melee_test.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\MeleeTest.dir\build.make CMakeFiles/MeleeTest.dir/tests/melee_test.cpp.i
-.PHONY : tests/melee_test.cpp.i
+src/game/Environment.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/game/Environment.cpp.i
+.PHONY : src/game/Environment.cpp.i
 
-tests/melee_test.s: tests/melee_test.cpp.s
-.PHONY : tests/melee_test.s
+src/game/Environment.s: src/game/Environment.cpp.s
+.PHONY : src/game/Environment.s
 
 # target to generate assembly for a file
-tests/melee_test.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\MeleeTest.dir\build.make CMakeFiles/MeleeTest.dir/tests/melee_test.cpp.s
-.PHONY : tests/melee_test.cpp.s
+src/game/Environment.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/game/Environment.cpp.s
+.PHONY : src/game/Environment.cpp.s
+
+src/game/HomeBase.obj: src/game/HomeBase.cpp.obj
+.PHONY : src/game/HomeBase.obj
+
+# target to build an object file
+src/game/HomeBase.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/game/HomeBase.cpp.obj
+.PHONY : src/game/HomeBase.cpp.obj
+
+src/game/HomeBase.i: src/game/HomeBase.cpp.i
+.PHONY : src/game/HomeBase.i
+
+# target to preprocess a source file
+src/game/HomeBase.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/game/HomeBase.cpp.i
+.PHONY : src/game/HomeBase.cpp.i
+
+src/game/HomeBase.s: src/game/HomeBase.cpp.s
+.PHONY : src/game/HomeBase.s
+
+# target to generate assembly for a file
+src/game/HomeBase.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/game/HomeBase.cpp.s
+.PHONY : src/game/HomeBase.cpp.s
+
+src/glad_impl.obj: src/glad_impl.cpp.obj
+.PHONY : src/glad_impl.obj
+
+# target to build an object file
+src/glad_impl.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/glad_impl.cpp.obj
+.PHONY : src/glad_impl.cpp.obj
+
+src/glad_impl.i: src/glad_impl.cpp.i
+.PHONY : src/glad_impl.i
+
+# target to preprocess a source file
+src/glad_impl.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/glad_impl.cpp.i
+.PHONY : src/glad_impl.cpp.i
+
+src/glad_impl.s: src/glad_impl.cpp.s
+.PHONY : src/glad_impl.s
+
+# target to generate assembly for a file
+src/glad_impl.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/glad_impl.cpp.s
+.PHONY : src/glad_impl.cpp.s
+
+src/main.obj: src/main.cpp.obj
+.PHONY : src/main.obj
+
+# target to build an object file
+src/main.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/main.cpp.obj
+.PHONY : src/main.cpp.obj
+
+src/main.i: src/main.cpp.i
+.PHONY : src/main.i
+
+# target to preprocess a source file
+src/main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/main.cpp.i
+.PHONY : src/main.cpp.i
+
+src/main.s: src/main.cpp.s
+.PHONY : src/main.s
+
+# target to generate assembly for a file
+src/main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/main.cpp.s
+.PHONY : src/main.cpp.s
+
+src/render/Renderer.obj: src/render/Renderer.cpp.obj
+.PHONY : src/render/Renderer.obj
+
+# target to build an object file
+src/render/Renderer.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/render/Renderer.cpp.obj
+.PHONY : src/render/Renderer.cpp.obj
+
+src/render/Renderer.i: src/render/Renderer.cpp.i
+.PHONY : src/render/Renderer.i
+
+# target to preprocess a source file
+src/render/Renderer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/render/Renderer.cpp.i
+.PHONY : src/render/Renderer.cpp.i
+
+src/render/Renderer.s: src/render/Renderer.cpp.s
+.PHONY : src/render/Renderer.s
+
+# target to generate assembly for a file
+src/render/Renderer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/render/Renderer.cpp.s
+.PHONY : src/render/Renderer.cpp.s
+
+src/render/Shader.obj: src/render/Shader.cpp.obj
+.PHONY : src/render/Shader.obj
+
+# target to build an object file
+src/render/Shader.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/render/Shader.cpp.obj
+.PHONY : src/render/Shader.cpp.obj
+
+src/render/Shader.i: src/render/Shader.cpp.i
+.PHONY : src/render/Shader.i
+
+# target to preprocess a source file
+src/render/Shader.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/render/Shader.cpp.i
+.PHONY : src/render/Shader.cpp.i
+
+src/render/Shader.s: src/render/Shader.cpp.s
+.PHONY : src/render/Shader.s
+
+# target to generate assembly for a file
+src/render/Shader.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/render/Shader.cpp.s
+.PHONY : src/render/Shader.cpp.s
 
 # Help Target
 help:
@@ -508,15 +566,9 @@ help:
 	@echo ... docs
 	@echo ... uninstall
 	@echo ... update_mappings
-	@echo ... CharacterTest
-	@echo ... LongRangeTest
-	@echo ... MeleeTest
 	@echo ... OpenGLStarter
 	@echo ... glfw
 	@echo ... glm
-	@echo ... main.obj
-	@echo ... main.i
-	@echo ... main.s
 	@echo ... src/DefensePlayer.obj
 	@echo ... src/DefensePlayer.i
 	@echo ... src/DefensePlayer.s
@@ -526,18 +578,36 @@ help:
 	@echo ... src/MeleePlayer.obj
 	@echo ... src/MeleePlayer.i
 	@echo ... src/MeleePlayer.s
+	@echo ... src/PlayerManager.obj
+	@echo ... src/PlayerManager.i
+	@echo ... src/PlayerManager.s
 	@echo ... src/Renderer2D.obj
 	@echo ... src/Renderer2D.i
 	@echo ... src/Renderer2D.s
-	@echo ... tests/character_test.obj
-	@echo ... tests/character_test.i
-	@echo ... tests/character_test.s
-	@echo ... tests/long_range_test.obj
-	@echo ... tests/long_range_test.i
-	@echo ... tests/long_range_test.s
-	@echo ... tests/melee_test.obj
-	@echo ... tests/melee_test.i
-	@echo ... tests/melee_test.s
+	@echo ... src/core/Game.obj
+	@echo ... src/core/Game.i
+	@echo ... src/core/Game.s
+	@echo ... src/core/LaneGrid.obj
+	@echo ... src/core/LaneGrid.i
+	@echo ... src/core/LaneGrid.s
+	@echo ... src/game/Environment.obj
+	@echo ... src/game/Environment.i
+	@echo ... src/game/Environment.s
+	@echo ... src/game/HomeBase.obj
+	@echo ... src/game/HomeBase.i
+	@echo ... src/game/HomeBase.s
+	@echo ... src/glad_impl.obj
+	@echo ... src/glad_impl.i
+	@echo ... src/glad_impl.s
+	@echo ... src/main.obj
+	@echo ... src/main.i
+	@echo ... src/main.s
+	@echo ... src/render/Renderer.obj
+	@echo ... src/render/Renderer.i
+	@echo ... src/render/Renderer.s
+	@echo ... src/render/Shader.obj
+	@echo ... src/render/Shader.i
+	@echo ... src/render/Shader.s
 .PHONY : help
 
 
@@ -549,6 +619,7 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
+	$(CMAKE_COMMAND) -P C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles\VerifyGlobs.cmake
 	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles\Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

@@ -100,10 +100,10 @@ void DefensePlayer::update(float dt)
     if (hitTimer_ > 0.0f) hitTimer_ = std::max(0.0f, hitTimer_ - dt);
 }
 
-void DefensePlayer::takeHit()
+void DefensePlayer::takeHit(int damage)
 {
-    if (hp_ <= 0) return;
-    --hp_;
+    if (hp_ <= 0 || damage <= 0) return;
+    hp_ = damage >= hp_ ? 0 : hp_ - damage;
     hitTimer_ = HIT_TIME;
 }
 
@@ -119,8 +119,9 @@ void DefensePlayer::reset()
 //                 upper (+ breathing bob)     torso, head, arms
 //                   shield (+ recoil on hit)
 // ------------------------------------------------------------------
-void DefensePlayer::draw(Renderer2D& r) const
+void DefensePlayer::draw(Renderer& renderer) const
 {
+    Renderer2D r(renderer);
     if (hp_ <= 0) return;   // defeated -> removed from the scene
 
     float flash = hitTimer_ / HIT_TIME;                       // 1 -> 0 after a hit
@@ -145,7 +146,15 @@ void DefensePlayer::draw(Renderer2D& r) const
     drawFrontArm(r, upper, red);
     drawShield(r, at(upper, -0.03f * flash, 0.0f), red);     // recoils when hit
 
-    drawHealthBar(r, base);   // not tinted, not shaken
+}
+
+void DefensePlayer::drawEffects(Renderer& renderer) const
+{
+    if (hp_ <= 0) return;
+    Renderer2D r(renderer);
+    const mat4 base = glm::scale(glm::translate(mat4(1.0f), glm::vec3(pos_, 0.0f)),
+                                 glm::vec3(height_, height_, 1.0f));
+    drawHealthBar(r, base);
 }
 
 // ---------------------------------------------------------------- legs

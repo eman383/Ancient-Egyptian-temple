@@ -1,155 +1,91 @@
 #include "Renderer2D.h"
-#include <glm/gtc/type_ptr.hpp>
+
 #include <cmath>
-#include <iostream>
 
 namespace {
-const size_t MAX_VERTS = 256;
-
-const char* VERT_SRC = R"(
-#version 330 core
-layout (location = 0) in vec2 aPos;
-uniform mat4 uProjection;
-uniform mat4 uModel;
-void main() {
-    gl_Position = uProjection * uModel * vec4(aPos, 0.0, 1.0);
-}
-)";
-
-const char* FRAG_SRC = R"(
-#version 330 core
-out vec4 FragColor;
-uniform vec4  uColor;
-uniform float uRed;   // 0 = normal colour, 1 = fully red (damage feedback)
-void main() {
-    vec3 damaged = mix(uColor.rgb, vec3(0.85, 0.05, 0.05), uRed);
-    FragColor = vec4(damaged, uColor.a);
-}
-)";
-
-GLuint compileShader(GLenum type, const char* code)
+glm::vec4 damageTint(glm::vec4 color, float red)
 {
-    GLuint shader = glCreateShader(type);
-    glShaderSource(shader, 1, &code, nullptr);
-    glCompileShader(shader);
-    GLint ok = 0;
-    glGetShaderiv(shader, GL_COMPILE_STATUS, &ok);
-    if (!ok) {
-        char log[1024];
-        glGetShaderInfoLog(shader, 1024, nullptr, log);
-        std::cerr << "Shader compile error:\n" << log << "\n";
-        glDeleteShader(shader);
-        return 0;
+    const glm::vec3 damageColor(0.85f, 0.05f, 0.05f);
+    color.r = glm::mix(color.r, damageColor.r, glm::clamp(red, 0.0f, 1.0f));
+    color.g = glm::mix(color.g, damageColor.g, glm::clamp(red, 0.0f, 1.0f));
+    color.b = glm::mix(color.b, damageColor.b, glm::clamp(red, 0.0f, 1.0f));
+    return color;
+}
+}
+
+void Renderer2D::drawConvex(const std::vector<glm::vec2>& points,
+                            const glm::vec4& color,
+                            const glm::mat4& model,
+                            float red)
+{
+    if (points.size() < 3) return;
+
+    // The player art stores affine transforms as matrices. Decompose their 2D
+    // translation/rotation/scale and draw through the engine's transform stack.
+    const glm::vec2 axisX(model[0].x, model[0].y);
+    const glm::vec2 axisY(model[1].x, model[1].y);
+    const float scaleX = glm::length(axisX);
+    if (scaleX < 1.0e-6f) return;
+    const float determinant = axisX.x * axisY.y - axisY.x * axisX.y;
+    const float scaleY = determinant / scaleX;
+    const float angle = glm::degrees(std::atan2(axisX.y, axisX.x));
+    const glm::vec2 position(model[3].x, model[3].y);
+
+    renderer_.push();
+    renderer_.translate(position);
+    renderer_.rotate(angle);
+    renderer_.scale({scaleX, scaleY});
+    renderer_.polygon(points, damageTint(color, red));
+    renderer_.pop();
+}
+
+void Renderer2D::drawRect(glm::vec2 center, glm::vec2 size,
+                          const glm::vec4& color, const glm::mat4& model,
+                          float red)
+{
+    const glm::vec2 half = size * 0.5f;
+    drawConvex({center + glm::vec2(-half.x, -half.y),
+                center + glm::vec2( half.x, -half.y),
+                center + glm::vec2( half.x,  half.y),
+                center + glm::vec2(-half.x,  half.y)}, color, model, red);
+}
+
+void Renderer2D::drawEllipse(glm::vec2 center, glm::vec2 radii,
+                             const glm::vec4& color, const glm::mat4& model,
+                             float red, int segments)
+{
+    segments = std::max(8, segments);
+    std::vector<glm::vec2> points;
+    points.reserve(static_cast<size_t>(segments) + 2);
+    points.push_back(center);
+    for (int i = 0; i <= segments; ++i) {
+        const float angle = 2.0f * 3.14159265f * static_cast<float>(i) /
+                            static_cast<float>(segments);
+        points.push_back(center + glm::vec2(std::cos(angle) * radii.x,
+                                            std::sin(angle) * radii.y));
     }
-    return shader;
+    drawConvex(points, color, model, red);
 }
-} // namespace
 
-bool Renderer2D::init()
+void Renderer2D::drawTriangle(glm::vec2 a, glm::vec2 b, glm::vec2 c,
+                              const glm::vec4& color, const glm::mat4& model,
+                              float red)
 {
-    GLuint vs = compileShader(GL_VERTEX_SHADER, VERT_SRC);
-    GLuint fs = compileShader(GL_FRAGMENT_SHADER, FRAG_SRC);
-    if (!vs || !fs) return false;
-
-    program_ = glCreateProgram();
-    glAttachShader(program_, vs);
-    glAttachShader(program_, fs);
-    glLinkProgram(program_);
-    glDeleteShader(vs);
-    glDeleteShader(fs);
-
-    GLint ok = 0;
-    glGetProgramiv(program_, GL_LINK_STATUS, &ok);
-    if (!ok) {
-        char log[1024];
-        glGetProgramInfoLog(program_, 1024, nullptr, log);
-        std::cerr << "Shader link error:\n" << log << "\n";
-        return false;
-    }
-
-    locProjection_ = glGetUniformLocation(program_, "uProjection");
-    locModel_      = glGetUniformLocation(program_, "uModel");
-    locColor_      = glGetUniformLocation(program_, "uColor");
-    locRed_        = glGetUniformLocation(program_, "uRed");
-
-    glGenVertexArrays(1, &vao_);
-    glGenBuffers(1, &vbo_);
-    glBindVertexArray(vao_);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo_);
-    glBufferData(GL_ARRAY_BUFFER, MAX_VERTS * sizeof(glm::vec2), nullptr, GL_DYNAMIC_DRAW);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(glm::vec2), (void*)0);
-    glEnableVertexAttribArray(0);
-
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    return true;
+    drawConvex({a, b, c}, color, model, red);
 }
 
-void Renderer2D::shutdown()
-{
-    glDeleteBuffers(1, &vbo_);
-    glDeleteVertexArrays(1, &vao_);
-    glDeleteProgram(program_);
-}
-
-void Renderer2D::setProjection(const glm::mat4& projection)
-{
-    glUseProgram(program_);
-    glUniformMatrix4fv(locProjection_, 1, GL_FALSE, glm::value_ptr(projection));
-}
-
-void Renderer2D::drawConvex(const std::vector<glm::vec2>& pts, const glm::vec4& color,
-                            const glm::mat4& model, float red)
-{
-    if (pts.size() < 3 || pts.size() > MAX_VERTS) return;
-    glUseProgram(program_);
-    glUniformMatrix4fv(locModel_, 1, GL_FALSE, glm::value_ptr(model));
-    glUniform4fv(locColor_, 1, glm::value_ptr(color));
-    glUniform1f(locRed_, red);
-    glBindVertexArray(vao_);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo_);
-    glBufferSubData(GL_ARRAY_BUFFER, 0, pts.size() * sizeof(glm::vec2), pts.data());
-    glDrawArrays(GL_TRIANGLE_FAN, 0, (GLsizei)pts.size());
-}
-
-void Renderer2D::drawRect(glm::vec2 c, glm::vec2 s, const glm::vec4& color,
+void Renderer2D::drawLimb(glm::vec2 from, glm::vec2 to, float widthFrom,
+                          float widthTo, const glm::vec4& color,
                           const glm::mat4& model, float red)
 {
-    glm::vec2 h = s * 0.5f;
-    drawConvex({ c + glm::vec2(-h.x, -h.y), c + glm::vec2(h.x, -h.y),
-                 c + glm::vec2(h.x, h.y),   c + glm::vec2(-h.x, h.y) },
-               color, model, red);
-}
-
-void Renderer2D::drawEllipse(glm::vec2 c, glm::vec2 r, const glm::vec4& color,
-                             const glm::mat4& model, float red, int segments)
-{
-    std::vector<glm::vec2> pts;
-    pts.reserve(segments + 2);
-    pts.push_back(c); // fan centre
-    for (int i = 0; i <= segments; ++i) {
-        float a = 2.0f * 3.14159265f * (float)i / (float)segments;
-        pts.push_back(c + glm::vec2(std::cos(a) * r.x, std::sin(a) * r.y));
-    }
-    drawConvex(pts, color, model, red);
-}
-
-void Renderer2D::drawTriangle(glm::vec2 a, glm::vec2 b, glm::vec2 c, const glm::vec4& color,
-                              const glm::mat4& model, float red)
-{
-    drawConvex({ a, b, c }, color, model, red);
-}
-
-void Renderer2D::drawLimb(glm::vec2 from, glm::vec2 to, float wf, float wt,
-                          const glm::vec4& color, const glm::mat4& model, float red)
-{
-    glm::vec2 d = to - from;
-    float len = glm::length(d);
-    if (len < 1e-6f) return;
-    glm::vec2 n = glm::vec2(-d.y, d.x) / len;
-    drawConvex({ from + n * wf * 0.5f, from - n * wf * 0.5f,
-                 to - n * wt * 0.5f,   to + n * wt * 0.5f },
-               color, model, red);
-    drawEllipse(from, glm::vec2(wf * 0.5f), color, model, red, 20);
-    drawEllipse(to,   glm::vec2(wt * 0.5f), color, model, red, 20);
+    const glm::vec2 direction = to - from;
+    const float length = glm::length(direction);
+    if (length < 1.0e-6f) return;
+    const glm::vec2 normal(-direction.y / length, direction.x / length);
+    drawConvex({from + normal * widthFrom * 0.5f,
+                from - normal * widthFrom * 0.5f,
+                to   - normal * widthTo   * 0.5f,
+                to   + normal * widthTo   * 0.5f}, color, model, red);
+    drawEllipse(from, glm::vec2(widthFrom * 0.5f), color, model, red, 20);
+    drawEllipse(to, glm::vec2(widthTo * 0.5f), color, model, red, 20);
 }

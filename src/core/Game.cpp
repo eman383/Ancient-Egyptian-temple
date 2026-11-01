@@ -10,7 +10,7 @@
 // START_STATE : D changes this to MainMenu once the main menu exists.
 // DEV_KEYS    : 1..6 jump between states, R restarts. Set to false before submitting.
 static const GameState START_STATE = GameState::Playing;
-static const bool      DEV_KEYS    = true;
+static const bool      DEV_KEYS    = false;
 
 static const char* stateName(GameState s) {
     switch (s) {
@@ -150,14 +150,6 @@ void Game::update(float dt) {
     if (currentState == GameState::Playing) {
         gameplayTime += dt;
         lanes.update(input.mouse, input.leftClicked());    // before the hooks, so they can read it
-
-        // TEMPORARY test: shows which lanes would jump / duck. B replaces this.
-        if (input.jumpPressed() || input.duckPressed()) {
-            std::cout << (input.jumpPressed() ? "JUMP" : "DUCK") << " in lanes:";
-            for (int l : lanes.selectedLanes()) std::cout << " " << l;
-            if (!lanes.anySelected()) std::cout << " (none selected)";
-            std::cout << "\n";
-        }
 
         for (auto& fn : gameplayUpdates) fn(dt);
     } else {

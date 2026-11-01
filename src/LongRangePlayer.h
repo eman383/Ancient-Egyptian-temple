@@ -6,6 +6,7 @@
 // One arrow in flight. 'pos' is the world position of the arrow's CENTRE.
 struct Arrow {
     glm::vec2 pos;
+    glm::vec2 previous;
     bool  hit     = false;   // true once it struck an enemy (plays impact, then vanishes)
     float hitTime = 0.0f;
 };
@@ -28,7 +29,7 @@ public:
     void update(float dt);   // walking, bow cycle, arrows, jump/duck, hit timers
     void jump();             // W / Up    (ignored while already jumping or ducking)
     void duck();             // S / Down
-    void takeHit();          // call once per enemy attack that reaches her
+    void takeHit(int damage = 1); // call once per enemy attack that reaches her
     void reset();
 
     // Call with true while she is touching an enemy: she stops walking but keeps shooting.
@@ -46,14 +47,16 @@ public:
     float halfWidth() const { return 0.16f * height_; }  // for body collision
 
     // ---- arrows (the game does the collision test against enemies) ----
-    std::vector<Arrow>& arrows() { return arrows_; }
+    const std::vector<Arrow>& arrows() const { return arrows_; }
     glm::vec2 arrowTip(const Arrow& a) const { return a.pos + glm::vec2(0.275f * height_, 0.0f); }
     void arrowHit(size_t index);   // call when arrow 'index' touches an enemy
+    bool arrowHitsEnemy(size_t index, float enemyXMin, float enemyXMax);
 
     // True when she is dead AND all her arrows are gone -> safe to delete the object.
     bool isRemovable() const { return hp_ <= 0 && arrows_.empty(); }
 
-    void draw(Renderer2D& r) const;   // body (if alive) + arrows + health bar
+    void draw(Renderer& r) const;         // character model
+    void drawEffects(Renderer& r) const;  // arrows and health bar
 
 private:
     float jumpOffset() const;   // model units

@@ -63,18 +63,12 @@ CMAKE_BINARY_DIR = C:\Users\emana\Ancient-Egyptian-temple\build
 
 # The main recursive "all" target.
 all: CMakeFiles/OpenGLStarter.dir/all
-all: CMakeFiles/CharacterTest.dir/all
-all: CMakeFiles/LongRangeTest.dir/all
-all: CMakeFiles/MeleeTest.dir/all
 all: external/glfw-3.5.1/all
 all: external/glm/all
 .PHONY : all
 
 # The main recursive "codegen" target.
 codegen: CMakeFiles/OpenGLStarter.dir/codegen
-codegen: CMakeFiles/CharacterTest.dir/codegen
-codegen: CMakeFiles/LongRangeTest.dir/codegen
-codegen: CMakeFiles/MeleeTest.dir/codegen
 codegen: external/glfw-3.5.1/codegen
 codegen: external/glm/codegen
 .PHONY : codegen
@@ -86,9 +80,6 @@ preinstall: external/glm/preinstall
 
 # The main recursive "clean" target.
 clean: CMakeFiles/OpenGLStarter.dir/clean
-clean: CMakeFiles/CharacterTest.dir/clean
-clean: CMakeFiles/LongRangeTest.dir/clean
-clean: CMakeFiles/MeleeTest.dir/clean
 clean: external/glfw-3.5.1/clean
 clean: external/glm/clean
 .PHONY : clean
@@ -202,12 +193,12 @@ CMakeFiles/OpenGLStarter.dir/all: external/glfw-3.5.1/src/CMakeFiles/glfw.dir/al
 CMakeFiles/OpenGLStarter.dir/all: external/glm/glm/CMakeFiles/glm.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=19,20 "Built target OpenGLStarter"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14 "Built target OpenGLStarter"
 .PHONY : CMakeFiles/OpenGLStarter.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/OpenGLStarter.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles 26
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles 38
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/OpenGLStarter.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles 0
 .PHONY : CMakeFiles/OpenGLStarter.dir/rule
@@ -219,112 +210,13 @@ OpenGLStarter: CMakeFiles/OpenGLStarter.dir/rule
 # codegen rule for target.
 CMakeFiles/OpenGLStarter.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=19,20 "Finished codegen for target OpenGLStarter"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14 "Finished codegen for target OpenGLStarter"
 .PHONY : CMakeFiles/OpenGLStarter.dir/codegen
 
 # clean rule for target.
 CMakeFiles/OpenGLStarter.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/clean
 .PHONY : CMakeFiles/OpenGLStarter.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/CharacterTest.dir
-
-# All Build rule for target.
-CMakeFiles/CharacterTest.dir/all: external/glfw-3.5.1/src/CMakeFiles/glfw.dir/all
-CMakeFiles/CharacterTest.dir/all: external/glm/glm/CMakeFiles/glm.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\CharacterTest.dir\build.make CMakeFiles/CharacterTest.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\CharacterTest.dir\build.make CMakeFiles/CharacterTest.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=1,2,3,4,5,6 "Built target CharacterTest"
-.PHONY : CMakeFiles/CharacterTest.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/CharacterTest.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles 30
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/CharacterTest.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles 0
-.PHONY : CMakeFiles/CharacterTest.dir/rule
-
-# Convenience name for target.
-CharacterTest: CMakeFiles/CharacterTest.dir/rule
-.PHONY : CharacterTest
-
-# codegen rule for target.
-CMakeFiles/CharacterTest.dir/codegen:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\CharacterTest.dir\build.make CMakeFiles/CharacterTest.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=1,2,3,4,5,6 "Finished codegen for target CharacterTest"
-.PHONY : CMakeFiles/CharacterTest.dir/codegen
-
-# clean rule for target.
-CMakeFiles/CharacterTest.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\CharacterTest.dir\build.make CMakeFiles/CharacterTest.dir/clean
-.PHONY : CMakeFiles/CharacterTest.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/LongRangeTest.dir
-
-# All Build rule for target.
-CMakeFiles/LongRangeTest.dir/all: external/glfw-3.5.1/src/CMakeFiles/glfw.dir/all
-CMakeFiles/LongRangeTest.dir/all: external/glm/glm/CMakeFiles/glm.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\LongRangeTest.dir\build.make CMakeFiles/LongRangeTest.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\LongRangeTest.dir\build.make CMakeFiles/LongRangeTest.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=7,8,9,10,11,12 "Built target LongRangeTest"
-.PHONY : CMakeFiles/LongRangeTest.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/LongRangeTest.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles 30
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/LongRangeTest.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles 0
-.PHONY : CMakeFiles/LongRangeTest.dir/rule
-
-# Convenience name for target.
-LongRangeTest: CMakeFiles/LongRangeTest.dir/rule
-.PHONY : LongRangeTest
-
-# codegen rule for target.
-CMakeFiles/LongRangeTest.dir/codegen:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\LongRangeTest.dir\build.make CMakeFiles/LongRangeTest.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=7,8,9,10,11,12 "Finished codegen for target LongRangeTest"
-.PHONY : CMakeFiles/LongRangeTest.dir/codegen
-
-# clean rule for target.
-CMakeFiles/LongRangeTest.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\LongRangeTest.dir\build.make CMakeFiles/LongRangeTest.dir/clean
-.PHONY : CMakeFiles/LongRangeTest.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/MeleeTest.dir
-
-# All Build rule for target.
-CMakeFiles/MeleeTest.dir/all: external/glfw-3.5.1/src/CMakeFiles/glfw.dir/all
-CMakeFiles/MeleeTest.dir/all: external/glm/glm/CMakeFiles/glm.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\MeleeTest.dir\build.make CMakeFiles/MeleeTest.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\MeleeTest.dir\build.make CMakeFiles/MeleeTest.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=13,14,15,16,17,18 "Built target MeleeTest"
-.PHONY : CMakeFiles/MeleeTest.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/MeleeTest.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles 30
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/MeleeTest.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles 0
-.PHONY : CMakeFiles/MeleeTest.dir/rule
-
-# Convenience name for target.
-MeleeTest: CMakeFiles/MeleeTest.dir/rule
-.PHONY : MeleeTest
-
-# codegen rule for target.
-CMakeFiles/MeleeTest.dir/codegen:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\MeleeTest.dir\build.make CMakeFiles/MeleeTest.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=13,14,15,16,17,18 "Finished codegen for target MeleeTest"
-.PHONY : CMakeFiles/MeleeTest.dir/codegen
-
-# clean rule for target.
-CMakeFiles/MeleeTest.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\MeleeTest.dir\build.make CMakeFiles/MeleeTest.dir/clean
-.PHONY : CMakeFiles/MeleeTest.dir/clean
 
 #=============================================================================
 # Target rules for target external/glfw-3.5.1/CMakeFiles/uninstall.dir
@@ -365,7 +257,7 @@ external/glfw-3.5.1/CMakeFiles/uninstall.dir/clean:
 external/glfw-3.5.1/src/CMakeFiles/glfw.dir/all:
 	$(MAKE) $(MAKESILENT) -f external\glfw-3.5.1\src\CMakeFiles\glfw.dir\build.make external/glfw-3.5.1/src/CMakeFiles/glfw.dir/depend
 	$(MAKE) $(MAKESILENT) -f external\glfw-3.5.1\src\CMakeFiles\glfw.dir\build.make external/glfw-3.5.1/src/CMakeFiles/glfw.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43 "Built target glfw"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37 "Built target glfw"
 .PHONY : external/glfw-3.5.1/src/CMakeFiles/glfw.dir/all
 
 # Build rule for subdir invocation for target.
@@ -382,7 +274,7 @@ glfw: external/glfw-3.5.1/src/CMakeFiles/glfw.dir/rule
 # codegen rule for target.
 external/glfw-3.5.1/src/CMakeFiles/glfw.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f external\glfw-3.5.1\src\CMakeFiles\glfw.dir\build.make external/glfw-3.5.1/src/CMakeFiles/glfw.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43 "Finished codegen for target glfw"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37 "Finished codegen for target glfw"
 .PHONY : external/glfw-3.5.1/src/CMakeFiles/glfw.dir/codegen
 
 # clean rule for target.
@@ -397,7 +289,7 @@ external/glfw-3.5.1/src/CMakeFiles/glfw.dir/clean:
 external/glfw-3.5.1/src/CMakeFiles/update_mappings.dir/all:
 	$(MAKE) $(MAKESILENT) -f external\glfw-3.5.1\src\CMakeFiles\update_mappings.dir\build.make external/glfw-3.5.1/src/CMakeFiles/update_mappings.dir/depend
 	$(MAKE) $(MAKESILENT) -f external\glfw-3.5.1\src\CMakeFiles\update_mappings.dir\build.make external/glfw-3.5.1/src/CMakeFiles/update_mappings.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=46 "Built target update_mappings"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=40 "Built target update_mappings"
 .PHONY : external/glfw-3.5.1/src/CMakeFiles/update_mappings.dir/all
 
 # Build rule for subdir invocation for target.
@@ -414,7 +306,7 @@ update_mappings: external/glfw-3.5.1/src/CMakeFiles/update_mappings.dir/rule
 # codegen rule for target.
 external/glfw-3.5.1/src/CMakeFiles/update_mappings.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f external\glfw-3.5.1\src\CMakeFiles\update_mappings.dir\build.make external/glfw-3.5.1/src/CMakeFiles/update_mappings.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=46 "Finished codegen for target update_mappings"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=40 "Finished codegen for target update_mappings"
 .PHONY : external/glfw-3.5.1/src/CMakeFiles/update_mappings.dir/codegen
 
 # clean rule for target.
@@ -429,7 +321,7 @@ external/glfw-3.5.1/src/CMakeFiles/update_mappings.dir/clean:
 external/glfw-3.5.1/docs/CMakeFiles/docs.dir/all:
 	$(MAKE) $(MAKESILENT) -f external\glfw-3.5.1\docs\CMakeFiles\docs.dir\build.make external/glfw-3.5.1/docs/CMakeFiles/docs.dir/depend
 	$(MAKE) $(MAKESILENT) -f external\glfw-3.5.1\docs\CMakeFiles\docs.dir\build.make external/glfw-3.5.1/docs/CMakeFiles/docs.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=21 "Built target docs"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=15 "Built target docs"
 .PHONY : external/glfw-3.5.1/docs/CMakeFiles/docs.dir/all
 
 # Build rule for subdir invocation for target.
@@ -446,7 +338,7 @@ docs: external/glfw-3.5.1/docs/CMakeFiles/docs.dir/rule
 # codegen rule for target.
 external/glfw-3.5.1/docs/CMakeFiles/docs.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f external\glfw-3.5.1\docs\CMakeFiles\docs.dir\build.make external/glfw-3.5.1/docs/CMakeFiles/docs.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=21 "Finished codegen for target docs"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=15 "Finished codegen for target docs"
 .PHONY : external/glfw-3.5.1/docs/CMakeFiles/docs.dir/codegen
 
 # clean rule for target.
@@ -461,7 +353,7 @@ external/glfw-3.5.1/docs/CMakeFiles/docs.dir/clean:
 external/glm/glm/CMakeFiles/glm.dir/all:
 	$(MAKE) $(MAKESILENT) -f external\glm\glm\CMakeFiles\glm.dir\build.make external/glm/glm/CMakeFiles/glm.dir/depend
 	$(MAKE) $(MAKESILENT) -f external\glm\glm\CMakeFiles\glm.dir\build.make external/glm/glm/CMakeFiles/glm.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=44,45 "Built target glm"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=38,39 "Built target glm"
 .PHONY : external/glm/glm/CMakeFiles/glm.dir/all
 
 # Build rule for subdir invocation for target.
@@ -478,7 +370,7 @@ glm: external/glm/glm/CMakeFiles/glm.dir/rule
 # codegen rule for target.
 external/glm/glm/CMakeFiles/glm.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f external\glm\glm\CMakeFiles\glm.dir\build.make external/glm/glm/CMakeFiles/glm.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=44,45 "Finished codegen for target glm"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=38,39 "Finished codegen for target glm"
 .PHONY : external/glm/glm/CMakeFiles/glm.dir/codegen
 
 # clean rule for target.
@@ -493,6 +385,7 @@ external/glm/glm/CMakeFiles/glm.dir/clean:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
+	$(CMAKE_COMMAND) -P C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles\VerifyGlobs.cmake
 	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles\Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

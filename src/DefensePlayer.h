@@ -2,7 +2,7 @@
 #include "Renderer2D.h"
 #include <glm/glm.hpp>
 
-// Defense player: a brawny caveman holding a round wooden shield.
+// Defense player: an Egyptian temple guardian in carved stone-and-gold armor with a shield.
 // Stationary, deals no damage, absorbs 7 hits, ignores jump/duck.
 //
 // MODEL SPACE: origin at the feet (centre), +x = facing direction (right),
@@ -16,7 +16,7 @@ public:
     DefensePlayer(glm::vec2 feetPos, float height);
 
     void update(float dt);   // idle animation + hit-reaction timers
-    void takeHit();          // call once per enemy attack that reaches him
+    void takeHit(int damage = 1); // call once per enemy attack that reaches him
     void reset();
 
     bool isAlive() const { return hp_ > 0; }
@@ -24,7 +24,8 @@ public:
     glm::vec2 position() const { return pos_; }
     float height() const { return height_; }
 
-    void draw(Renderer2D& r) const;
+    void draw(Renderer& r) const;
+    void drawEffects(Renderer& r) const;
 
 private:
     void drawLegs(Renderer2D& r, const glm::mat4& m, float red) const;
