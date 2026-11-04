@@ -44,6 +44,9 @@ public:
     // Rect given by its bottom-left corner (handy for lanes / UI)
     void rectBL(glm::vec2 bottomLeft, glm::vec2 size, glm::vec4 color);
 
+    // While on, every shape is drawn in grayscale (used for locked UI cards). Turn it off again!
+    void setGrayscale(bool on) { grayscale_ = on; }
+
 private:
     struct Mesh { GLuint vao = 0, vbo = 0; GLsizei count = 0; GLenum mode = GL_TRIANGLES; };
     Mesh makeMesh(const std::vector<float>& xy, GLenum mode);
@@ -52,5 +55,6 @@ private:
     Shader shader;
     Mesh quadMesh, triMesh, circleMesh, polyMesh;
     std::vector<glm::mat4> stack;
+    bool grayscale_ = false;
     glm::mat4 current{1.0f};
 };

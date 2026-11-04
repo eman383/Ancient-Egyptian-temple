@@ -407,6 +407,102 @@ src/core/LaneGrid.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/core/LaneGrid.cpp.s
 .PHONY : src/core/LaneGrid.cpp.s
 
+src/enemy/EnemySystem.obj: src/enemy/EnemySystem.cpp.obj
+.PHONY : src/enemy/EnemySystem.obj
+
+# target to build an object file
+src/enemy/EnemySystem.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/enemy/EnemySystem.cpp.obj
+.PHONY : src/enemy/EnemySystem.cpp.obj
+
+src/enemy/EnemySystem.i: src/enemy/EnemySystem.cpp.i
+.PHONY : src/enemy/EnemySystem.i
+
+# target to preprocess a source file
+src/enemy/EnemySystem.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/enemy/EnemySystem.cpp.i
+.PHONY : src/enemy/EnemySystem.cpp.i
+
+src/enemy/EnemySystem.s: src/enemy/EnemySystem.cpp.s
+.PHONY : src/enemy/EnemySystem.s
+
+# target to generate assembly for a file
+src/enemy/EnemySystem.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/enemy/EnemySystem.cpp.s
+.PHONY : src/enemy/EnemySystem.cpp.s
+
+src/enemy/Medusa.obj: src/enemy/Medusa.cpp.obj
+.PHONY : src/enemy/Medusa.obj
+
+# target to build an object file
+src/enemy/Medusa.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/enemy/Medusa.cpp.obj
+.PHONY : src/enemy/Medusa.cpp.obj
+
+src/enemy/Medusa.i: src/enemy/Medusa.cpp.i
+.PHONY : src/enemy/Medusa.i
+
+# target to preprocess a source file
+src/enemy/Medusa.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/enemy/Medusa.cpp.i
+.PHONY : src/enemy/Medusa.cpp.i
+
+src/enemy/Medusa.s: src/enemy/Medusa.cpp.s
+.PHONY : src/enemy/Medusa.s
+
+# target to generate assembly for a file
+src/enemy/Medusa.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/enemy/Medusa.cpp.s
+.PHONY : src/enemy/Medusa.cpp.s
+
+src/enemy/Mummy.obj: src/enemy/Mummy.cpp.obj
+.PHONY : src/enemy/Mummy.obj
+
+# target to build an object file
+src/enemy/Mummy.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/enemy/Mummy.cpp.obj
+.PHONY : src/enemy/Mummy.cpp.obj
+
+src/enemy/Mummy.i: src/enemy/Mummy.cpp.i
+.PHONY : src/enemy/Mummy.i
+
+# target to preprocess a source file
+src/enemy/Mummy.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/enemy/Mummy.cpp.i
+.PHONY : src/enemy/Mummy.cpp.i
+
+src/enemy/Mummy.s: src/enemy/Mummy.cpp.s
+.PHONY : src/enemy/Mummy.s
+
+# target to generate assembly for a file
+src/enemy/Mummy.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/enemy/Mummy.cpp.s
+.PHONY : src/enemy/Mummy.cpp.s
+
+src/enemy/Pharaoh.obj: src/enemy/Pharaoh.cpp.obj
+.PHONY : src/enemy/Pharaoh.obj
+
+# target to build an object file
+src/enemy/Pharaoh.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/enemy/Pharaoh.cpp.obj
+.PHONY : src/enemy/Pharaoh.cpp.obj
+
+src/enemy/Pharaoh.i: src/enemy/Pharaoh.cpp.i
+.PHONY : src/enemy/Pharaoh.i
+
+# target to preprocess a source file
+src/enemy/Pharaoh.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/enemy/Pharaoh.cpp.i
+.PHONY : src/enemy/Pharaoh.cpp.i
+
+src/enemy/Pharaoh.s: src/enemy/Pharaoh.cpp.s
+.PHONY : src/enemy/Pharaoh.s
+
+# target to generate assembly for a file
+src/enemy/Pharaoh.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/enemy/Pharaoh.cpp.s
+.PHONY : src/enemy/Pharaoh.cpp.s
+
 src/game/Environment.obj: src/game/Environment.cpp.obj
 .PHONY : src/game/Environment.obj
 
@@ -551,6 +647,30 @@ src/render/Shader.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/render/Shader.cpp.s
 .PHONY : src/render/Shader.cpp.s
 
+src/ui/Cards.obj: src/ui/Cards.cpp.obj
+.PHONY : src/ui/Cards.obj
+
+# target to build an object file
+src/ui/Cards.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/ui/Cards.cpp.obj
+.PHONY : src/ui/Cards.cpp.obj
+
+src/ui/Cards.i: src/ui/Cards.cpp.i
+.PHONY : src/ui/Cards.i
+
+# target to preprocess a source file
+src/ui/Cards.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/ui/Cards.cpp.i
+.PHONY : src/ui/Cards.cpp.i
+
+src/ui/Cards.s: src/ui/Cards.cpp.s
+.PHONY : src/ui/Cards.s
+
+# target to generate assembly for a file
+src/ui/Cards.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLStarter.dir\build.make CMakeFiles/OpenGLStarter.dir/src/ui/Cards.cpp.s
+.PHONY : src/ui/Cards.cpp.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -590,6 +710,18 @@ help:
 	@echo ... src/core/LaneGrid.obj
 	@echo ... src/core/LaneGrid.i
 	@echo ... src/core/LaneGrid.s
+	@echo ... src/enemy/EnemySystem.obj
+	@echo ... src/enemy/EnemySystem.i
+	@echo ... src/enemy/EnemySystem.s
+	@echo ... src/enemy/Medusa.obj
+	@echo ... src/enemy/Medusa.i
+	@echo ... src/enemy/Medusa.s
+	@echo ... src/enemy/Mummy.obj
+	@echo ... src/enemy/Mummy.i
+	@echo ... src/enemy/Mummy.s
+	@echo ... src/enemy/Pharaoh.obj
+	@echo ... src/enemy/Pharaoh.i
+	@echo ... src/enemy/Pharaoh.s
 	@echo ... src/game/Environment.obj
 	@echo ... src/game/Environment.i
 	@echo ... src/game/Environment.s
@@ -608,6 +740,9 @@ help:
 	@echo ... src/render/Shader.obj
 	@echo ... src/render/Shader.i
 	@echo ... src/render/Shader.s
+	@echo ... src/ui/Cards.obj
+	@echo ... src/ui/Cards.i
+	@echo ... src/ui/Cards.s
 .PHONY : help
 
 

@@ -176,11 +176,71 @@ CMakeFiles/OpenGLStarter.dir/src/core/LaneGrid.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/OpenGLStarter.dir/src/core/LaneGrid.cpp.s"
 	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\emana\Ancient-Egyptian-temple\src\core\LaneGrid.cpp -o CMakeFiles\OpenGLStarter.dir\src\core\LaneGrid.cpp.s
 
+CMakeFiles/OpenGLStarter.dir/src/enemy/EnemySystem.cpp.obj: CMakeFiles/OpenGLStarter.dir/flags.make
+CMakeFiles/OpenGLStarter.dir/src/enemy/EnemySystem.cpp.obj: CMakeFiles/OpenGLStarter.dir/includes_CXX.rsp
+CMakeFiles/OpenGLStarter.dir/src/enemy/EnemySystem.cpp.obj: C:/Users/emana/Ancient-Egyptian-temple/src/enemy/EnemySystem.cpp
+CMakeFiles/OpenGLStarter.dir/src/enemy/EnemySystem.cpp.obj: CMakeFiles/OpenGLStarter.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/OpenGLStarter.dir/src/enemy/EnemySystem.cpp.obj"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/OpenGLStarter.dir/src/enemy/EnemySystem.cpp.obj -MF CMakeFiles\OpenGLStarter.dir\src\enemy\EnemySystem.cpp.obj.d -o CMakeFiles\OpenGLStarter.dir\src\enemy\EnemySystem.cpp.obj -c C:\Users\emana\Ancient-Egyptian-temple\src\enemy\EnemySystem.cpp
+
+CMakeFiles/OpenGLStarter.dir/src/enemy/EnemySystem.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/OpenGLStarter.dir/src/enemy/EnemySystem.cpp.i"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\emana\Ancient-Egyptian-temple\src\enemy\EnemySystem.cpp > CMakeFiles\OpenGLStarter.dir\src\enemy\EnemySystem.cpp.i
+
+CMakeFiles/OpenGLStarter.dir/src/enemy/EnemySystem.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/OpenGLStarter.dir/src/enemy/EnemySystem.cpp.s"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\emana\Ancient-Egyptian-temple\src\enemy\EnemySystem.cpp -o CMakeFiles\OpenGLStarter.dir\src\enemy\EnemySystem.cpp.s
+
+CMakeFiles/OpenGLStarter.dir/src/enemy/Medusa.cpp.obj: CMakeFiles/OpenGLStarter.dir/flags.make
+CMakeFiles/OpenGLStarter.dir/src/enemy/Medusa.cpp.obj: CMakeFiles/OpenGLStarter.dir/includes_CXX.rsp
+CMakeFiles/OpenGLStarter.dir/src/enemy/Medusa.cpp.obj: C:/Users/emana/Ancient-Egyptian-temple/src/enemy/Medusa.cpp
+CMakeFiles/OpenGLStarter.dir/src/enemy/Medusa.cpp.obj: CMakeFiles/OpenGLStarter.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/OpenGLStarter.dir/src/enemy/Medusa.cpp.obj"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/OpenGLStarter.dir/src/enemy/Medusa.cpp.obj -MF CMakeFiles\OpenGLStarter.dir\src\enemy\Medusa.cpp.obj.d -o CMakeFiles\OpenGLStarter.dir\src\enemy\Medusa.cpp.obj -c C:\Users\emana\Ancient-Egyptian-temple\src\enemy\Medusa.cpp
+
+CMakeFiles/OpenGLStarter.dir/src/enemy/Medusa.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/OpenGLStarter.dir/src/enemy/Medusa.cpp.i"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\emana\Ancient-Egyptian-temple\src\enemy\Medusa.cpp > CMakeFiles\OpenGLStarter.dir\src\enemy\Medusa.cpp.i
+
+CMakeFiles/OpenGLStarter.dir/src/enemy/Medusa.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/OpenGLStarter.dir/src/enemy/Medusa.cpp.s"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\emana\Ancient-Egyptian-temple\src\enemy\Medusa.cpp -o CMakeFiles\OpenGLStarter.dir\src\enemy\Medusa.cpp.s
+
+CMakeFiles/OpenGLStarter.dir/src/enemy/Mummy.cpp.obj: CMakeFiles/OpenGLStarter.dir/flags.make
+CMakeFiles/OpenGLStarter.dir/src/enemy/Mummy.cpp.obj: CMakeFiles/OpenGLStarter.dir/includes_CXX.rsp
+CMakeFiles/OpenGLStarter.dir/src/enemy/Mummy.cpp.obj: C:/Users/emana/Ancient-Egyptian-temple/src/enemy/Mummy.cpp
+CMakeFiles/OpenGLStarter.dir/src/enemy/Mummy.cpp.obj: CMakeFiles/OpenGLStarter.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/OpenGLStarter.dir/src/enemy/Mummy.cpp.obj"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/OpenGLStarter.dir/src/enemy/Mummy.cpp.obj -MF CMakeFiles\OpenGLStarter.dir\src\enemy\Mummy.cpp.obj.d -o CMakeFiles\OpenGLStarter.dir\src\enemy\Mummy.cpp.obj -c C:\Users\emana\Ancient-Egyptian-temple\src\enemy\Mummy.cpp
+
+CMakeFiles/OpenGLStarter.dir/src/enemy/Mummy.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/OpenGLStarter.dir/src/enemy/Mummy.cpp.i"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\emana\Ancient-Egyptian-temple\src\enemy\Mummy.cpp > CMakeFiles\OpenGLStarter.dir\src\enemy\Mummy.cpp.i
+
+CMakeFiles/OpenGLStarter.dir/src/enemy/Mummy.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/OpenGLStarter.dir/src/enemy/Mummy.cpp.s"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\emana\Ancient-Egyptian-temple\src\enemy\Mummy.cpp -o CMakeFiles\OpenGLStarter.dir\src\enemy\Mummy.cpp.s
+
+CMakeFiles/OpenGLStarter.dir/src/enemy/Pharaoh.cpp.obj: CMakeFiles/OpenGLStarter.dir/flags.make
+CMakeFiles/OpenGLStarter.dir/src/enemy/Pharaoh.cpp.obj: CMakeFiles/OpenGLStarter.dir/includes_CXX.rsp
+CMakeFiles/OpenGLStarter.dir/src/enemy/Pharaoh.cpp.obj: C:/Users/emana/Ancient-Egyptian-temple/src/enemy/Pharaoh.cpp
+CMakeFiles/OpenGLStarter.dir/src/enemy/Pharaoh.cpp.obj: CMakeFiles/OpenGLStarter.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/OpenGLStarter.dir/src/enemy/Pharaoh.cpp.obj"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/OpenGLStarter.dir/src/enemy/Pharaoh.cpp.obj -MF CMakeFiles\OpenGLStarter.dir\src\enemy\Pharaoh.cpp.obj.d -o CMakeFiles\OpenGLStarter.dir\src\enemy\Pharaoh.cpp.obj -c C:\Users\emana\Ancient-Egyptian-temple\src\enemy\Pharaoh.cpp
+
+CMakeFiles/OpenGLStarter.dir/src/enemy/Pharaoh.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/OpenGLStarter.dir/src/enemy/Pharaoh.cpp.i"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\emana\Ancient-Egyptian-temple\src\enemy\Pharaoh.cpp > CMakeFiles\OpenGLStarter.dir\src\enemy\Pharaoh.cpp.i
+
+CMakeFiles/OpenGLStarter.dir/src/enemy/Pharaoh.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/OpenGLStarter.dir/src/enemy/Pharaoh.cpp.s"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\emana\Ancient-Egyptian-temple\src\enemy\Pharaoh.cpp -o CMakeFiles\OpenGLStarter.dir\src\enemy\Pharaoh.cpp.s
+
 CMakeFiles/OpenGLStarter.dir/src/game/Environment.cpp.obj: CMakeFiles/OpenGLStarter.dir/flags.make
 CMakeFiles/OpenGLStarter.dir/src/game/Environment.cpp.obj: CMakeFiles/OpenGLStarter.dir/includes_CXX.rsp
 CMakeFiles/OpenGLStarter.dir/src/game/Environment.cpp.obj: C:/Users/emana/Ancient-Egyptian-temple/src/game/Environment.cpp
 CMakeFiles/OpenGLStarter.dir/src/game/Environment.cpp.obj: CMakeFiles/OpenGLStarter.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/OpenGLStarter.dir/src/game/Environment.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/OpenGLStarter.dir/src/game/Environment.cpp.obj"
 	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/OpenGLStarter.dir/src/game/Environment.cpp.obj -MF CMakeFiles\OpenGLStarter.dir\src\game\Environment.cpp.obj.d -o CMakeFiles\OpenGLStarter.dir\src\game\Environment.cpp.obj -c C:\Users\emana\Ancient-Egyptian-temple\src\game\Environment.cpp
 
 CMakeFiles/OpenGLStarter.dir/src/game/Environment.cpp.i: cmake_force
@@ -195,7 +255,7 @@ CMakeFiles/OpenGLStarter.dir/src/game/HomeBase.cpp.obj: CMakeFiles/OpenGLStarter
 CMakeFiles/OpenGLStarter.dir/src/game/HomeBase.cpp.obj: CMakeFiles/OpenGLStarter.dir/includes_CXX.rsp
 CMakeFiles/OpenGLStarter.dir/src/game/HomeBase.cpp.obj: C:/Users/emana/Ancient-Egyptian-temple/src/game/HomeBase.cpp
 CMakeFiles/OpenGLStarter.dir/src/game/HomeBase.cpp.obj: CMakeFiles/OpenGLStarter.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/OpenGLStarter.dir/src/game/HomeBase.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/OpenGLStarter.dir/src/game/HomeBase.cpp.obj"
 	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/OpenGLStarter.dir/src/game/HomeBase.cpp.obj -MF CMakeFiles\OpenGLStarter.dir\src\game\HomeBase.cpp.obj.d -o CMakeFiles\OpenGLStarter.dir\src\game\HomeBase.cpp.obj -c C:\Users\emana\Ancient-Egyptian-temple\src\game\HomeBase.cpp
 
 CMakeFiles/OpenGLStarter.dir/src/game/HomeBase.cpp.i: cmake_force
@@ -210,7 +270,7 @@ CMakeFiles/OpenGLStarter.dir/src/glad_impl.cpp.obj: CMakeFiles/OpenGLStarter.dir
 CMakeFiles/OpenGLStarter.dir/src/glad_impl.cpp.obj: CMakeFiles/OpenGLStarter.dir/includes_CXX.rsp
 CMakeFiles/OpenGLStarter.dir/src/glad_impl.cpp.obj: C:/Users/emana/Ancient-Egyptian-temple/src/glad_impl.cpp
 CMakeFiles/OpenGLStarter.dir/src/glad_impl.cpp.obj: CMakeFiles/OpenGLStarter.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/OpenGLStarter.dir/src/glad_impl.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/OpenGLStarter.dir/src/glad_impl.cpp.obj"
 	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/OpenGLStarter.dir/src/glad_impl.cpp.obj -MF CMakeFiles\OpenGLStarter.dir\src\glad_impl.cpp.obj.d -o CMakeFiles\OpenGLStarter.dir\src\glad_impl.cpp.obj -c C:\Users\emana\Ancient-Egyptian-temple\src\glad_impl.cpp
 
 CMakeFiles/OpenGLStarter.dir/src/glad_impl.cpp.i: cmake_force
@@ -225,7 +285,7 @@ CMakeFiles/OpenGLStarter.dir/src/main.cpp.obj: CMakeFiles/OpenGLStarter.dir/flag
 CMakeFiles/OpenGLStarter.dir/src/main.cpp.obj: CMakeFiles/OpenGLStarter.dir/includes_CXX.rsp
 CMakeFiles/OpenGLStarter.dir/src/main.cpp.obj: C:/Users/emana/Ancient-Egyptian-temple/src/main.cpp
 CMakeFiles/OpenGLStarter.dir/src/main.cpp.obj: CMakeFiles/OpenGLStarter.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/OpenGLStarter.dir/src/main.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/OpenGLStarter.dir/src/main.cpp.obj"
 	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/OpenGLStarter.dir/src/main.cpp.obj -MF CMakeFiles\OpenGLStarter.dir\src\main.cpp.obj.d -o CMakeFiles\OpenGLStarter.dir\src\main.cpp.obj -c C:\Users\emana\Ancient-Egyptian-temple\src\main.cpp
 
 CMakeFiles/OpenGLStarter.dir/src/main.cpp.i: cmake_force
@@ -240,7 +300,7 @@ CMakeFiles/OpenGLStarter.dir/src/render/Renderer.cpp.obj: CMakeFiles/OpenGLStart
 CMakeFiles/OpenGLStarter.dir/src/render/Renderer.cpp.obj: CMakeFiles/OpenGLStarter.dir/includes_CXX.rsp
 CMakeFiles/OpenGLStarter.dir/src/render/Renderer.cpp.obj: C:/Users/emana/Ancient-Egyptian-temple/src/render/Renderer.cpp
 CMakeFiles/OpenGLStarter.dir/src/render/Renderer.cpp.obj: CMakeFiles/OpenGLStarter.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/OpenGLStarter.dir/src/render/Renderer.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/OpenGLStarter.dir/src/render/Renderer.cpp.obj"
 	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/OpenGLStarter.dir/src/render/Renderer.cpp.obj -MF CMakeFiles\OpenGLStarter.dir\src\render\Renderer.cpp.obj.d -o CMakeFiles\OpenGLStarter.dir\src\render\Renderer.cpp.obj -c C:\Users\emana\Ancient-Egyptian-temple\src\render\Renderer.cpp
 
 CMakeFiles/OpenGLStarter.dir/src/render/Renderer.cpp.i: cmake_force
@@ -255,7 +315,7 @@ CMakeFiles/OpenGLStarter.dir/src/render/Shader.cpp.obj: CMakeFiles/OpenGLStarter
 CMakeFiles/OpenGLStarter.dir/src/render/Shader.cpp.obj: CMakeFiles/OpenGLStarter.dir/includes_CXX.rsp
 CMakeFiles/OpenGLStarter.dir/src/render/Shader.cpp.obj: C:/Users/emana/Ancient-Egyptian-temple/src/render/Shader.cpp
 CMakeFiles/OpenGLStarter.dir/src/render/Shader.cpp.obj: CMakeFiles/OpenGLStarter.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/OpenGLStarter.dir/src/render/Shader.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/OpenGLStarter.dir/src/render/Shader.cpp.obj"
 	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/OpenGLStarter.dir/src/render/Shader.cpp.obj -MF CMakeFiles\OpenGLStarter.dir\src\render\Shader.cpp.obj.d -o CMakeFiles\OpenGLStarter.dir\src\render\Shader.cpp.obj -c C:\Users\emana\Ancient-Egyptian-temple\src\render\Shader.cpp
 
 CMakeFiles/OpenGLStarter.dir/src/render/Shader.cpp.i: cmake_force
@@ -266,6 +326,21 @@ CMakeFiles/OpenGLStarter.dir/src/render/Shader.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/OpenGLStarter.dir/src/render/Shader.cpp.s"
 	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\emana\Ancient-Egyptian-temple\src\render\Shader.cpp -o CMakeFiles\OpenGLStarter.dir\src\render\Shader.cpp.s
 
+CMakeFiles/OpenGLStarter.dir/src/ui/Cards.cpp.obj: CMakeFiles/OpenGLStarter.dir/flags.make
+CMakeFiles/OpenGLStarter.dir/src/ui/Cards.cpp.obj: CMakeFiles/OpenGLStarter.dir/includes_CXX.rsp
+CMakeFiles/OpenGLStarter.dir/src/ui/Cards.cpp.obj: C:/Users/emana/Ancient-Egyptian-temple/src/ui/Cards.cpp
+CMakeFiles/OpenGLStarter.dir/src/ui/Cards.cpp.obj: CMakeFiles/OpenGLStarter.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/OpenGLStarter.dir/src/ui/Cards.cpp.obj"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/OpenGLStarter.dir/src/ui/Cards.cpp.obj -MF CMakeFiles\OpenGLStarter.dir\src\ui\Cards.cpp.obj.d -o CMakeFiles\OpenGLStarter.dir\src\ui\Cards.cpp.obj -c C:\Users\emana\Ancient-Egyptian-temple\src\ui\Cards.cpp
+
+CMakeFiles/OpenGLStarter.dir/src/ui/Cards.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/OpenGLStarter.dir/src/ui/Cards.cpp.i"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\emana\Ancient-Egyptian-temple\src\ui\Cards.cpp > CMakeFiles\OpenGLStarter.dir\src\ui\Cards.cpp.i
+
+CMakeFiles/OpenGLStarter.dir/src/ui/Cards.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/OpenGLStarter.dir/src/ui/Cards.cpp.s"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\emana\Ancient-Egyptian-temple\src\ui\Cards.cpp -o CMakeFiles\OpenGLStarter.dir\src\ui\Cards.cpp.s
+
 # Object files for target OpenGLStarter
 OpenGLStarter_OBJECTS = \
 "CMakeFiles/OpenGLStarter.dir/src/DefensePlayer.cpp.obj" \
@@ -275,12 +350,17 @@ OpenGLStarter_OBJECTS = \
 "CMakeFiles/OpenGLStarter.dir/src/Renderer2D.cpp.obj" \
 "CMakeFiles/OpenGLStarter.dir/src/core/Game.cpp.obj" \
 "CMakeFiles/OpenGLStarter.dir/src/core/LaneGrid.cpp.obj" \
+"CMakeFiles/OpenGLStarter.dir/src/enemy/EnemySystem.cpp.obj" \
+"CMakeFiles/OpenGLStarter.dir/src/enemy/Medusa.cpp.obj" \
+"CMakeFiles/OpenGLStarter.dir/src/enemy/Mummy.cpp.obj" \
+"CMakeFiles/OpenGLStarter.dir/src/enemy/Pharaoh.cpp.obj" \
 "CMakeFiles/OpenGLStarter.dir/src/game/Environment.cpp.obj" \
 "CMakeFiles/OpenGLStarter.dir/src/game/HomeBase.cpp.obj" \
 "CMakeFiles/OpenGLStarter.dir/src/glad_impl.cpp.obj" \
 "CMakeFiles/OpenGLStarter.dir/src/main.cpp.obj" \
 "CMakeFiles/OpenGLStarter.dir/src/render/Renderer.cpp.obj" \
-"CMakeFiles/OpenGLStarter.dir/src/render/Shader.cpp.obj"
+"CMakeFiles/OpenGLStarter.dir/src/render/Shader.cpp.obj" \
+"CMakeFiles/OpenGLStarter.dir/src/ui/Cards.cpp.obj"
 
 # External object files for target OpenGLStarter
 OpenGLStarter_EXTERNAL_OBJECTS =
@@ -292,19 +372,24 @@ OpenGLStarter.exe: CMakeFiles/OpenGLStarter.dir/src/PlayerManager.cpp.obj
 OpenGLStarter.exe: CMakeFiles/OpenGLStarter.dir/src/Renderer2D.cpp.obj
 OpenGLStarter.exe: CMakeFiles/OpenGLStarter.dir/src/core/Game.cpp.obj
 OpenGLStarter.exe: CMakeFiles/OpenGLStarter.dir/src/core/LaneGrid.cpp.obj
+OpenGLStarter.exe: CMakeFiles/OpenGLStarter.dir/src/enemy/EnemySystem.cpp.obj
+OpenGLStarter.exe: CMakeFiles/OpenGLStarter.dir/src/enemy/Medusa.cpp.obj
+OpenGLStarter.exe: CMakeFiles/OpenGLStarter.dir/src/enemy/Mummy.cpp.obj
+OpenGLStarter.exe: CMakeFiles/OpenGLStarter.dir/src/enemy/Pharaoh.cpp.obj
 OpenGLStarter.exe: CMakeFiles/OpenGLStarter.dir/src/game/Environment.cpp.obj
 OpenGLStarter.exe: CMakeFiles/OpenGLStarter.dir/src/game/HomeBase.cpp.obj
 OpenGLStarter.exe: CMakeFiles/OpenGLStarter.dir/src/glad_impl.cpp.obj
 OpenGLStarter.exe: CMakeFiles/OpenGLStarter.dir/src/main.cpp.obj
 OpenGLStarter.exe: CMakeFiles/OpenGLStarter.dir/src/render/Renderer.cpp.obj
 OpenGLStarter.exe: CMakeFiles/OpenGLStarter.dir/src/render/Shader.cpp.obj
+OpenGLStarter.exe: CMakeFiles/OpenGLStarter.dir/src/ui/Cards.cpp.obj
 OpenGLStarter.exe: CMakeFiles/OpenGLStarter.dir/build.make
 OpenGLStarter.exe: external/glfw-3.5.1/src/libglfw3.a
 OpenGLStarter.exe: external/glm/glm/libglm.a
 OpenGLStarter.exe: CMakeFiles/OpenGLStarter.dir/linkLibs.rsp
 OpenGLStarter.exe: CMakeFiles/OpenGLStarter.dir/objects1.rsp
 OpenGLStarter.exe: CMakeFiles/OpenGLStarter.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Linking CXX executable OpenGLStarter.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\emana\Ancient-Egyptian-temple\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Linking CXX executable OpenGLStarter.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\OpenGLStarter.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

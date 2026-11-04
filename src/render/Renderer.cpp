@@ -82,6 +82,10 @@ void Renderer::rotate(float deg)      { current = glm::rotate(current, glm::radi
 void Renderer::scale(glm::vec2 s)     { current = glm::scale(current, glm::vec3(s, 1.0f)); }
 
 void Renderer::draw(const Mesh& m, glm::vec2 pos, glm::vec2 size, glm::vec4 color) {
+    if (grayscale_) {
+        const float l = 0.299f * color.r + 0.587f * color.g + 0.114f * color.b;
+        color = glm::vec4(l, l, l, color.a);
+    }
     glm::mat4 model = glm::translate(current, glm::vec3(pos, 0.0f));
     model = glm::scale(model, glm::vec3(size, 1.0f));
     shader.setMat4("uModel", model);

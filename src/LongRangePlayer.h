@@ -32,7 +32,8 @@ public:
     void takeHit(int damage = 1); // call once per enemy attack that reaches her
     void reset();
 
-    // Call with true while she is touching an enemy: she stops walking but keeps shooting.
+    // "Engaged" ONLY means "stop walking" (she is touching an enemy). It never gates shooting:
+    // the bow cycle runs from the moment she is placed, enemies or not.
     void setEngaged(bool e)                    { engaged_ = e; }
     void setSpeed(float worldUnitsPerSec)      { speed_ = worldUnitsPerSec; }
     void setArrowSpeed(float worldUnitsPerSec) { arrowSpeed_ = worldUnitsPerSec; }

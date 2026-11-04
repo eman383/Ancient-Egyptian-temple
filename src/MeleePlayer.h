@@ -26,7 +26,8 @@ public:
     void takeHit(int damage = 1); // call once per enemy attack that reaches him
     void reset();
 
-    // Call with true while he is touching an enemy: he stops walking but keeps attacking.
+    // "Engaged" ONLY means "stop walking" (he is touching an enemy). It never gates attacking:
+    // the khopesh cycle runs from the moment he is placed, enemies or not.
     void setEngaged(bool e)               { engaged_ = e; }
     void setSpeed(float worldUnitsPerSec) { speed_ = worldUnitsPerSec; }
 
