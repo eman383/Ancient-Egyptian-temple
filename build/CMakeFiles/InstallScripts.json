@@ -1,0 +1,12 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/Users/emana/Ancient-Egyptian-temple/build/cmake_install.cmake",
+		"C:/Users/emana/Ancient-Egyptian-temple/build/external/glfw-3.5.1/cmake_install.cmake",
+		"C:/Users/emana/Ancient-Egyptian-temple/build/external/glfw-3.5.1/src/cmake_install.cmake",
+		"C:/Users/emana/Ancient-Egyptian-temple/build/external/glfw-3.5.1/docs/cmake_install.cmake",
+		"C:/Users/emana/Ancient-Egyptian-temple/build/external/glm/cmake_install.cmake",
+		"C:/Users/emana/Ancient-Egyptian-temple/build/external/glm/glm/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

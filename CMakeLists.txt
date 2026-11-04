@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(OpenGL REQUIRED)
 
-# every .cpp under src/ is compiled automatically.
+# Every .cpp under src/ is compiled automatically.
 # After adding a NEW file, run "CMake: Configure" again.
 file(GLOB_RECURSE GAME_SOURCES CONFIGURE_DEPENDS src/*.cpp)
 

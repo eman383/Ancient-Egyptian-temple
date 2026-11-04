@@ -1,10 +1,16 @@
 
 #include "core/Game.h"
 #include "Enemy/EnemySystem.h"
+#include "PlayerManager.h"
 
 int main() {
     // Original Game initialization
     Game game;
+    PlayerManager players;
+    players.setup(game);
+    players.placeMelee(2);
+    players.placeDefense(3);
+    players.placeLongRange(4);
     if (!game.init()) return -1;
 
     // ========== ENEMIES ==========
