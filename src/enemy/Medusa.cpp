@@ -1,3 +1,4 @@
+
 #include "Medusa.h"
 #include <cmath>
 
@@ -10,16 +11,16 @@ const glm::vec4 GOLD(0.94f, 0.72f, 0.22f, 1.0f);
 const glm::vec4 LASER(1.00f, 0.09f, 0.12f, 1.0f);
 }
 
-// Draw Medusa, the hardest enemy
+// CHANGED: Medusa is the EASY, high-ranged serpent guardian.
 void drawMedusa(Renderer& r, const Enemy& enemy) {
     const glm::vec4 green = enemyDamageColor(SKIN, enemy);
     const glm::vec4 snake = enemyDamageColor(SNAKE, enemy);
     const glm::vec4 armor = enemyDamageColor(ARMOR, enemy);
 
-    // Faster running animation
-    const float run = std::sin(enemy.walkTime * 10.0f) * 22.0f;
+    // CHANGED: normal-speed walking rather than the old hard-enemy sprint.
+    const float run = std::sin(enemy.walkTime * 6.0f) * 14.0f;
     const float bob =
-        std::fabs(std::sin(enemy.walkTime * 10.0f)) * 2.0f;
+        std::fabs(std::sin(enemy.walkTime * 6.0f)) * 2.0f;
 
     r.push();
 
@@ -112,7 +113,7 @@ void drawMedusa(Renderer& r, const Enemy& enemy) {
         r.push();
 
         r.translate({x, 104});
-        r.rotate(sway - 15.0f + i * 7.0f);
+        r.rotate(sway - 15.0f + i * 7.0f + enemy.attackPose * 10.0f);
 
         // Snake body
         r.ellipse({0, 2}, {5, 13}, snake);
@@ -150,7 +151,7 @@ void drawMedusa(Renderer& r, const Enemy& enemy) {
     r.pop();
 }
 
-// Draw Medusa's short-range eye lasers
+// CHANGED: draw long HIGH eye beams, matching the 450px collision reach.
 void drawMedusaLaser(
     Renderer& r,
     const Enemy& enemy
@@ -166,6 +167,8 @@ void drawMedusaLaser(
     // Laser fades away after firing
     const float opacity = enemy.laserTime / 0.25f;
 
+    const float length = 450.0f; // Same reach as EnemySystem.cpp.
+
     // Each eye shoots one beam
     for (float eyeY : {104.0f, 98.0f}) {
         // Bright eye
@@ -176,19 +179,19 @@ void drawMedusaLaser(
 
         // Laser glow
         r.rect(
-            {66, eyeY}, {98, 11},
+            {18.0f + length * 0.5f, eyeY}, {length, 11},
             {1.0f, 0.08f, 0.12f, opacity * 0.3f}
         );
 
         // Actual laser beam
         r.rect(
-            {66, eyeY}, {98, 3.5f},
+            {18.0f + length * 0.5f, eyeY}, {length, 3.5f},
             {1.0f, 0.20f, 0.17f, opacity}
         );
 
         // Laser endpoint
         r.circle(
-            {116, eyeY}, 4,
+            {18.0f + length, eyeY}, 4,
             {1.0f, 0.72f, 0.40f, opacity}
         );
     }

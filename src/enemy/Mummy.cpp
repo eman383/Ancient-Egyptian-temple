@@ -1,3 +1,4 @@
+
 #include "Mummy.h"
 #include <cmath>
 
@@ -8,7 +9,7 @@ const glm::vec4 SHADOW(0.14f, 0.10f, 0.08f, 0.28f);
 const glm::vec4 EYE(0.08f, 0.56f, 0.60f, 1.0f);
 }
 
-// Draw the easy enemy using basic shapes
+// CHANGED: Mummy is the MEDIUM, low-ranged enemy; keep its original bandages.
 void drawMummy(Renderer& r, const Enemy& enemy) {
     const glm::vec4 cloth = enemyDamageColor(WRAP, enemy);
     const glm::vec4 seams = enemyDamageColor(WRAP_DARK, enemy);
@@ -69,10 +70,11 @@ void drawMummy(Renderer& r, const Enemy& enemy) {
 
     r.rect({0, 42}, {50, 5}, cloth);
 
+    // CHANGED: both arms extend forward as the tornado is cast.
     // Left arm
     r.push();
     r.translate({-23, 82});
-    r.rotate(-15.0f - step * 0.25f);
+    r.rotate(-15.0f - step * 0.25f + enemy.attackPose * 100.0f);
 
     r.rect({-8, -12}, {14, 34}, cloth);
     r.rect({-8, -15}, {16, 4}, seams);
@@ -81,8 +83,8 @@ void drawMummy(Renderer& r, const Enemy& enemy) {
 
     // Right arm, reaching toward the player
     r.push();
-    r.translate({20, 83});
-    r.rotate(-6.0f + step * 0.30f);
+    r.translate({20 + 18.0f * enemy.attackPose, 83});
+    r.rotate(-6.0f + step * 0.30f - enemy.attackPose * 8.0f);
 
     r.rect({17, 0}, {37, 13}, cloth);
     r.rect({18, 0}, {5, 14}, seams);
@@ -111,7 +113,7 @@ void drawMummy(Renderer& r, const Enemy& enemy) {
     r.pop();
 }
 
-// Draw a HIGH tornado projectile
+// CHANGED: draw a LOW sand tornado travelling near the lane floor.
 void drawMummyTornado(
     Renderer& r,
     const EnemyProjectile& wind
@@ -122,11 +124,11 @@ void drawMummyTornado(
     const float spin = wind.age * 11.0f;
 
     const glm::vec4 dust(
-        0.85f, 0.94f, 0.87f, 0.52f
+        0.77f, 0.56f, 0.30f, 0.62f
     );
 
     const glm::vec4 air(
-        0.97f, 1.00f, 0.97f, 0.86f
+        0.96f, 0.82f, 0.52f, 0.90f
     );
 
     // Tornado funnel

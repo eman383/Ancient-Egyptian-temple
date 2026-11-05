@@ -1,51 +1,65 @@
 
 #include "core/Game.h"
-#include "Enemy/EnemySystem.h"
+#include "enemy/EnemySystem.h"
 #include "PlayerManager.h"
+#include "game/Economy.h"
 
 int main() {
-    // Original Game initialization
     Game game;
     PlayerManager players;
-    players.setup(game);
-    players.placeMelee(2);
-    players.placeDefense(3);
-    players.placeLongRange(4);
+    EnemySystem enemies;
+    Economy economy;
+
+    // CHANGED: register drawing/reset hooks, but do NOT register an independent
+    // player update. Our single callback below controls the combat update order.
+    players.setup(game, false);
+
     if (!game.init()) return -1;
 
-    // ========== ENEMIES ==========
-
-    EnemySystem enemies;
-
-    // Create the mummy, Pharaoh and Medusa
+    // PRESERVED: one collectible drops whenever an enemy is defeated.
+    enemies.onEnemyDefeated([&](int lane, float x) {
+        economy.addDrop(lane, x);
+    });
     enemies.reset();
+    economy.reset();
 
-    // Move enemies and update their attacks every frame
     game.onGameplayUpdate([&](float dt) {
-        enemies.update(game, dt);
+        // PRESERVED: player-card purchasing and initial economy.
+        economy.handleCardClick(game, players);
+
+        // CHANGED: contact must be found BEFORE player movement.
+        players.setEngagements(enemies.enemies(), dt);
+        players.update(dt, game.lanes.selectedLanes(), game.input.jumpPressed(),
+                       game.input.key(GLFW_KEY_S) || game.input.key(GLFW_KEY_DOWN));
+
+        // CHANGED: this updates enemies, resolves both sides' attacks, and runs waves.
+        enemies.update(game, players, dt);
+
+        // PRESERVED: players automatically collect dropped coins on contact.
+        if (game.isPlaying()) economy.update(players);
     });
 
-    // Draw enemies on top of the existing lanes and ground
     game.onDraw(Layer::Entities, [&](Renderer& r) {
         enemies.drawEnemies(r);
+        economy.drawCollectibles(r);
     });
-
-    // Draw projectiles, lasers and health bars
     game.onDraw(Layer::Effects, [&](Renderer& r) {
         enemies.drawAttacksAndHealth(r);
     });
-
-    // Reset enemies when restarting the game
-    game.onReset([&]() {
-        enemies.reset();
+    game.onDraw(Layer::Hud, [&](Renderer& r) {
+        economy.drawHud(r, game.input.mouse);
     });
 
-    // ========== OTHER TEAMMATES ==========
-    // Your colleague can add player code here.
+    // Temporary restart key until the final game menus are built.
+    game.onAlwaysUpdate([&](float) {
+        if (game.input.keyJustPressed(GLFW_KEY_R)) game.restart();
+    });
+    game.onReset([&] {
+        enemies.reset();
+        economy.reset();
+    });
 
-    // Original Game loop
     game.run();
     game.shutdown();
-
     return 0;
 }

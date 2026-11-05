@@ -4,60 +4,40 @@
 #include "Config.h"
 #include <glm/glm.hpp>
 
-// Our three enemy characters
-enum class EnemyKind {
-    Mummy,
-    Pharaoh,
-    Medusa
-};
+// Assignment mapping: Easy=Medusa, Medium=Mummy, Hard=Pharaoh.
+enum class EnemyKind { Mummy, Pharaoh, Medusa };
 
-// Information about one enemy
 struct Enemy {
     EnemyKind kind;
-
-    int lane;          // Which lane the enemy is walking on
-    float x;           // Horizontal position
-
+    int lane;
+    float x;
     int health;
     int maxHealth;
     int attackDamage;
-
-    float speed;       // Movement speed in pixels per second
+    float speed;
 
     float walkTime = 0.0f;
     float attackTimer = 0.0f;
-    float laserTime = 0.0f;
+    float laserTime = 0.0f;   // How long Medusa's red laser stays visible.
+    float attackPose = 0.0f;  // 0 = normal arms, 1 = fully extended to cast.
+    float castFlash = 0.0f;   // Keep the arm extension briefly after a strike.
 
-    // Position the enemy's feet above the lane ground
-    float footY() const {
-        return laneBottomY(lane) + 8.0f;
-    }
+    float footY() const { return laneBottomY(lane) + 8.0f; }
+    float halfWidth() const { return 23.0f; }
 };
 
-// Information about a projectile
+// Only Mummy's tornado moves as a damaging projectile.
+// A Pharaoh entry is a brief lightning VISUAL; damage happens at melee range.
 struct EnemyProjectile {
     EnemyKind kind;
-
     int lane;
     float x;
     float y;
-
     int damage = 1;
     float age = 0.0f;
 };
 
-// Gradually change the model's color toward red
-// when its health decreases.
-inline glm::vec4 enemyDamageColor(
-    glm::vec4 normal,
-    const Enemy& enemy
-) {
-    float lost = 1.0f -
-        static_cast<float>(enemy.health) / enemy.maxHealth;
-
-    return glm::mix(
-        normal,
-        glm::vec4(0.95f, 0.10f, 0.12f, normal.a),
-        lost * 0.70f
-    );
+inline glm::vec4 enemyDamageColor(glm::vec4 normal, const Enemy& enemy) {
+    const float lost = 1.0f - static_cast<float>(enemy.health) / enemy.maxHealth;
+    return glm::mix(normal, glm::vec4(0.95f, 0.10f, 0.12f, normal.a), lost * 0.70f);
 }
