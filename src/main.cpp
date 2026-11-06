@@ -1,76 +1,82 @@
+
 #include "core/Game.h"
 #include "enemy/EnemySystem.h"
 #include "PlayerManager.h"
 #include "game/Economy.h"
 #include "ui/Cards.h"
 
-
 int main() {
-    // Original Game initialization
     Game game;
     PlayerManager players;
-    players.setup(game);
-
-    // ========== CARDS + COIN COUNTER (D) ==========
-    // Cards place players through players.selectType()/placeOnSelectedLane() and spend coins.
-    // C: add coins with economy.add(value) when a collectible is picked up.
+    EnemySystem enemies;
     Economy economy;
     CardsUI cards;
+
+    // COMBINED:
+    // Keep your teammate's player drawing and reset hooks.
+    // The 'false' prevents a separate player movement update.
+    players.setup(game, false);
+
+    // PLAYER_FINAL:
+    // Keep her player cards, grayscale locking, model previews
+    // and coin counter.
+    // Card purchasing is registered before combat movement.
     cards.setup(game, players, economy);
 
-    // ---- TEMPORARY coin test keys (delete when C's collectibles exist) ----
-    // P = +10 coins, O = -10 coins. Lets you watch cards unlock / lock again.
-    game.onGameplayUpdate([&](float) {
-        if (game.input.keyJustPressed(GLFW_KEY_P)) economy.add(10);
-        if (game.input.keyJustPressed(GLFW_KEY_O)) economy.coins = economy.coins >= 10 ? economy.coins - 10 : 0;
+    // ENEMIES:
+    // Each defeated enemy creates one collectible.
+    enemies.onEnemyDefeated([&](int lane, float x) {
+        economy.addDrop(lane, x);
     });
-    if (!game.init()) return -1;
 
-    // ========== ENEMIES ==========
-
-    EnemySystem enemies;
-
-    // Create the mummy, Pharaoh and Medusa
     enemies.reset();
 
-    // Move enemies and update their attacks every frame
+    // COMBINED GAMEPLAY UPDATE:
+    // Keep the order consistent every frame.
     game.onGameplayUpdate([&](float dt) {
-        enemies.update(game, dt);
 
-        // ---- BRIDGE (B): players -> enemies --------------------------------
-        // Nothing else calls PlayerManager::applyPlayerAttacksToEnemy(), so
-        // without this the players animate and shoot but never hurt anyone.
-        // Runs once per enemy per frame; each landed hit is 1 damage.
-        // (Players update before enemies because players.setup() registered first.)
-        constexpr float ENEMY_HALF_W = 30.0f;   // enemy body half-width in virtual px
-        for (std::size_t i = 0; i < enemies.enemies().size(); ++i) {
-            const Enemy e = enemies.enemies()[i];   // copy: damageEnemy() mutates the list
-            players.notifyEnemyContact(e.lane, e.x - ENEMY_HALF_W, e.x + ENEMY_HALF_W);
-            const int dmg = players.applyPlayerAttacksToEnemy(
-                e.lane, e.x - ENEMY_HALF_W, e.x + ENEMY_HALF_W);
-            if (dmg > 0) enemies.damageEnemy(i, dmg);
+        // 1. Find enemies about to collide with players.
+        players.setEngagements(enemies.enemies(), dt);
+
+        // 2. Move players and handle jump/duck for selected lanes.
+        players.update(
+            dt,
+            game.lanes.selectedLanes(),
+            game.input.jumpPressed(),
+            game.input.key(GLFW_KEY_S) ||
+                game.input.key(GLFW_KEY_DOWN)
+        );
+
+        // 3. Move enemies, apply attacks and handle waves.
+        enemies.update(game, players, dt);
+
+        // 4. Collect coins touched by surviving players.
+        if (game.isPlaying()) {
+            economy.update(players);
         }
     });
 
-    // Draw enemies on top of the existing lanes and ground
+    // Render enemies and collectible coins.
+    // PlayerManager and CardsUI already register their
+    // own drawing callbacks.
     game.onDraw(Layer::Entities, [&](Renderer& r) {
         enemies.drawEnemies(r);
+        economy.drawCollectibles(r);
     });
 
-    // Draw projectiles, lasers and health bars
+    // Enemy lasers, tornadoes, lightning and health bars.
     game.onDraw(Layer::Effects, [&](Renderer& r) {
         enemies.drawAttacksAndHealth(r);
     });
 
-    // Reset enemies when restarting the game
-    game.onReset([&]() {
+    // Reset waves, enemies, coins, drops and unlock progress.
+    game.onReset([&] {
         enemies.reset();
+        economy.reset();
     });
 
-    // ========== OTHER TEAMMATES ==========
-    // Your colleague can add player code here.
+    if (!game.init()) return -1;
 
-    // Original Game loop
     game.run();
     game.shutdown();
 
