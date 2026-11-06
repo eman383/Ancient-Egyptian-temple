@@ -5,10 +5,10 @@
 #include "Medusa.h"
 #include "Mummy.h"
 #include "Pharaoh.h"
+#include "audio/Audio.h"
 
 #include <algorithm>
 #include <cmath>
-#include <iostream>
 #include <numeric>
 
 namespace {
@@ -26,20 +26,12 @@ float attackInterval(EnemyKind kind) {
     return 1.10f; // Pharaoh attacks faster and does 2 damage.
 }
 
-const char* enemyName(EnemyKind kind) {
-    switch (kind) {
-        case EnemyKind::Medusa: return "Medusa";
-        case EnemyKind::Mummy: return "Mummy";
-        case EnemyKind::Pharaoh: return "Pharaoh";
-    }
-    return "Enemy";
-}
 } // namespace
 
 void EnemySystem::spawn(EnemyKind kind, int lane, float x) {
     if (lane < 0 || lane >= LANE_COUNT) return;
 
-    // CHANGED: Pharaoh is the hard (7 HP, 2 damage, fast) melee enemy.
+    // Pharaoh is the hard (7 HP, 2 damage, fast) melee enemy.
     const bool hard = kind == EnemyKind::Pharaoh;
     Enemy enemy{kind, lane, x,
                 hard ? 7 : 5, hard ? 7 : 5,
@@ -86,12 +78,12 @@ bool EnemySystem::spawnNext() {
     EnemyKind kind = EnemyKind::Medusa; // Wave 1: easy only.
 
     if (wave_ == 2) {
-        // CHANGED: wave 2 includes BOTH easy Medusa and medium Mummy.
+        // wave 2 includes BOTH easy Medusa and medium Mummy.
         const int choice = spawned_ < 2 ? spawned_
             : std::uniform_int_distribution<int>(0, 1)(rng_);
         kind = choice == 0 ? EnemyKind::Medusa : EnemyKind::Mummy;
     } else if (wave_ == 3) {
-        // Preserve the guarantee that all three types appear.
+        // The first three spawns guarantee that all three types appear.
         const int choice = spawned_ < 3 ? spawned_
             : std::uniform_int_distribution<int>(0, 2)(rng_);
         kind = choice == 0 ? EnemyKind::Medusa
@@ -109,9 +101,7 @@ void EnemySystem::damageEnemy(std::size_t index, int amount) {
     if (e.health <= 0) return;
     e.health = std::max(0, e.health - amount);
 
-    std::cout << "[HIT] Player -> " << enemyName(e.kind)
-              << " lane " << (e.lane + 1) << " HP " << e.health
-              << '/' << e.maxHealth << '\n';
+    audio::play(e.health == 0 ? audio::Sfx::EnemyDeath : audio::Sfx::EnemyHit);
     if (e.health == 0 && onDefeated_) onDefeated_(e.lane, e.x);
 }
 
@@ -140,7 +130,7 @@ void EnemySystem::update(Game& game, PlayerManager& players, float dt) {
         }
 
         if (blocker) {
-            // CHANGED: no player/enemy passing through one another on contact.
+            // no player/enemy passing through one another on contact.
             enemy.x = blocker->x + enemy.halfWidth() + blocker->halfWidth;
             players.setEngaged(blocker->id, true);
         } else {
@@ -160,24 +150,27 @@ void EnemySystem::update(Game& game, PlayerManager& players, float dt) {
             enemy.attackPose = 1.0f;
 
             if (enemy.kind == EnemyKind::Medusa) {
-                // CHANGED: HIGH ranged beam. Ducking avoids it.
+                // HIGH ranged beam. Ducking avoids it.
                 enemy.laserTime = 0.25f;
+                audio::play(audio::Sfx::Beam);
                 const float fromX = enemy.x - enemy.halfWidth();
                 const float toX = std::max(FIELD_X0, fromX - LASER_REACH);
                 players.applyEnemyAttack(enemy.lane, fromX, toX,
                                          enemy.attackDamage, AttackHeight::High, 5.0f);
             } else if (enemy.kind == EnemyKind::Mummy) {
-                // CHANGED: a LOW tornado travels to the left. Jumping avoids it.
+                // a LOW tornado travels to the left. Jumping avoids it.
+                audio::play(audio::Sfx::Tornado);
                 projectiles_.push_back({EnemyKind::Mummy, enemy.lane,
                                         enemy.x - 25.0f, enemy.footY() + 25.0f,
                                         enemy.attackDamage, 0.0f});
             } else {
-                // CHANGED: Pharaoh has a MELEE strike, not a travelling projectile.
+                // Pharaoh has a MELEE strike, not a travelling projectile.
                 const float fromX = enemy.x - enemy.halfWidth();
                 const float toX = std::max(FIELD_X0, fromX - MELEE_REACH);
                 const auto hit = players.applyEnemyAttack(
                     enemy.lane, fromX, toX, enemy.attackDamage, AttackHeight::Melee, 4.0f);
 
+                audio::play(audio::Sfx::Thunder);
                 // Lightning is only a VISUAL; it cannot deal damage again.
                 const float strikeX = hit ? hit->x : std::max(FIELD_X0, enemy.x - 65.0f);
                 projectiles_.push_back({EnemyKind::Pharaoh, enemy.lane,
@@ -209,7 +202,7 @@ void EnemySystem::update(Game& game, PlayerManager& players, float dt) {
     }), projectiles_.end());
 
     // ========== PLAYER ATTACKS AGAINST ENEMIES ==========
-    // CHANGED: arrows travel left-to-right, so resolve ENEMIES LEFT-TO-RIGHT.
+    // arrows travel left-to-right, so resolve ENEMIES LEFT-TO-RIGHT.
     // This prevents an arrow from being consumed by a farther enemy first.
     std::vector<std::size_t> order(enemies_.size());
     std::iota(order.begin(), order.end(), std::size_t{0});

@@ -6,9 +6,8 @@
 #include <iostream>
 #include <cmath>
 
-// The introduction plays first, then MainMenu, then instructions and gameplay.
-// Dev keys stay disabled for the student-facing final version.
-static const GameState START_STATE = GameState::Cutscene;
+// Flow: MainMenu -> (Start) Cutscene -> Instructions -> Playing.
+static const GameState START_STATE = GameState::MainMenu;
 static const bool      DEV_KEYS    = false;
 
 static const char* stateName(GameState s) {
@@ -87,13 +86,10 @@ void Game::reset() {
 
 // ---- commands ----
 void Game::startGame() {
-    if (currentState == GameState::MainMenu) { reset(); setState(GameState::Instructions); }
+    if (currentState == GameState::MainMenu) { reset(); setState(GameState::Cutscene); }
 }
 void Game::finishCutscene() {
-    if (currentState == GameState::Cutscene) setState(GameState::MainMenu);
-}
-void Game::replayCutscene() {
-    if (currentState == GameState::MainMenu) setState(GameState::Cutscene);
+    if (currentState == GameState::Cutscene) setState(GameState::Instructions);
 }
 void Game::completeInstructions() {
     if (currentState == GameState::Instructions) setState(GameState::Playing);

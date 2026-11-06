@@ -51,7 +51,7 @@ public:
     void setup(Game& game, bool registerOwnUpdate = true);
     void clear();
 
-    // Preserve your teammate's card selection.
+    // Player type chosen on a card.
     void selectType(PlayerKind kind) {
         selectedType_ = kind;
     }
@@ -100,6 +100,11 @@ public:
     bool setEngaged(PlayerId id, bool engaged);
     bool isAlive(PlayerId id) const;
 
+    // Locked-shield rule (TA): a Defense player can only be placed while at least one
+    // attacking player (Melee or Long Range) is alive somewhere on the field.
+    // The shield itself may then go on ANY lane.
+    bool hasLivingAttacker() const;
+
     std::optional<PlayerHitResult> applyEnemyAttack(
         int lane,
         float fromX,
@@ -134,9 +139,6 @@ private:
         int lane,
         float x
     );
-
-    // TA requirement: shields need a living attacker.
-    bool hasLivingAttacker(int lane) const;
 
     void drawEntities(Renderer& renderer) const;
     void drawEffects(Renderer& renderer) const;

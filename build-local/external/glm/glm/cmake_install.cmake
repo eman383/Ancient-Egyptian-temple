@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/seifs/Downloads/Ancient-Egyptian-temple-main/Ancient-Egyptian-temple/external/glm/glm
+# Install script for directory: C:/Users/20far/Ancient-Egyptian-temple/external/glm/glm
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,6 +34,6 @@ endif()
 
 # Set path to fallback-tool for dependency-resolution.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "C:/Users/seifs/devtools/mingw/mingw64/bin/objdump.exe")
+  set(CMAKE_OBJDUMP "C:/Users/20far/OneDrive/Desktop/computer data/x86_64-8.1.0-release-posix-seh-rt_v6-rev0/mingw64/bin/objdump.exe")
 endif()
 

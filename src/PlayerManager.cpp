@@ -3,27 +3,15 @@
 
 #include "Config.h"
 #include "enemy/EnemyTypes.h"
+#include "audio/Audio.h"
 
 #include <algorithm>
 #include <cmath>
-#include <iostream>
 #include <type_traits>
 
 namespace {
 
 constexpr float PLAYER_HEIGHT = LANE_H * 0.80f;
-
-const char* playerName(PlayerKind kind) {
-    switch (kind) {
-        case PlayerKind::Melee:
-            return "Melee";
-        case PlayerKind::Defense:
-            return "Defense";
-        case PlayerKind::LongRange:
-            return "Archer";
-    }
-    return "Unknown";
-}
 
 } // namespace
 
@@ -35,7 +23,6 @@ void PlayerManager::setup(
 
     setup_ = true;
 
-    // COMBINED:
     // main.cpp supplies false so gameplay runs in one
     // ordered callback, rather than updating players twice.
     if (registerOwnUpdate) {
@@ -74,7 +61,6 @@ void PlayerManager::clear() {
     selectedType_.reset();
 }
 
-// PLAYER_FINAL RULE:
 // Exactly one lane must be selected for player placement.
 std::optional<PlayerManager::PlayerId>
 PlayerManager::placeOnSelectedLane(Game& game, float x) {
@@ -90,29 +76,6 @@ PlayerManager::placeOnSelectedLane(Game& game, float x) {
     }
 
     return place(*selectedType_, lanes.front(), x);
-}
-
-// NEW TA RULE:
-// A shield requires an existing living attacking character
-// in the same lane.
-bool PlayerManager::hasLivingAttacker(int lane) const {
-    for (const Entry& entry : players_) {
-
-        if (entry.lane != lane) continue;
-
-        if (entry.kind == PlayerKind::Defense) continue;
-
-        bool alive = std::visit(
-            [](const auto& actor) {
-                return actor.isAlive();
-            },
-            entry.actor
-        );
-
-        if (alive) return true;
-    }
-
-    return false;
 }
 
 std::optional<PlayerManager::PlayerId>
@@ -137,10 +100,8 @@ PlayerManager::place(PlayerKind kind, int lane, float x) {
         return std::nullopt;
     }
 
-    // NEW:
-    // Reject shield placement if this lane has no living attacker.
-    if (kind == PlayerKind::Defense &&
-        !hasLivingAttacker(lane)) {
+    // Locked shield: no Defense until an attacker is alive on the field.
+    if (kind == PlayerKind::Defense && !hasLivingAttacker()) {
         return std::nullopt;
     }
 
@@ -244,7 +205,7 @@ void PlayerManager::update(
             players_.end(),
             [](const Entry& entry) {
 
-                // Preserve PLAYER_FINAL's right-edge removal.
+                // Players leave the field at the right edge.
                 if (entry.kind != PlayerKind::Defense) {
                     const float x = std::visit(
                         [](const auto& actor) {
@@ -344,6 +305,18 @@ bool PlayerManager::setEngaged(PlayerId id, bool engaged) {
     return true;
 }
 
+bool PlayerManager::hasLivingAttacker() const {
+    for (const Entry& entry : players_) {
+        if (entry.kind == PlayerKind::Defense) continue;
+        const bool alive = std::visit(
+            [](const auto& actor) { return actor.isAlive(); },
+            entry.actor
+        );
+        if (alive) return true;
+    }
+    return false;
+}
+
 bool PlayerManager::isAlive(PlayerId id) const {
     const Entry* entry = find(id);
 
@@ -396,7 +369,6 @@ std::vector<PlayerSnapshot> PlayerManager::snapshots() const {
     return result;
 }
 
-// COMBAT BRIDGE:
 // Stop a player BEFORE the next movement update if
 // an enemy is currently touching or about to touch it.
 void PlayerManager::setEngagements(
@@ -507,15 +479,7 @@ PlayerManager::applyEnemyAttack(
             entry->actor
         );
 
-        // Print health updates in the terminal during testing.
-        std::cout
-            << "[HIT] Enemy -> "
-            << playerName(target.kind)
-            << " #" << target.id
-            << " lane " << (lane + 1)
-            << " HP " << hp << "/"
-            << (target.kind == PlayerKind::Defense ? 7 : 5)
-            << '\n';
+        audio::play(hp == 0 ? audio::Sfx::PlayerDeath : audio::Sfx::PlayerHurt);
 
         return PlayerHitResult{
             target.id,

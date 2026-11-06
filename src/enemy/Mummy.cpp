@@ -9,7 +9,7 @@ const glm::vec4 SHADOW(0.14f, 0.10f, 0.08f, 0.28f);
 const glm::vec4 EYE(0.08f, 0.56f, 0.60f, 1.0f);
 }
 
-// CHANGED: Mummy is the MEDIUM, low-ranged enemy; keep its original bandages.
+// Mummy is the MEDIUM, low-ranged enemy.
 void drawMummy(Renderer& r, const Enemy& enemy) {
     const glm::vec4 cloth = enemyDamageColor(WRAP, enemy);
     const glm::vec4 seams = enemyDamageColor(WRAP_DARK, enemy);
@@ -70,7 +70,7 @@ void drawMummy(Renderer& r, const Enemy& enemy) {
 
     r.rect({0, 42}, {50, 5}, cloth);
 
-    // CHANGED: both arms extend forward as the tornado is cast.
+    // both arms extend forward as the tornado is cast.
     // Left arm
     r.push();
     r.translate({-23, 82});
@@ -113,7 +113,7 @@ void drawMummy(Renderer& r, const Enemy& enemy) {
     r.pop();
 }
 
-// CHANGED: draw a LOW sand tornado travelling near the lane floor.
+// draw a LOW sand tornado travelling near the lane floor.
 void drawMummyTornado(
     Renderer& r,
     const EnemyProjectile& wind

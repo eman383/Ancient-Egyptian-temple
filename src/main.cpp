@@ -5,6 +5,9 @@
 #include "game/Economy.h"
 #include "ui/Cards.h"
 #include "ui/TempleMenus.h"
+#include "audio/Audio.h"
+
+#include <algorithm>
 
 int main() {
     Game game;
@@ -14,29 +17,34 @@ int main() {
     CardsUI cards;
     TempleMenus menus;
 
-    // COMBINED:
-    // Keep your teammate's player drawing and reset hooks.
-    // The 'false' prevents a separate player movement update.
+    // Player drawing and reset hooks. 'false': movement is updated in the
+    // single ordered gameplay update below instead.
     players.setup(game, false);
 
-    // PLAYER_FINAL:
-    // Keep her player cards, grayscale locking, model previews
-    // and coin counter.
+    // Player cards (grayscale when locked), model previews and coin counter.
     // Card purchasing is registered before combat movement.
     cards.setup(game, players, economy);
 
-    // Animated 15-second intro, Start button, instructions, pause, win/lose menus.
+    // A shield can be dropped anywhere in its lane, but never behind or inside an enemy.
+    cards.setPlacementLimit([&](int lane) {
+        float limit = FIELD_X1;
+        for (const Enemy& e : enemies.enemies())
+            if (e.lane == lane && e.health > 0)
+                limit = std::min(limit, e.x - e.halfWidth() - 0.23f * LANE_H * 0.80f - 4.0f);
+        return limit;
+    });
+
+    // Main menu + sound settings, 17-second intro cutscene, instructions, pause, win/lose menus.
     menus.setup(game);
 
-    // ENEMIES:
-    // Each defeated enemy creates one collectible.
+    // Each defeated enemy drops one collectible.
     enemies.onEnemyDefeated([&](int lane, float x) {
         economy.addDrop(lane, x);
     });
 
     enemies.reset();
 
-    // COMBINED GAMEPLAY UPDATE:
+    // Gameplay update:
     // Keep the order consistent every frame.
     game.onGameplayUpdate([&](float dt) {
 
@@ -81,8 +89,10 @@ int main() {
     });
 
     if (!game.init()) return -1;
+    audio::init();          // music + effects; the game still runs if there is no audio device
 
     game.run();
+    audio::shutdown();
     game.shutdown();
 
     return 0;

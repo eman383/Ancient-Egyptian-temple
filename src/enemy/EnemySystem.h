@@ -26,7 +26,7 @@ public:
     void damageEnemy(std::size_t index, int amount);
     int wave() const { return wave_; }
 
-    // Preserve the economy callback: one collectible for each defeated enemy.
+    // Economy callback: one collectible for each defeated enemy.
     void onEnemyDefeated(std::function<void(int, float)> fn) {
         onDefeated_ = std::move(fn);
     }

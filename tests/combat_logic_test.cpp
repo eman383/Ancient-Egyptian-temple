@@ -71,7 +71,7 @@ void tick(
     }
 }
 
-// TA RULES + COIN SYSTEM
+// PLACEMENT RULES + COIN SYSTEM
 void testCardsAndPlacement() {
     Game game;
     PlayerManager players;
@@ -122,26 +122,26 @@ void testCardsAndPlacement() {
           players.snapshots()[0].lane == 0,
           "Player appears in the selected lane");
 
-    // TA shield restriction.
-    check(!players.placeDefense(2).has_value(),
-          "Shield rejected in a lane without an attacker");
+    // Locked shield: allowed only while an attacker is alive somewhere,
+    // and then on ANY lane (not just the attacker's lane).
+    check(players.placeDefense(2).has_value(),
+          "Shield allowed on another lane while an attacker is alive");
 
     check(players.placeDefense(0).has_value(),
-          "Shield allowed when a living attacker exists");
+          "Shield allowed on the attacker's lane");
 
-    // Defeat the shield, followed by its attacker.
-    players.applyEnemyAttack(
-        0, 900, FIELD_X0 - 50.0f,
-        10, AttackHeight::Melee
-    );
+    players.applyEnemyAttack(0, 900, FIELD_X0 - 50.0f, 10, AttackHeight::Melee);
+    players.applyEnemyAttack(0, 900, FIELD_X0 - 50.0f, 10, AttackHeight::Melee);
+    players.update(0.0f);
 
-    players.applyEnemyAttack(
-        0, 900, FIELD_X0 - 50.0f,
-        10, AttackHeight::Melee
-    );
+    check(!players.hasLivingAttacker() && !players.placeDefense(3).has_value(),
+          "Shield locked again once no attacker is alive");
 
-    check(!players.placeDefense(0),
-          "A dead attacker cannot authorize a new shield");
+    {
+        PlayerManager empty;
+        check(!empty.placeDefense(1).has_value(),
+              "Shield cannot be placed on an empty field");
+    }
 
     // Test collectible-based unlocking.
     players.clear();
@@ -169,8 +169,14 @@ void testCardsAndPlacement() {
     check(cards.isUnlocked(1),
           "Defense unlocks after 30 earned coins");
 
-    check(wallet.spend(50),
-          "Original Defense purchase price is preserved");
+    check(wallet.coins == 60 && wallet.spend(30),
+          "Defense costs 30 coins (3x Melee)");
+
+    check(cards.isUnlocked(1),
+          "Defense stays unlocked while 30 coins remain");
+
+    check(wallet.spend(30),
+          "Second Defense purchase");
 
     check(!cards.isUnlocked(1),
           "Defense locks when remaining wallet is insufficient");

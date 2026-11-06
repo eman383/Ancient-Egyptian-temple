@@ -28,9 +28,8 @@ public:
     void shutdown();
 
     // ---------------- commands: call these from menus / gameplay code ----------------
-    void startGame();        // MainMenu     -> Instructions (Start button)
-    void finishCutscene();   // Cutscene     -> MainMenu     (Enter skips)
-    void replayCutscene();   // MainMenu     -> Cutscene     (replay intro)
+    void startGame();        // MainMenu     -> Cutscene     (Start button)
+    void finishCutscene();   // Cutscene     -> Instructions (end of intro, or Enter skips)
     void completeInstructions(); // Instructions -> Playing  (3.5 seconds)
     void pause();            // Playing   -> Paused     (Esc does this automatically)
     void resume();           // Paused    -> Playing    (Continue button)
@@ -82,4 +81,4 @@ private:
     std::vector<UpdateFn> gameplayUpdates, alwaysUpdates;
     std::vector<DrawFn>   drawHooks[4];
     std::vector<ResetFn>  resetHooks;
-};
+};

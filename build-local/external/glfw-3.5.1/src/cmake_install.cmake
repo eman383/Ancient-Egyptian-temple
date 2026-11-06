@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/seifs/Downloads/Ancient-Egyptian-temple-main/Ancient-Egyptian-temple/external/glfw-3.5.1/src
+# Install script for directory: C:/Users/20far/Ancient-Egyptian-temple/external/glfw-3.5.1/src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,10 +34,10 @@ endif()
 
 # Set path to fallback-tool for dependency-resolution.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "C:/Users/seifs/devtools/mingw/mingw64/bin/objdump.exe")
+  set(CMAKE_OBJDUMP "C:/Users/20far/OneDrive/Desktop/computer data/x86_64-8.1.0-release-posix-seh-rt_v6-rev0/mingw64/bin/objdump.exe")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "C:/Users/seifs/Downloads/Ancient-Egyptian-temple-main/Ancient-Egyptian-temple/build-local/external/glfw-3.5.1/src/libglfw3.a")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "C:/Users/20far/Ancient-Egyptian-temple/build-local/external/glfw-3.5.1/src/libglfw3.a")
 endif()
 

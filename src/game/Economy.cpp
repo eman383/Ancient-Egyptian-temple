@@ -5,6 +5,7 @@
 #include "Config.h"
 #include "render/Renderer.h"
 #include "ui/Cards.h"
+#include "audio/Audio.h"
 
 #include <algorithm>
 #include <cmath>
@@ -32,7 +33,7 @@ bool Economy::canAfford(int cost) const {
         return false;
     }
 
-    // Preserve the original prices in Cards.h.
+    // Prices come from Cards.h.
     const int melee = cards::cost(PlayerKind::Melee);
 
     // Long Range unlocks after 2x Melee collectibles.
@@ -60,7 +61,6 @@ bool Economy::spend(int cost) {
     return true;
 }
 
-// ENEMY INTEGRATION:
 // Add one collectible at the defeated enemy's position.
 void Economy::addDrop(int lane, float x) {
     if (lane < 0 || lane >= LANE_COUNT) {
@@ -97,6 +97,7 @@ void Economy::update(const PlayerManager& players) {
 
                         // Also increase unlock progress.
                         earnedFromDrops_ += drop.value;
+                        audio::play(audio::Sfx::Coin);
 
                         // Remove this collected coin.
                         return true;

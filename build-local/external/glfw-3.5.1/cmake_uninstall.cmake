@@ -1,22 +1,22 @@
 
-if (NOT EXISTS "C:/Users/seifs/Downloads/Ancient-Egyptian-temple-main/Ancient-Egyptian-temple/build-local/external/glfw-3.5.1/install_manifest.txt")
-    message(FATAL_ERROR "Cannot find install manifest: \"C:/Users/seifs/Downloads/Ancient-Egyptian-temple-main/Ancient-Egyptian-temple/build-local/external/glfw-3.5.1/install_manifest.txt\"")
+if (NOT EXISTS "C:/Users/20far/Ancient-Egyptian-temple/build-local/external/glfw-3.5.1/install_manifest.txt")
+    message(FATAL_ERROR "Cannot find install manifest: \"C:/Users/20far/Ancient-Egyptian-temple/build-local/external/glfw-3.5.1/install_manifest.txt\"")
 endif()
 
-file(READ "C:/Users/seifs/Downloads/Ancient-Egyptian-temple-main/Ancient-Egyptian-temple/build-local/external/glfw-3.5.1/install_manifest.txt" files)
+file(READ "C:/Users/20far/Ancient-Egyptian-temple/build-local/external/glfw-3.5.1/install_manifest.txt" files)
 string(REGEX REPLACE "\n" ";" files "${files}")
 
 foreach (file ${files})
   message(STATUS "Uninstalling \"$ENV{DESTDIR}${file}\"")
   if (EXISTS "$ENV{DESTDIR}${file}")
-    exec_program("C:/Users/seifs/devtools/mingw/mingw64/bin/cmake.exe" ARGS "-E remove \"$ENV{DESTDIR}${file}\""
+    exec_program("C:/Users/20far/devtools/mingw/mingw64/bin/cmake.exe" ARGS "-E remove \"$ENV{DESTDIR}${file}\""
                  OUTPUT_VARIABLE rm_out
                  RETURN_VALUE rm_retval)
     if (NOT "${rm_retval}" STREQUAL 0)
       MESSAGE(FATAL_ERROR "Problem when removing \"$ENV{DESTDIR}${file}\"")
     endif()
   elseif (IS_SYMLINK "$ENV{DESTDIR}${file}")
-    EXEC_PROGRAM("C:/Users/seifs/devtools/mingw/mingw64/bin/cmake.exe" ARGS "-E remove \"$ENV{DESTDIR}${file}\""
+    EXEC_PROGRAM("C:/Users/20far/devtools/mingw/mingw64/bin/cmake.exe" ARGS "-E remove \"$ENV{DESTDIR}${file}\""
                  OUTPUT_VARIABLE rm_out
                  RETURN_VALUE rm_retval)
     if (NOT "${rm_retval}" STREQUAL 0)

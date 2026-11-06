@@ -6,7 +6,7 @@
 
 // The lane system: hover highlight, click-to-toggle selection, lane drawing.
 //
-// For teammates:
+// Usage:
 //   game.lanes.isSelected(i)      -> is lane i currently selected?
 //   game.lanes.selectedLanes()    -> list of selected lane indexes (B uses this for jump/duck)
 //   game.lanes.hovered()          -> lane under the mouse, or -1 (D uses this for placement)
@@ -16,6 +16,8 @@ public:
     void reset();                                   // deselect everything
     void update(glm::vec2 mouse, bool leftClicked); // call every frame while PLAYING
     void clearHover() { hoveredLane = -1; }         // call while paused / in menus
+    // While locked, clicks do not toggle lanes (used while choosing the shield's spot).
+    void setClickLocked(bool locked) { clickLocked = locked; }
 
     void drawLanes(Renderer& r) const;              // layer 2: the lane ground
     void drawHighlights(Renderer& r) const;         // layer 3: hover + selected overlay
@@ -28,4 +30,5 @@ public:
 private:
     int  hoveredLane = -1;
     bool selected[LANE_COUNT] = {false};
-};
+    bool clickLocked = false;
+};

@@ -9,7 +9,7 @@ class Renderer;
 constexpr int STARTING_COINS = 30;
 
 struct Economy {
-    // Shared wallet used by your teammate's CardsUI.
+    // Wallet shared with CardsUI.
     int coins = STARTING_COINS;
 
     void reset();

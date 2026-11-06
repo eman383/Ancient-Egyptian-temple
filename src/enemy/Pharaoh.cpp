@@ -33,7 +33,7 @@ void boltSegment(
 }
 }
 
-// CHANGED: Pharaoh is the HARD, fast melee enemy; preserve the royal model.
+// Pharaoh is the HARD, fast melee enemy.
 void drawPharaoh(Renderer& r, const Enemy& enemy) {
     const glm::vec4 blue = enemyDamageColor(BLUE, enemy);
     const glm::vec4 dark = enemyDamageColor(BLUE_DARK, enemy);
@@ -99,7 +99,7 @@ void drawPharaoh(Renderer& r, const Enemy& enemy) {
     r.rect({0, 88}, {43, 5}, gold);
     r.rect({0, 81}, {35, 3}, dark);
 
-    // CHANGED: extend the Ankh arm before the lightning strike.
+    // extend the Ankh arm before the lightning strike.
     // Right arm, holding the Key of Life
     r.push();
 
@@ -187,7 +187,7 @@ void drawPharaoh(Renderer& r, const Enemy& enemy) {
     r.pop();
 }
 
-// CHANGED: vertical lightning is a short MELEE impact effect, not a projectile.
+// vertical lightning is a short MELEE impact effect, not a projectile.
 void drawPharaohLightning(
     Renderer& r,
     const EnemyProjectile& bolt
@@ -206,7 +206,7 @@ void drawPharaohLightning(
         1.0f, 0.98f, flash, 1.0f
     );
 
-    // CHANGED: lightning strikes DOWN from above the nearby player.
+    // lightning strikes DOWN from above the nearby player.
     const glm::vec2 path[] = {
         {0, 102},
         {-8, 73},

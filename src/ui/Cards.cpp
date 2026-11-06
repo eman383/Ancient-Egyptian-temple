@@ -1,5 +1,7 @@
 #include "ui/Cards.h"
 
+#include "audio/Audio.h"
+
 #include <algorithm>
 #include <string>
 
@@ -80,7 +82,11 @@ PlayerKind CardsUI::kindOf(int card)
 
 bool CardsUI::isUnlocked(int card) const
 {
-    return economy_ && economy_->canAfford(cost(kindOf(card)));
+    if (!economy_ || !economy_->canAfford(cost(kindOf(card)))) return false;
+    // Locked shield: the Defense card stays locked until an attacker is alive on the field.
+    if (kindOf(card) == PlayerKind::Defense && (!players_ || !players_->hasLivingAttacker()))
+        return false;
+    return true;
 }
 
 void CardsUI::setup(Game& game, PlayerManager& players, Economy& economy)
@@ -91,9 +97,11 @@ void CardsUI::setup(Game& game, PlayerManager& players, Economy& economy)
 
     game.onGameplayUpdate([this, &game](float dt) { update(game, dt); });
     game.onDraw(Layer::Hud, [this](Renderer& r) { draw(r); });
-    game.onReset([this] {
+    game.onReset([this, &game] {
         economy_->coins = STARTING_COINS;
         hovered_ = -1;
+        cancelShield();
+        game.lanes.setClickLocked(false);
         std::fill(std::begin(flash_), std::end(flash_), 0.0f);
     });
 }
@@ -101,17 +109,56 @@ void CardsUI::setup(Game& game, PlayerManager& players, Economy& economy)
 void CardsUI::update(Game& game, float dt)
 {
     for (float& f : flash_) f = std::max(0.0f, f - dt);
+    const glm::vec2 m = game.input.mouse;
+    mouse_ = m;
+
+    // Leave shield mode if it is no longer valid (shield locked again, lane deselected...).
+    if (placingShield_) {
+        const auto lanes = game.lanes.selectedLanes();
+        if (!isUnlocked(1) || lanes.size() != 1 || lanes.front() != shieldLane_) cancelShield();
+    }
 
     // Only UNLOCKED cards react to the mouse. Locked cards are never hovered or clicked.
     hovered_ = -1;
-    const glm::vec2 m = game.input.mouse;
     for (int i = 0; i < COUNT; ++i) {
         if (!isUnlocked(i)) continue;
         const float x = left(i);
         if (m.x >= x && m.x <= x + W && m.y >= Y && m.y <= Y + H) hovered_ = i;
     }
 
-    if (hovered_ >= 0 && game.input.leftClicked()) onCardClicked(game, hovered_);
+    if (game.input.leftClicked()) {
+        if (hovered_ >= 0) {
+            if (placingShield_ && kindOf(hovered_) == PlayerKind::Defense) cancelShield();
+            else onCardClicked(game, hovered_);
+        } else if (placingShield_ && laneFromY(m.y) == shieldLane_ && m.x >= 0.0f && m.x <= VIRTUAL_W) {
+            // Step 2: drop the shield exactly where the player clicked in the lane.
+            if (players_->placeDefense(shieldLane_, shieldX(m.x)) &&
+                economy_->spend(cost(PlayerKind::Defense))) {
+                audio::play(audio::Sfx::Place);
+            } else {
+                flash_[1] = 0.45f;
+            }
+            cancelShield();
+        }
+    }
+    if (placingShield_ && game.input.mousePressed[1]) cancelShield();   // right-click cancels
+
+    // While choosing the spot, clicking the lane must not deselect it.
+    game.lanes.setClickLocked(placingShield_);
+}
+
+void CardsUI::cancelShield()
+{
+    placingShield_ = false;
+    shieldLane_ = -1;
+}
+
+float CardsUI::shieldX(float mouseX) const
+{
+    float limit = FIELD_X1 - 60.0f;
+    if (placementLimit_) limit = std::min(limit, placementLimit_(shieldLane_));
+    limit = std::max(limit, FIELD_X0);
+    return std::clamp(mouseX, FIELD_X0, limit);
 }
 
 void CardsUI::onCardClicked(Game& game, int card)
@@ -120,14 +167,46 @@ void CardsUI::onCardClicked(Game& game, int card)
     if (!economy_->canAfford(cost(kind))) return;
 
     players_->selectType(kind);
-    if (players_->placeOnSelectedLane(game)) economy_->spend(cost(kind));
+
+    // Defense: step 1 of 2. Remember the lane and wait for a click inside it.
+    if (kind == PlayerKind::Defense) {
+        const auto lanes = game.lanes.selectedLanes();
+        if (lanes.size() == 1 && players_->hasLivingAttacker()) {
+            placingShield_ = true;
+            shieldLane_ = lanes.front();
+        } else {
+            flash_[card] = 0.45f;   // no lane / several lanes selected
+        }
+        return;
+    }
+
+    if (players_->placeOnSelectedLane(game)) {
+        economy_->spend(cost(kind));
+        audio::play(audio::Sfx::Place);
+    }
     else flash_[card] = 0.45f;   // no lane / several lanes selected: nothing placed
 }
 
 void CardsUI::draw(Renderer& r) const
 {
+    drawShieldPreview(r);
     for (int i = 0; i < COUNT; ++i) drawCard(r, i);
     drawCoinCounter(r);
+}
+
+// Ghost of the shield guardian under the mouse, so the player sees where it will stand.
+void CardsUI::drawShieldPreview(Renderer& r) const
+{
+    if (!placingShield_ || shieldLane_ < 0) return;
+    const float bottom = laneBottomY(shieldLane_);
+    // pulse the whole lane so it is clear which lane is waiting for the click
+    r.rectBL({FIELD_X0, bottom}, {VIRTUAL_W - FIELD_X0, LANE_H}, {1.0f, 0.85f, 0.25f, 0.10f});
+    if (laneFromY(mouse_.y) != shieldLane_) return;
+    const float x = shieldX(mouse_.x);
+    r.rect({x, bottom + LANE_H * 0.5f}, {80.0f, LANE_H - 6.0f}, {1.0f, 0.92f, 0.45f, 0.30f});
+    r.rect({x, bottom + LANE_H * 0.5f}, {3.0f, LANE_H - 6.0f}, {1.0f, 0.95f, 0.6f, 0.9f});
+    DefensePlayer ghost({x, bottom}, LANE_H * 0.80f);
+    ghost.draw(r);
 }
 
 void CardsUI::drawCard(Renderer& r, int card) const
