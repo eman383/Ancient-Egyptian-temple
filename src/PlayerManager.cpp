@@ -1,261 +1,581 @@
+
 #include "PlayerManager.h"
 
 #include "Config.h"
+#include "enemy/EnemyTypes.h"
 
 #include <algorithm>
+#include <cmath>
+#include <iostream>
 #include <type_traits>
 
 namespace {
+
 constexpr float PLAYER_HEIGHT = LANE_H * 0.80f;
+
+const char* playerName(PlayerKind kind) {
+    switch (kind) {
+        case PlayerKind::Melee:
+            return "Melee";
+        case PlayerKind::Defense:
+            return "Defense";
+        case PlayerKind::LongRange:
+            return "Archer";
+    }
+    return "Unknown";
 }
 
-void PlayerManager::setup(Game& game)
-{
+} // namespace
+
+void PlayerManager::setup(
+    Game& game,
+    bool registerOwnUpdate
+) {
     if (setup_) return;
+
     setup_ = true;
 
-    game.onGameplayUpdate([this, &game](float dt) { update(game, dt); });
-    game.onDraw(Layer::Entities, [this](Renderer& renderer) { drawEntities(renderer); });
-    game.onDraw(Layer::Effects, [this](Renderer& renderer) { drawEffects(renderer); });
-    game.onReset([this] { clear(); });
+    // COMBINED:
+    // main.cpp supplies false so gameplay runs in one
+    // ordered callback, rather than updating players twice.
+    if (registerOwnUpdate) {
+        game.onGameplayUpdate([this, &game](float dt) {
+            update(
+                dt,
+                game.lanes.selectedLanes(),
+                game.input.jumpPressed(),
+                game.input.key(GLFW_KEY_S) ||
+                    game.input.key(GLFW_KEY_DOWN)
+            );
+        });
+    }
+
+    // Keep the original player drawing hooks.
+    game.onDraw(Layer::Entities, [this](Renderer& r) {
+        drawEntities(r);
+    });
+
+    game.onDraw(Layer::Effects, [this](Renderer& r) {
+        drawEffects(r);
+    });
+
+    game.onReset([this] {
+        clear();
+    });
+
     clear();
 }
 
-void PlayerManager::clear()
-{
+void PlayerManager::clear() {
     players_.clear();
     nextId_ = 1;
+
+    // Reset the currently selected player card.
     selectedType_.reset();
 }
 
-// ===== TEMPORARY STAND-IN (waiting on C) =====
-bool PlayerManager::canPlace(PlayerKind) const
-{
-    return true;
-}
-// ===== END STAND-IN =====
+// PLAYER_FINAL RULE:
+// Exactly one lane must be selected for player placement.
+std::optional<PlayerManager::PlayerId>
+PlayerManager::placeOnSelectedLane(Game& game, float x) {
 
-std::optional<PlayerManager::PlayerId> PlayerManager::placeOnSelectedLane(Game& game, float x)
-{
-    if (!selectedType_) return std::nullopt;
+    if (!selectedType_) {
+        return std::nullopt;
+    }
 
-    // Exactly one selected lane, otherwise do nothing.
-    const std::vector<int> lanes = game.lanes.selectedLanes();
-    if (lanes.size() != 1) return std::nullopt;
+    const auto lanes = game.lanes.selectedLanes();
 
-    if (!canPlace(*selectedType_)) return std::nullopt;
+    if (lanes.size() != 1) {
+        return std::nullopt;
+    }
 
     return place(*selectedType_, lanes.front(), x);
 }
 
-std::optional<PlayerManager::PlayerId> PlayerManager::placeMelee(int lane, float x)
-{
+// NEW TA RULE:
+// A shield requires an existing living attacking character
+// in the same lane.
+bool PlayerManager::hasLivingAttacker(int lane) const {
+    for (const Entry& entry : players_) {
+
+        if (entry.lane != lane) continue;
+
+        if (entry.kind == PlayerKind::Defense) continue;
+
+        bool alive = std::visit(
+            [](const auto& actor) {
+                return actor.isAlive();
+            },
+            entry.actor
+        );
+
+        if (alive) return true;
+    }
+
+    return false;
+}
+
+std::optional<PlayerManager::PlayerId>
+PlayerManager::placeMelee(int lane, float x) {
     return place(PlayerKind::Melee, lane, x);
 }
 
-std::optional<PlayerManager::PlayerId> PlayerManager::placeDefense(int lane, float x)
-{
+std::optional<PlayerManager::PlayerId>
+PlayerManager::placeDefense(int lane, float x) {
     return place(PlayerKind::Defense, lane, x);
 }
 
-std::optional<PlayerManager::PlayerId> PlayerManager::placeLongRange(int lane, float x)
-{
+std::optional<PlayerManager::PlayerId>
+PlayerManager::placeLongRange(int lane, float x) {
     return place(PlayerKind::LongRange, lane, x);
 }
 
-std::optional<PlayerManager::PlayerId> PlayerManager::place(PlayerKind kind, int lane, float x)
-{
-    if (lane < 0 || lane >= LANE_COUNT) return std::nullopt;
-    if (x < 0.0f) x = FIELD_X0;
+std::optional<PlayerManager::PlayerId>
+PlayerManager::place(PlayerKind kind, int lane, float x) {
+
+    if (lane < 0 || lane >= LANE_COUNT) {
+        return std::nullopt;
+    }
+
+    // NEW:
+    // Reject shield placement if this lane has no living attacker.
+    if (kind == PlayerKind::Defense &&
+        !hasLivingAttacker(lane)) {
+        return std::nullopt;
+    }
+
+    if (x < 0.0f) {
+        x = FIELD_X0;
+    }
+
     x = std::max(FIELD_X0, x);
 
     const glm::vec2 feet(x, laneBottomY(lane));
-    PlayerId id = nextId_++;
+    const PlayerId id = nextId_++;
+
     switch (kind) {
         case PlayerKind::Melee:
-            players_.push_back({id, lane, kind, MeleePlayer(feet, PLAYER_HEIGHT)});
+            players_.push_back({
+                id,
+                lane,
+                kind,
+                MeleePlayer(feet, PLAYER_HEIGHT)
+            });
             break;
+
         case PlayerKind::Defense:
-            players_.push_back({id, lane, kind, DefensePlayer(feet, PLAYER_HEIGHT)});
+            players_.push_back({
+                id,
+                lane,
+                kind,
+                DefensePlayer(feet, PLAYER_HEIGHT)
+            });
             break;
+
         case PlayerKind::LongRange:
-            players_.push_back({id, lane, kind, LongRangePlayer(feet, PLAYER_HEIGHT)});
-            // Cull arrows once they are well off-screen. Without this they fly forever,
-            // pile up, and a defeated archer can never be removed (isRemovable() waits
-            // for her arrows to be gone).
-            std::get<LongRangePlayer>(players_.back().actor).setArrowMaxX(VIRTUAL_W + 200.0f);
+            players_.push_back({
+                id,
+                lane,
+                kind,
+                LongRangePlayer(feet, PLAYER_HEIGHT)
+            });
+
+            // Remove arrows after they leave the field.
+            std::get<LongRangePlayer>(
+                players_.back().actor
+            ).setArrowMaxX(FIELD_X1);
             break;
     }
+
     return id;
 }
 
-void PlayerManager::update(Game& game, float dt)
-{
-    const std::vector<int> selectedLanes = game.lanes.selectedLanes();
-    const auto laneSelected = [&selectedLanes](int lane) {
-        return std::find(selectedLanes.begin(), selectedLanes.end(), lane) != selectedLanes.end();
+// Update player movement, jumping, ducking, and death.
+void PlayerManager::update(
+    float dt,
+    const std::vector<int>& selectedLanes,
+    bool jumpPressed,
+    bool duckHeld
+) {
+    const auto selected = [&](int lane) {
+        return std::find(
+            selectedLanes.begin(),
+            selectedLanes.end(),
+            lane
+        ) != selectedLanes.end();
     };
 
-    if (game.input.jumpPressed() || game.input.duckPressed()) {
-        for (Entry& entry : players_) {
-            if (!laneSelected(entry.lane) || entry.kind == PlayerKind::Defense) continue;
+    for (Entry& entry : players_) {
+
+        // Defense does not jump or duck.
+        if (selected(entry.lane) &&
+            entry.kind != PlayerKind::Defense) {
+
             std::visit([&](auto& actor) {
                 using T = std::decay_t<decltype(actor)>;
+
                 if constexpr (!std::is_same_v<T, DefensePlayer>) {
-                    if (game.input.jumpPressed()) actor.jump();
-                    if (game.input.duckPressed()) actor.duck();
+                    if (jumpPressed) {
+                        actor.jump();
+                    }
+
+                    // Holding S/Down renews ducking when permitted.
+                    if (duckHeld) {
+                        actor.duck();
+                    }
                 }
             }, entry.actor);
         }
+
+        // Existing model classes still control walking,
+        // attack cycles, and animation.
+        std::visit(
+            [dt](auto& actor) {
+                actor.update(dt);
+            },
+            entry.actor
+        );
     }
 
-    // Stop walking only while touching an enemy; walk again the frame after contact ends.
-    for (Entry& entry : players_) {
-        if (entry.kind == PlayerKind::Defense) continue;
-        setEngaged(entry.id, entry.touchingEnemy);
-        entry.touchingEnemy = false;
-    }
+    // Keep archers until their in-flight arrows are resolved.
+    players_.erase(
+        std::remove_if(
+            players_.begin(),
+            players_.end(),
+            [](const Entry& entry) {
 
-    for (Entry& entry : players_)
-        std::visit([dt](auto& actor) { actor.update(dt); }, entry.actor);
+                // Preserve PLAYER_FINAL's right-edge removal.
+                if (entry.kind != PlayerKind::Defense) {
+                    const float x = std::visit(
+                        [](const auto& actor) {
+                            return actor.position().x;
+                        },
+                        entry.actor
+                    );
 
-    // Removed when defeated, or when a walker reaches the right edge of the field
-    // (EDGE RULE: a player that walks off the right side is removed, never stuck there).
-    players_.erase(std::remove_if(players_.begin(), players_.end(), [](const Entry& entry) {
-        if (entry.kind != PlayerKind::Defense) {
-            const float x = std::visit([](const auto& actor) { return actor.position().x; }, entry.actor);
-            if (x >= FIELD_X1) return true;
-        }
-        return std::visit([](const auto& actor) {
-            using T = std::decay_t<decltype(actor)>;
-            if constexpr (std::is_same_v<T, LongRangePlayer>) return actor.isRemovable();
-            else return !actor.isAlive();
-        }, entry.actor);
-    }), players_.end());
-}
+                    if (x >= FIELD_X1) return true;
+                }
 
-void PlayerManager::drawEntities(Renderer& renderer) const
-{
-    for (const Entry& entry : players_)
-        std::visit([&renderer](const auto& actor) { actor.draw(renderer); }, entry.actor);
-}
+                return std::visit(
+                    [](const auto& actor) {
+                        using T = std::decay_t<decltype(actor)>;
 
-void PlayerManager::drawEffects(Renderer& renderer) const
-{
-    for (const Entry& entry : players_)
-        std::visit([&renderer](const auto& actor) { actor.drawEffects(renderer); }, entry.actor);
-}
-
-PlayerManager::Entry* PlayerManager::find(PlayerId id)
-{
-    const auto it = std::find_if(players_.begin(), players_.end(),
-                                 [id](const Entry& entry) { return entry.id == id; });
-    return it == players_.end() ? nullptr : &*it;
-}
-
-const PlayerManager::Entry* PlayerManager::find(PlayerId id) const
-{
-    const auto it = std::find_if(players_.begin(), players_.end(),
-                                 [id](const Entry& entry) { return entry.id == id; });
-    return it == players_.end() ? nullptr : &*it;
-}
-
-void PlayerManager::notifyEnemyContact(int lane, float enemyXMin, float enemyXMax)
-{
-    if (lane < 0 || lane >= LANE_COUNT || enemyXMin > enemyXMax) return;
-    for (Entry& entry : players_) {
-        if (entry.lane != lane || entry.kind == PlayerKind::Defense) continue;
-        const bool touching = std::visit([&](const auto& actor) {
-            using T = std::decay_t<decltype(actor)>;
-            if constexpr (std::is_same_v<T, DefensePlayer>) {
-                return false;
-            } else {
-                if (!actor.isAlive()) return false;
-                const float x = actor.position().x;
-                // Front of the body reaches the enemy, and he has not walked past it.
-                return x + actor.halfWidth() >= enemyXMin && x <= enemyXMax;
+                        if constexpr (
+                            std::is_same_v<T, LongRangePlayer>
+                        ) {
+                            return actor.isRemovable();
+                        } else {
+                            return !actor.isAlive();
+                        }
+                    },
+                    entry.actor
+                );
             }
-        }, entry.actor);
-        if (touching) entry.touchingEnemy = true;
+        ),
+        players_.end()
+    );
+}
+
+void PlayerManager::drawEntities(Renderer& renderer) const {
+    for (const Entry& entry : players_) {
+        std::visit(
+            [&](const auto& actor) {
+                actor.draw(renderer);
+            },
+            entry.actor
+        );
     }
 }
 
-bool PlayerManager::setEngaged(PlayerId id, bool engaged)
-{
+void PlayerManager::drawEffects(Renderer& renderer) const {
+    for (const Entry& entry : players_) {
+        std::visit(
+            [&](const auto& actor) {
+                actor.drawEffects(renderer);
+            },
+            entry.actor
+        );
+    }
+}
+
+PlayerManager::Entry* PlayerManager::find(PlayerId id) {
+    auto it = std::find_if(
+        players_.begin(),
+        players_.end(),
+        [id](const Entry& e) {
+            return e.id == id;
+        }
+    );
+
+    return it == players_.end() ? nullptr : &*it;
+}
+
+const PlayerManager::Entry*
+PlayerManager::find(PlayerId id) const {
+    auto it = std::find_if(
+        players_.begin(),
+        players_.end(),
+        [id](const Entry& e) {
+            return e.id == id;
+        }
+    );
+
+    return it == players_.end() ? nullptr : &*it;
+}
+
+bool PlayerManager::setEngaged(PlayerId id, bool engaged) {
     Entry* entry = find(id);
-    if (!entry || entry->kind == PlayerKind::Defense) return false;
-    std::visit([engaged](auto& actor) {
-        using T = std::decay_t<decltype(actor)>;
-        if constexpr (!std::is_same_v<T, DefensePlayer>) actor.setEngaged(engaged);
-    }, entry->actor);
+
+    if (!entry || entry->kind == PlayerKind::Defense) {
+        return false;
+    }
+
+    std::visit(
+        [engaged](auto& actor) {
+            using T = std::decay_t<decltype(actor)>;
+
+            if constexpr (!std::is_same_v<T, DefensePlayer>) {
+                actor.setEngaged(engaged);
+            }
+        },
+        entry->actor
+    );
+
     return true;
 }
 
-bool PlayerManager::isAlive(PlayerId id) const
-{
+bool PlayerManager::isAlive(PlayerId id) const {
     const Entry* entry = find(id);
-    return entry && std::visit([](const auto& actor) { return actor.isAlive(); }, entry->actor);
+
+    return entry && std::visit(
+        [](const auto& actor) {
+            return actor.isAlive();
+        },
+        entry->actor
+    );
 }
 
-std::optional<PlayerHitResult> PlayerManager::applyEnemyAttack(int lane, float attackX, int damage,
-                                                                AttackHeight height, float hitRadius)
-{
-    if (damage <= 0 || lane < 0 || lane >= LANE_COUNT) return std::nullopt;
+// Creates a small read-only view of all living players.
+std::vector<PlayerSnapshot> PlayerManager::snapshots() const {
+    std::vector<PlayerSnapshot> result;
+    result.reserve(players_.size());
 
-    Entry* target = nullptr;
-    float targetX = -1.0f;
-    for (Entry& entry : players_) {
-        if (entry.lane != lane) continue;
-        const bool alive = std::visit([](const auto& actor) { return actor.isAlive(); }, entry.actor);
-        if (!alive) continue;
-        const float x = std::visit([](const auto& actor) { return actor.position().x; }, entry.actor);
-        if (x > attackX + hitRadius) continue;
-        const bool defenseWinsTie = target && x == targetX && entry.kind == PlayerKind::Defense &&
-                                    target->kind != PlayerKind::Defense;
-        if (!target || x > targetX || defenseWinsTie) {
-            target = &entry;
-            targetX = x;
-        }
-    }
-    if (!target) return std::nullopt;
+    for (const Entry& entry : players_) {
+        std::visit([&](const auto& actor) {
 
-    // Jump dodges low attacks, duck dodges high attacks. Melee is never dodged and
-    // a Defense player never dodges (it ignores jump/duck).
-    const bool dodged = std::visit([height](const auto& actor) {
-        using T = std::decay_t<decltype(actor)>;
-        if constexpr (std::is_same_v<T, DefensePlayer>) {
-            return false;
-        } else {
-            return (height == AttackHeight::Low  && actor.isJumping()) ||
-                   (height == AttackHeight::High && actor.isDucking());
-        }
-    }, target->actor);
-    if (dodged) return PlayerHitResult{target->id, target->kind, false, true};
+            if (!actor.isAlive()) return;
 
-    std::visit([damage](auto& actor) { actor.takeHit(damage); }, target->actor);
-    return PlayerHitResult{target->id, target->kind,
-        !std::visit([](const auto& actor) { return actor.isAlive(); }, target->actor)};
-}
-
-int PlayerManager::applyPlayerAttacksToEnemy(int lane, float enemyXMin, float enemyXMax)
-{
-    if (lane < 0 || lane >= LANE_COUNT || enemyXMin > enemyXMax) return 0;
-
-    int damage = 0;
-    for (Entry& entry : players_) {
-        if (entry.lane != lane) continue;
-        std::visit([&](auto& actor) {
             using T = std::decay_t<decltype(actor)>;
-            if constexpr (std::is_same_v<T, MeleePlayer>) {
-                if (!actor.isAlive()) return;
-                if (actor.attackHits(enemyXMin, enemyXMax)) damage += MeleePlayer::DAMAGE;
-            } else if constexpr (std::is_same_v<T, LongRangePlayer>) {
-                // No isAlive() check: arrows already in flight keep flying (and are still
-                // drawn) after the archer is defeated, so they must still be able to hit.
-                for (std::size_t i = 0; i < actor.arrows().size(); ++i)
-                    if (actor.arrowHitsEnemy(i, enemyXMin, enemyXMax)) damage += LongRangePlayer::DAMAGE;
+
+            if constexpr (std::is_same_v<T, DefensePlayer>) {
+                result.push_back({
+                    entry.id,
+                    entry.kind,
+                    entry.lane,
+                    actor.position().x,
+                    actor.height() * 0.23f,
+                    actor.health(),
+                    false,
+                    false
+                });
+            } else {
+                result.push_back({
+                    entry.id,
+                    entry.kind,
+                    entry.lane,
+                    actor.position().x,
+                    actor.halfWidth(),
+                    actor.health(),
+                    actor.isJumping(),
+                    actor.isDucking()
+                });
             }
         }, entry.actor);
     }
+
+    return result;
+}
+
+// COMBAT BRIDGE:
+// Stop a player BEFORE the next movement update if
+// an enemy is currently touching or about to touch it.
+void PlayerManager::setEngagements(
+    const std::vector<Enemy>& enemies,
+    float dt
+) {
+    const auto players = snapshots();
+
+    for (const PlayerSnapshot& p : players) {
+
+        if (p.kind == PlayerKind::Defense) continue;
+
+        bool touching = false;
+
+        for (const Enemy& e : enemies) {
+
+            if (e.health <= 0 || e.lane != p.lane) continue;
+
+            const float contact =
+                e.halfWidth() + p.halfWidth;
+
+            const float gap = e.x - p.x;
+
+            const float closing =
+                (e.speed + 0.40f * PLAYER_HEIGHT) *
+                std::max(0.0f, dt);
+
+            if (std::abs(gap) <= contact ||
+                (gap > 0.0f && gap <= contact + closing)) {
+                touching = true;
+                break;
+            }
+        }
+
+        setEngaged(p.id, touching);
+    }
+}
+
+// Apply a high, low, or melee enemy attack.
+std::optional<PlayerHitResult>
+PlayerManager::applyEnemyAttack(
+    int lane,
+    float fromX,
+    float toX,
+    int damage,
+    AttackHeight height,
+    float hitRadius
+) {
+    if (lane < 0 || lane >= LANE_COUNT ||
+        damage <= 0 || fromX < toX) {
+        return std::nullopt;
+    }
+
+    auto targets = snapshots();
+
+    // Enemy attacks travel right-to-left.
+    // Resolve the player closest to the enemy first.
+    std::sort(
+        targets.begin(),
+        targets.end(),
+        [](const PlayerSnapshot& a, const PlayerSnapshot& b) {
+            if (a.x != b.x) return a.x > b.x;
+
+            // Defense wins when two characters share X.
+            return a.kind == PlayerKind::Defense &&
+                   b.kind != PlayerKind::Defense;
+        }
+    );
+
+    for (const PlayerSnapshot& target : targets) {
+
+        if (target.lane != lane) continue;
+
+        // The attack must actually cross the player's body.
+        if (target.x - target.halfWidth >
+                fromX + hitRadius ||
+            target.x + target.halfWidth <
+                toX - hitRadius) {
+            continue;
+        }
+
+        // Dodged projectiles pass without applying damage.
+        if (target.kind != PlayerKind::Defense &&
+            (
+                (height == AttackHeight::High &&
+                 target.ducking) ||
+                (height == AttackHeight::Low &&
+                 target.jumping)
+            )) {
+            continue;
+        }
+
+        Entry* entry = find(target.id);
+        if (!entry) continue;
+
+        // Apply damage using the original player's takeHit().
+        std::visit(
+            [damage](auto& actor) {
+                actor.takeHit(damage);
+            },
+            entry->actor
+        );
+
+        const int hp = std::visit(
+            [](const auto& actor) {
+                return actor.health();
+            },
+            entry->actor
+        );
+
+        // Print health updates in the terminal during testing.
+        std::cout
+            << "[HIT] Enemy -> "
+            << playerName(target.kind)
+            << " #" << target.id
+            << " lane " << (lane + 1)
+            << " HP " << hp << "/"
+            << (target.kind == PlayerKind::Defense ? 7 : 5)
+            << '\n';
+
+        return PlayerHitResult{
+            target.id,
+            target.kind,
+            hp == 0,
+            hp,
+            target.x
+        };
+    }
+
+    return std::nullopt;
+}
+
+// Connect the players' existing attacks to enemy health.
+int PlayerManager::applyPlayerAttacksToEnemy(
+    int lane,
+    float enemyXMin,
+    float enemyXMax
+) {
+    if (lane < 0 || lane >= LANE_COUNT ||
+        enemyXMin > enemyXMax) {
+        return 0;
+    }
+
+    int damage = 0;
+
+    for (Entry& entry : players_) {
+
+        if (entry.lane != lane) continue;
+
+        std::visit([&](auto& actor) {
+            using T = std::decay_t<decltype(actor)>;
+
+            if constexpr (std::is_same_v<T, MeleePlayer>) {
+
+                if (actor.isAlive() &&
+                    actor.attackHits(enemyXMin, enemyXMax)) {
+                    damage += MeleePlayer::DAMAGE;
+                }
+
+            } else if constexpr (
+                std::is_same_v<T, LongRangePlayer>
+            ) {
+
+                // Arrows already in flight remain effective.
+                for (std::size_t i = 0;
+                     i < actor.arrows().size();
+                     ++i) {
+
+                    if (actor.arrowHitsEnemy(
+                            i,
+                            enemyXMin,
+                            enemyXMax
+                        )) {
+                        damage += LongRangePlayer::DAMAGE;
+                    }
+                }
+            }
+        }, entry.actor);
+    }
+
     return damage;
 }

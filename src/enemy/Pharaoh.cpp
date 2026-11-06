@@ -1,3 +1,4 @@
+
 #include "Pharaoh.h"
 #include <cmath>
 
@@ -32,15 +33,15 @@ void boltSegment(
 }
 }
 
-// Draw the medium enemy
+// CHANGED: Pharaoh is the HARD, fast melee enemy; preserve the royal model.
 void drawPharaoh(Renderer& r, const Enemy& enemy) {
     const glm::vec4 blue = enemyDamageColor(BLUE, enemy);
     const glm::vec4 dark = enemyDamageColor(BLUE_DARK, enemy);
     const glm::vec4 gold = enemyDamageColor(GOLD, enemy);
 
-    const float step = std::sin(enemy.walkTime * 6.0f) * 12.0f;
+    const float step = std::sin(enemy.walkTime * 10.0f) * 17.0f;
     const float bob =
-        std::fabs(std::sin(enemy.walkTime * 6.0f)) * 1.5f;
+        std::fabs(std::sin(enemy.walkTime * 10.0f)) * 1.5f;
 
     r.push();
 
@@ -98,11 +99,12 @@ void drawPharaoh(Renderer& r, const Enemy& enemy) {
     r.rect({0, 88}, {43, 5}, gold);
     r.rect({0, 81}, {35, 3}, dark);
 
+    // CHANGED: extend the Ankh arm before the lightning strike.
     // Right arm, holding the Key of Life
     r.push();
 
-    r.translate({20, 85});
-    r.rotate(-8.0f + step * 0.15f);
+    r.translate({20 + 22.0f * enemy.attackPose, 85});
+    r.rotate(-8.0f + step * 0.15f - enemy.attackPose * 5.0f);
 
     r.rect({13, -8}, {26, 12},
            enemyDamageColor(SKIN, enemy));
@@ -164,7 +166,7 @@ void drawPharaoh(Renderer& r, const Enemy& enemy) {
     r.rect({0, 91}, {14, 4}, gold);
 
     // Brief lightning flash around the Ankh
-    if (enemy.attackTimer > 1.60f) {
+    if (enemy.castFlash > 0.0f) {
         boltSegment(
             r, {57, 64}, {66, 46}, 6.0f,
             {1.0f, 0.87f, 0.28f, 0.45f}
@@ -185,7 +187,7 @@ void drawPharaoh(Renderer& r, const Enemy& enemy) {
     r.pop();
 }
 
-// Draw the Pharaoh's LOW lightning projectile
+// CHANGED: vertical lightning is a short MELEE impact effect, not a projectile.
 void drawPharaohLightning(
     Renderer& r,
     const EnemyProjectile& bolt
@@ -204,14 +206,14 @@ void drawPharaohLightning(
         1.0f, 0.98f, flash, 1.0f
     );
 
-    // Zigzag lightning path
+    // CHANGED: lightning strikes DOWN from above the nearby player.
     const glm::vec2 path[] = {
-        {-30, 11},
-        {-11, 2},
-        {-17, -11},
-        {1, 0},
-        {9, -12},
-        {30, -4}
+        {0, 102},
+        {-8, 73},
+        {12, 49},
+        {-7, 20},
+        {6, -13},
+        {0, -54}
     };
 
     // Wider glow
@@ -230,8 +232,8 @@ void drawPharaohLightning(
         );
     }
 
-    r.circle({-30, 11}, 4.5f, core);
-    r.circle({30, -4}, 4.0f, core);
+    r.circle({0, 102}, 4.5f, core);
+    r.circle({0, -54}, 9.0f, core);
 
     r.pop();
 }
