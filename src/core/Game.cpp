@@ -6,16 +6,16 @@
 #include <iostream>
 #include <cmath>
 
-// ---- Dev switches (set both for the final submission) ----
-// START_STATE : D changes this to MainMenu once the main menu exists.
-// DEV_KEYS    : 1..6 jump between states, R restarts. Set to false before submitting.
-static const GameState START_STATE = GameState::Playing;
+// The introduction plays first, then MainMenu, then instructions and gameplay.
+// Dev keys stay disabled for the student-facing final version.
+static const GameState START_STATE = GameState::Cutscene;
 static const bool      DEV_KEYS    = false;
 
 static const char* stateName(GameState s) {
     switch (s) {
         case GameState::MainMenu: return "MainMenu";
         case GameState::Cutscene: return "Cutscene";
+        case GameState::Instructions: return "Instructions";
         case GameState::Playing:  return "Playing";
         case GameState::Paused:   return "Paused";
         case GameState::GameOver: return "GameOver";
@@ -30,7 +30,7 @@ bool Game::init() {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    window = glfwCreateWindow(1280, 720, "Tower Defense", nullptr, nullptr);
+    window = glfwCreateWindow(1280, 720, "Ancient-Egyptian-Temple", nullptr, nullptr);
     if (!window) { std::cerr << "Failed to create window\n"; glfwTerminate(); return false; }
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
@@ -86,11 +86,21 @@ void Game::reset() {
 }
 
 // ---- commands ----
-void Game::startGame()      { reset(); setState(GameState::Cutscene); }
-void Game::finishCutscene() { if (currentState == GameState::Cutscene) setState(GameState::Playing); }
+void Game::startGame() {
+    if (currentState == GameState::MainMenu) { reset(); setState(GameState::Instructions); }
+}
+void Game::finishCutscene() {
+    if (currentState == GameState::Cutscene) setState(GameState::MainMenu);
+}
+void Game::replayCutscene() {
+    if (currentState == GameState::MainMenu) setState(GameState::Cutscene);
+}
+void Game::completeInstructions() {
+    if (currentState == GameState::Instructions) setState(GameState::Playing);
+}
 void Game::pause()          { if (currentState == GameState::Playing)  setState(GameState::Paused); }
 void Game::resume()         { if (currentState == GameState::Paused)   setState(GameState::Playing); }
-void Game::restart()        { reset(); setState(GameState::Playing); }
+void Game::restart()        { reset(); setState(GameState::Instructions); }
 void Game::goToMainMenu()   { reset(); setState(GameState::MainMenu); }
 void Game::win()            { if (currentState == GameState::Playing) { won = true;  setState(GameState::GameOver); } }
 void Game::lose()           { if (currentState == GameState::Playing) { won = false; setState(GameState::GameOver); } }
@@ -123,6 +133,7 @@ void Game::updateMouse() {
 
 void Game::update(float dt) {
     updateMouse();
+    const bool wasPlaying = (currentState == GameState::Playing);
 
     // Dev shortcuts to test the state machine without menus
     if (DEV_KEYS) {
@@ -147,7 +158,8 @@ void Game::update(float dt) {
 
     for (auto& fn : alwaysUpdates) fn(dt);
 
-    if (currentState == GameState::Playing) {
+    // Do not let a menu-click also select a lane or simulate a gameplay frame.
+    if (wasPlaying && currentState == GameState::Playing) {
         gameplayTime += dt;
         lanes.update(input.mouse, input.leftClicked());    // before the hooks, so they can read it
 
@@ -160,6 +172,7 @@ void Game::update(float dt) {
 void Game::drawScene() {
     Renderer& r = renderer;
     const bool sceneVisible = currentState == GameState::Playing ||
+                              currentState == GameState::Instructions ||
                               currentState == GameState::Paused  ||
                               currentState == GameState::GameOver;
 
@@ -182,9 +195,9 @@ void Game::drawScene() {
             r.rectBL({0, 0}, {VIRTUAL_W, VIRTUAL_H}, won ? glm::vec4(0.1f, 0.6f, 0.2f, 0.40f)
                                                          : glm::vec4(0.8f, 0.1f, 0.1f, 0.50f));
     } else if (currentState == GameState::MainMenu) {
-        r.rectBL({0, 0}, {VIRTUAL_W, VIRTUAL_H}, {0.10f, 0.12f, 0.30f, 1});   // placeholder: D draws the real menu
+        r.rectBL({0, 0}, {VIRTUAL_W, VIRTUAL_H}, {0.10f, 0.12f, 0.30f, 1});   // drawn over by TempleMenus
     } else {
-        r.rectBL({0, 0}, {VIRTUAL_W, VIRTUAL_H}, {0.30f, 0.20f, 0.08f, 1});   // placeholder: D draws the real cutscene
+        r.rectBL({0, 0}, {VIRTUAL_W, VIRTUAL_H}, {0.30f, 0.20f, 0.08f, 1});   // drawn over by TempleMenus
     }
 
     runDraw(Layer::Menus);     // menus, cutscene, pause/win/lose screens (every state)

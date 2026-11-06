@@ -4,6 +4,7 @@
 #include "PlayerManager.h"
 #include "game/Economy.h"
 #include "ui/Cards.h"
+#include "ui/TempleMenus.h"
 
 int main() {
     Game game;
@@ -11,6 +12,7 @@ int main() {
     EnemySystem enemies;
     Economy economy;
     CardsUI cards;
+    TempleMenus menus;
 
     // COMBINED:
     // Keep your teammate's player drawing and reset hooks.
@@ -22,6 +24,9 @@ int main() {
     // and coin counter.
     // Card purchasing is registered before combat movement.
     cards.setup(game, players, economy);
+
+    // Animated 15-second intro, Start button, instructions, pause, win/lose menus.
+    menus.setup(game);
 
     // ENEMIES:
     // Each defeated enemy creates one collectible.

@@ -8,7 +8,7 @@
 #include "LaneGrid.h"
 #include "render/Renderer.h"
 
-enum class GameState { MainMenu, Cutscene, Playing, Paused, GameOver };
+enum class GameState { MainMenu, Cutscene, Instructions, Playing, Paused, GameOver };
 
 // Draw layers for onDraw(). Drawn in this order, on top of the environment + lanes.
 //   Entities : players, enemies, collectibles
@@ -28,11 +28,13 @@ public:
     void shutdown();
 
     // ---------------- commands: call these from menus / gameplay code ----------------
-    void startGame();        // MainMenu  -> Cutscene   (Start button)
-    void finishCutscene();   // Cutscene  -> Playing    (cutscene ended or skipped)
+    void startGame();        // MainMenu     -> Instructions (Start button)
+    void finishCutscene();   // Cutscene     -> MainMenu     (Enter skips)
+    void replayCutscene();   // MainMenu     -> Cutscene     (replay intro)
+    void completeInstructions(); // Instructions -> Playing  (3.5 seconds)
     void pause();            // Playing   -> Paused     (Esc does this automatically)
     void resume();           // Paused    -> Playing    (Continue button)
-    void restart();          // fresh game, straight to Playing (Restart buttons)
+    void restart();          // fresh game, show Instructions before Playing
     void goToMainMenu();     // fresh game, back to the main menu
     void win();              // Playing   -> GameOver (player won)
     void lose();             // Playing   -> GameOver (enemy reached home base): everything freezes

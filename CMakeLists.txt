@@ -26,3 +26,19 @@ target_link_libraries(CombatLogicTests PRIVATE glfw OpenGL::GL glm::glm)
 
 enable_testing()
 add_test(NAME CombatLogicTests COMMAND CombatLogicTests)
+
+# Windows' built-in WAV playback (PlaySound); no extra downloads or libraries.
+if(WIN32)
+    target_link_libraries(OpenGLStarter PRIVATE winmm)
+    target_link_libraries(CombatLogicTests PRIVATE winmm)
+endif()
+
+# Copy the original suspense soundtrack next to the built .exe so it works
+# both from CMD and when the .exe is opened directly in Explorer.
+if(EXISTS "${CMAKE_SOURCE_DIR}/assets")
+    add_custom_command(TARGET OpenGLStarter POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+                "${CMAKE_SOURCE_DIR}/assets"
+                "$<TARGET_FILE_DIR:OpenGLStarter>/assets"
+        COMMENT "Copying temple intro audio")
+endif()
