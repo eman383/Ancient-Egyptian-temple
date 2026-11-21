@@ -1,7 +1,9 @@
 #include "LaneGrid.h"
+#include "audio/Audio.h"
 
 void LaneGrid::reset() {
     hoveredLane = -1;
+    clickLocked = false;
     for (bool& s : selected) s = false;
 }
 
@@ -11,8 +13,10 @@ void LaneGrid::update(glm::vec2 mouse, bool leftClicked) {
     if (mouse.x >= 0.0f && mouse.x <= VIRTUAL_W)
         hoveredLane = laneFromY(mouse.y);
 
-    if (leftClicked && hoveredLane >= 0)
+    if (leftClicked && !clickLocked && hoveredLane >= 0) {
         selected[hoveredLane] = !selected[hoveredLane];   // click toggles
+        audio::play(audio::Sfx::LaneSelect);
+    }
 }
 
 bool LaneGrid::isSelected(int lane) const {
@@ -73,4 +77,4 @@ void LaneGrid::drawHighlights(Renderer& r) const {
             r.rectBL({0.0f, bottom}, {VIRTUAL_W, LANE_H}, {1.0f, 1.0f, 1.0f, 0.20f});
         }
     }
-}
+}

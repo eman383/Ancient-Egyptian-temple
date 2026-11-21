@@ -100,7 +100,7 @@ void drawHomeBase(Renderer& r, float time) {
     int row = 0;
     for (float y = 25.0f; y < TOP_Y - 20.0f; y += 50.0f, row++) {
         r.rect({85, y}, {170, 2}, {STONE_DARK.r, STONE_DARK.g, STONE_DARK.b, 0.7f});
-        if (y + 50.0f > TOP_Y - 12.0f) continue;   // NEW: top row: no vertical joints above the cornic
+        if (y + 50.0f > TOP_Y - 12.0f) continue;   // top row: no vertical joints above the cornic
         float jx = 55.0f + (row % 2) * 50.0f;
         r.rect({jx,         y + 25}, {2, 48}, {STONE_DARK.r, STONE_DARK.g, STONE_DARK.b, 0.5f});
         r.rect({jx + 90.0f, y + 25}, {2, 48}, {STONE_DARK.r, STONE_DARK.g, STONE_DARK.b, 0.5f});
@@ -118,4 +118,4 @@ void drawHomeBase(Renderer& r, float time) {
     r.rectBL({0, TOP_Y - 12.0f}, {180, 3}, GOLD_DARK);
     for (int k = 0; k < 6; k++)
         r.circle({16.0f + k * 29.0f, TOP_Y - 6.0f}, 3.5f, (k % 2) ? TURQUOISE : RED);
-}
+}
